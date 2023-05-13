@@ -2,45 +2,45 @@ version: "3.9"
 # ref: https://docs.docker.com/compose/compose-file
 services:
   app:
-    image: gotodo
+    image: vermelazo
     build:
       args:
         - target=dev
     environment:
-      TODO_ENV: dev
+      ENV: dev
       PORT: 8080
-      TODO_DB_HOST: todo-db
-      TODO_DB_PORT: 3306
-      TODO_DB_USER: todo
-      TODO_DB_PASSWORD: todo
-      TODO_DB_NAME: todo
-      TODO_REDIS_HOST: todo-redis
-      TODO_REDIS_PORT: 6379
+      DB_HOST: vermelazo
+      DB_PORT: 3306
+      DB_USER: vermelazo
+      DB_PASSWORD: vermelazo
+      DB_NAME: vermelazo
+      REDIS_HOST: todo-redis
+      REDIS_PORT: 6379
     volumes:
       - .:/app
     ports:
       - "18000:8080"
-  todo-db:
+  db:
     image: mysql:8.0.29
     platform: linux/amd64
-    container_name: todo-db
+    container_name: db
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-      MYSQL_USER: todo
-      MYSQL_PASSWORD: todo
-      MYSQL_DATABASE: todo
+      MYSQL_USER: vermelazo
+      MYSQL_PASSWORD: vermelazo
+      MYSQL_DATABASE: vermelazo
     volumes:
-      - todo-db-data:/var/lib/mysql
+      - db-data:/var/lib/mysql
       - $PWD/_tools/mysql/conf.d:/etc/mysql/conf.d:cached
     ports:
       - "33306:3306"
-  todo-redis:
+  redis:
     image: "redis:latest"
-    container_name: todo-redis
+    container_name: redis
     ports:
       - "36379:6379"
     volumes:
-      - todo-redis-data:/data
+      - redis-data:/data
 volumes:
-  todo-db-data:
-  todo-redis-data:
+  db-data:
+  redis-data:

@@ -144,7 +144,7 @@ CREATE TABLE `personal_info` (
   `studentID` varchar(10) NOT NULL,
   `password` varchar(20) NOT NULL,
   `grade` int(11) NOT NULL,
-  `level` int(11) DEFAULT '0',
+  `role` int(11) DEFAULT '0',
   `mailaddress` varchar(100) DEFAULT NULL,
   `point` int(11) DEFAULT '0',
   `position` int(11) NOT NULL,
