@@ -1,4 +1,4 @@
-package config
+package entity
 
 type UserId int64
 type GradeNum int
@@ -16,8 +16,8 @@ const (
 )
 
 const (
-	AdminNum   RoleNum = 0 //管理者
-	NoAdminNum RoleNum = 1 //ユーザー
+	NoAdminNum RoleNum = 0 //ユーザー
+	AdminNum   RoleNum = 1 //管理者
 )
 
 const (

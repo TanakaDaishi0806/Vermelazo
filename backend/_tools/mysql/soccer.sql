@@ -142,16 +142,16 @@ CREATE TABLE `personal_info` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL,
   `studentID` varchar(10) NOT NULL,
-  `password` varchar(20) NOT NULL,
+  `password` varchar(60) NOT NULL,
   `grade` int(11) NOT NULL,
   `role` int(11) DEFAULT '0',
-  `mailaddress` varchar(100) DEFAULT NULL,
+  `mailaddress` varchar(500) DEFAULT NULL,
   `point` int(11) DEFAULT '0',
   `position` int(11) NOT NULL,
   `experience` int(11) DEFAULT '0',
   `furigana` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
