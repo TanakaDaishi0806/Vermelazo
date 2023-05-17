@@ -13,6 +13,10 @@ type RegisterUser struct {
 	DB Execer
 }
 
+type GetUser struct {
+	DB Queryer
+}
+
 func (ru *RegisterUser) RegisterUser(ctx context.Context, requ *entity.User) error {
 	sql := `INSERT INTO personal_info (name,studentID,password,grade,role,mailaddress,
 		position,experience,furigana) VALUES (?,?,?,?,?,?,?,?,?)`
@@ -34,4 +38,15 @@ func (ru *RegisterUser) RegisterUser(ctx context.Context, requ *entity.User) err
 	requ.ID = entity.UserId(id)
 	return nil
 
+}
+
+func (gu *GetUser) GetUser(ctx context.Context, studentID string) (*entity.User, error) {
+	sql := `select * from personal_info where studentID=?`
+
+	u := &entity.User{}
+
+	if err := gu.DB.GetContext(ctx, u, sql, studentID); err != nil {
+		return nil, err
+	}
+	return u, nil
 }

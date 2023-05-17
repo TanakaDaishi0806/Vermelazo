@@ -9,3 +9,7 @@ import (
 type UserRegister interface {
 	RegisterUser(ctx context.Context, requ *entity.User) error
 }
+
+type UserGetter interface {
+	GetUser(ctx context.Context, stuendtID string) (*entity.User, error)
+}
