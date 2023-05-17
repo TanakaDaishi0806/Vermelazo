@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/TanakaDaishi0806/Vermelazo.git/backend/auth"
 	"github.com/TanakaDaishi0806/Vermelazo.git/backend/config"
 	"github.com/TanakaDaishi0806/Vermelazo.git/backend/handler"
 	"github.com/TanakaDaishi0806/Vermelazo.git/backend/service"
@@ -29,6 +30,40 @@ func Newmux(ctx context.Context, cfg *config.Config) (http.Handler, func(), erro
 		Validator: v,
 	}
 	mux.Post("/register", ru.ServeHTTP)
+
+	rcli, err := store.NewKVS(ctx, cfg)
+	if err != nil {
+		return nil, cleanup, err
+	}
+	jwter, err := auth.NewJWTer(rcli)
+	if err != nil {
+		return nil, cleanup, err
+	}
+
+	l := &handler.Login{
+		Service: &service.Login{
+			JWTer: *jwter,
+			Repo:  &store.GetUser{DB: db},
+		},
+		Validator: v,
+	}
+	mux.Post("/login", l.ServeHTTP)
+
+	mux.Route("/home", func(r chi.Router) {
+		r.Use(handler.AuthMiddleware(jwter))
+		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Content-Type", "application/json; charset=utf-8")
+			_, _ = w.Write([]byte(`{"message": "home: success login"}`))
+		})
+	})
+
+	mux.Route("/admin", func(r chi.Router) {
+		r.Use(handler.AuthMiddleware(jwter), handler.AdminMiddleware)
+		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Content-Type", "application/json; charset=utf-8")
+			_, _ = w.Write([]byte(`{"message": "admin: success login"}`))
+		})
+	})
 
 	return mux, cleanup, err
 

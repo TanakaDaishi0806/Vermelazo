@@ -1,5 +1,7 @@
 package entity
 
+import "golang.org/x/crypto/bcrypt"
+
 type UserId int64
 type GradeNum int
 type RoleNum int
@@ -44,5 +46,9 @@ type User struct {
 	Point       int           `json:"point" db:"point"`
 	Position    PositionNum   `json:"position" db:"position"`
 	Experience  ExperienceNum `json:"experience" db:"experience"`
-	Furigana    string        `json:"frigane" db:"frigana"`
+	Furigana    string        `json:"furigana" db:"furigana"`
+}
+
+func (u *User) ComparePassword(pw string) error {
+	return bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(pw))
 }
