@@ -29,7 +29,11 @@ func Newmux(ctx context.Context, cfg *config.Config) (http.Handler, func(), erro
 		Service:   &service.RegisterUser{Repo: &store.RegisterUser{DB: db}},
 		Validator: v,
 	}
-	mux.Post("/register", ru.ServeHTTP)
+
+	mux.Route("/register", func(r chi.Router) {
+		r.Use(handler.CROS)
+		r.Post("/", ru.ServeHTTP)
+	})
 
 	rcli, err := store.NewKVS(ctx, cfg)
 	if err != nil {
@@ -47,10 +51,14 @@ func Newmux(ctx context.Context, cfg *config.Config) (http.Handler, func(), erro
 		},
 		Validator: v,
 	}
-	mux.Post("/login", l.ServeHTTP)
+
+	mux.Route("/login", func(r chi.Router) {
+		r.Use(handler.CROS)
+		r.Post("/", l.ServeHTTP)
+	})
 
 	mux.Route("/home", func(r chi.Router) {
-		r.Use(handler.AuthMiddleware(jwter))
+		r.Use(handler.CROS, handler.AuthMiddleware(jwter))
 		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 			w.Header().Set("Content-Type", "application/json; charset=utf-8")
 			_, _ = w.Write([]byte(`{"message": "home: success login"}`))
@@ -58,7 +66,7 @@ func Newmux(ctx context.Context, cfg *config.Config) (http.Handler, func(), erro
 	})
 
 	mux.Route("/admin", func(r chi.Router) {
-		r.Use(handler.AuthMiddleware(jwter), handler.AdminMiddleware)
+		r.Use(handler.CROS, handler.AuthMiddleware(jwter), handler.AdminMiddleware)
 		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 			w.Header().Set("Content-Type", "application/json; charset=utf-8")
 			_, _ = w.Write([]byte(`{"message": "admin: success login"}`))
