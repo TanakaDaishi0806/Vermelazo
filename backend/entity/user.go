@@ -23,9 +23,9 @@ const (
 )
 
 const (
-	GK PositionNum = 0
-	DF PositionNum = 1
-	AT PositionNum = 2
+	GK PositionNum = 1
+	DF PositionNum = 2
+	OF PositionNum = 3
 )
 
 const (

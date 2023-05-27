@@ -26,7 +26,6 @@ func (l *Login) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}, http.StatusInternalServerError)
 		return
 	}
-
 	err := l.Validator.Struct(body)
 	if err != nil {
 		RespondJSON(ctx, w, ErrResponse{
@@ -42,12 +41,7 @@ func (l *Login) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}, http.StatusInternalServerError)
 		return
 	}
-	rsp := struct {
-		AccessToken string `json:"access_token"`
-	}{
-		AccessToken: jwt,
-	}
 
-	RespondJSON(ctx, w, rsp, http.StatusOK)
+	RespondJSON(ctx, w, jwt, http.StatusOK)
 
 }
