@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `club_match_data`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `club_match_data` (
-  `club_match_num` int(11) NOT NULL,
+  `club_match_num` int(11) NOT NULL AUTO_INCREMENT,
   `year` int(11) NOT NULL,
   `month` int(11) NOT NULL,
   `day` int(11) NOT NULL,

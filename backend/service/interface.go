@@ -13,3 +13,7 @@ type UserRegister interface {
 type UserGetter interface {
 	GetUser(ctx context.Context, stuendtID string) (*entity.User, error)
 }
+
+type ClubMatchAdd interface {
+	AddClubMatch(ctx context.Context, reqcm *entity.ClubMatch) error
+}
