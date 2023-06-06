@@ -102,6 +102,9 @@ const LoginTemplate: React.FC<Props> = ({ loginInfo }) => {
             <Grid item xs={12}>
               <Link to="/newaccountcreate">新規登録</Link>
             </Grid>
+            <Grid item xs={12}>
+              <Link to="/adminlogin">管理者としてログイン</Link>
+            </Grid>
           </Grid>
         </Box>
       </Grid>
