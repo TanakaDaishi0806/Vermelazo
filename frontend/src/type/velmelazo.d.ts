@@ -1,3 +1,5 @@
+import internal from "stream";
+
 export interface LoginInfo {
   studentID: string;
   password: string;
@@ -41,4 +43,24 @@ export interface NewAccountInfo {
   handlePositionChange: (event: SelectChangeEvent<string>) => void;
   handleExperienceChange: (event: SelectChangeEvent<string>) => void;
   handleNewAccountCreate: () => void;
+}
+
+export interface HeaderText {
+  text: string;
+}
+
+export interface ClubMatchGetData {
+  club_match_num: number;
+  year: number;
+  month: number;
+  day: number;
+}
+
+export interface BaseButtonInfo {
+  buttonText: string;
+  onClick: () => void;
+  width: string;
+  height: string;
+  mt: string;
+  mb: string;
 }
