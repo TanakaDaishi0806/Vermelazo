@@ -1,10 +1,9 @@
 import Header from "../components/Header";
 
 const HomeTemplate = () => {
-  const a = localStorage.getItem("accessToken");
   return (
     <div>
-      <Header />
+      <Header headertext={{ text: "My Page" }} />
     </div>
   );
 };
