@@ -9,3 +9,7 @@ import (
 type ClubMatchAdd interface {
 	AddClubMatch(ctx context.Context, reqcm *entity.ClubMatch) error
 }
+
+type ClubMatchList interface {
+	ListClubMatch(ctx context.Context) (entity.ClubMatchs, error)
+}

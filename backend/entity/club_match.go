@@ -8,3 +8,5 @@ type ClubMatch struct {
 	Month int         `json:"month" db:"month"`
 	Day   int         `json:"day" db:"day"`
 }
+
+type ClubMatchs []*ClubMatch

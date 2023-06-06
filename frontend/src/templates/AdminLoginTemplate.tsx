@@ -1,14 +1,14 @@
-import { Link } from "react-router-dom";
 import { Box, Grid, Button, TextField, Typography } from "@mui/material";
 import React from "react";
 
 import { LoginInfo } from "../type/velmelazo";
+import BaseButton from "../parts/BaseButton";
 
 type Props = {
   loginInfo: LoginInfo;
 };
 
-const LoginTemplate: React.FC<Props> = ({ loginInfo }) => {
+const AdminLoginTemplate: React.FC<Props> = ({ loginInfo }) => {
   return (
     <Box
       sx={{
@@ -32,9 +32,7 @@ const LoginTemplate: React.FC<Props> = ({ loginInfo }) => {
           </Typography>
         </Grid>
 
-        <Box
-          sx={{ bgcolor: "#ffffff", width: "300px", pt: "20px", pb: "20px" }}
-        >
+        <Box sx={{ bgcolor: "#ffffff", width: "300px", pt: "20px" }}>
           <Grid
             container
             alignItems="center"
@@ -77,34 +75,30 @@ const LoginTemplate: React.FC<Props> = ({ loginInfo }) => {
             </Grid>
             <br />
             <Grid item xs={12}>
-              <Button
-                sx={{ width: "250px", height: "60px", fontSize: "15px" }}
-                variant="contained"
-                color="primary"
-                onClick={() => {
-                  if (
-                    !(
-                      loginInfo.studentIDEmpty ||
-                      loginInfo.passwordEmpty ||
-                      loginInfo.allEmptyError
-                    )
-                  ) {
-                    loginInfo.handleLogin();
-                  } else {
-                    loginInfo.setInputError(true);
-                  }
+              <BaseButton
+                baseButton={{
+                  buttonText: "ログイン",
+                  onClick: () => {
+                    if (
+                      !(
+                        loginInfo.studentIDEmpty ||
+                        loginInfo.passwordEmpty ||
+                        loginInfo.allEmptyError
+                      )
+                    ) {
+                      loginInfo.handleLogin();
+                    } else {
+                      loginInfo.setInputError(true);
+                    }
+                  },
+                  width: "250px",
+                  height: "60px",
+                  mt: "",
+                  mb: "",
                 }}
-              >
-                ログイン
-              </Button>
+              />
             </Grid>
             <br />
-            <Grid item xs={12}>
-              <Link to="/newaccountcreate">新規登録</Link>
-            </Grid>
-            <Grid item xs={12}>
-              <Link to="/adminlogin">管理者としてログイン</Link>
-            </Grid>
           </Grid>
         </Box>
       </Grid>
@@ -112,4 +106,4 @@ const LoginTemplate: React.FC<Props> = ({ loginInfo }) => {
   );
 };
 
-export default LoginTemplate;
+export default AdminLoginTemplate;
