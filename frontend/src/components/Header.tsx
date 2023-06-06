@@ -1,11 +1,32 @@
-import { AppBar, Typography } from "@mui/material";
+import React from "react";
+import { AppBar, Typography, Grid } from "@mui/material";
+import { HeaderText } from "../type/velmelazo";
 
-const Header = () => {
+type Props = {
+  headertext: HeaderText;
+};
+
+const Header: React.FC<Props> = ({ headertext }) => {
   return (
-    <AppBar position="sticky" sx={{ bgcolor: "rgba(51, 51, 51, 0.7)" }}>
-      <Typography sx={{ color: "red", pl: "10px", pt: "10px", pb: "10px" }}>
-        vermelazo
-      </Typography>
+    <AppBar
+      position="sticky"
+      sx={{ borderBottom: "2px solid #333333", bgcolor: "white" }}
+    >
+      <Grid
+        container
+        alignItems="center"
+        justifyContent="center"
+        direction="column"
+      >
+        <Grid item xs={12}>
+          <Typography
+            variant="h6"
+            sx={{ color: "#2196F3", fontWeight: "700", pt: "10px", pb: "10px" }}
+          >
+            {headertext.text}
+          </Typography>
+        </Grid>
+      </Grid>
     </AppBar>
   );
 };
