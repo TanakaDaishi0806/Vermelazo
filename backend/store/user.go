@@ -18,11 +18,11 @@ type GetUser struct {
 }
 
 func (ru *RegisterUser) RegisterUser(ctx context.Context, requ *entity.User) error {
-	sql := `INSERT INTO personal_info (name,studentID,password,grade,role,mailaddress,
-		position,experience,furigana) VALUES (?,?,?,?,?,?,?,?,?)`
+	sql := `INSERT INTO users (name,furigana,student_id,password,grade,role,mailaddress,
+		position,experience) VALUES (?,?,?,?,?,?,?,?,?)`
 
-	result, err := ru.DB.ExecContext(ctx, sql, requ.Name, requ.StudentID, requ.Password,
-		requ.Grade, requ.Role, requ.MailAddress, requ.Position, requ.Experience, requ.Furigana)
+	result, err := ru.DB.ExecContext(ctx, sql, requ.Name, requ.Furigana, requ.StudentID, requ.Password,
+		requ.Grade, requ.Role, requ.MailAddress, requ.Position, requ.Experience)
 	if err != nil {
 		var mysqlErr *mysql.MySQLError
 		if errors.As(err, &mysqlErr) && mysqlErr.Number == ErrCodeMySQLDuplicateEntry {
@@ -41,7 +41,7 @@ func (ru *RegisterUser) RegisterUser(ctx context.Context, requ *entity.User) err
 }
 
 func (gu *GetUser) GetUser(ctx context.Context, studentID string) (*entity.User, error) {
-	sql := `select * from personal_info where studentID=?`
+	sql := `select * from users where student_id=?`
 
 	u := &entity.User{}
 

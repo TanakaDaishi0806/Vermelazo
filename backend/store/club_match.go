@@ -14,9 +14,17 @@ type ListClubMatch struct {
 	DB Queryer
 }
 
+type ChangeClubMatch struct {
+	DB Execer
+}
+
+type DeleteClubMatch struct {
+	DB Execer
+}
+
 func (acm *AddClubMatch) AddClubMatch(ctx context.Context, reqcm *entity.ClubMatch) error {
-	sql := `INSERT INTO club_match_data (year,month,day) VALUES (?,?,?)`
-	result, err := acm.DB.ExecContext(ctx, sql, reqcm.Year, reqcm.Month, reqcm.Day)
+	sql := `INSERT INTO club_match (year,month,day,title) VALUES (?,?,?,?)`
+	result, err := acm.DB.ExecContext(ctx, sql, reqcm.Year, reqcm.Month, reqcm.Day, reqcm.Title)
 	if err != nil {
 		return err
 	}
@@ -29,7 +37,7 @@ func (acm *AddClubMatch) AddClubMatch(ctx context.Context, reqcm *entity.ClubMat
 }
 
 func (lcm *ListClubMatch) ListClubMatch(ctx context.Context) (entity.ClubMatchs, error) {
-	sql := `select * from club_match_data`
+	sql := `select * from club_match`
 
 	lists := entity.ClubMatchs{}
 
@@ -38,5 +46,27 @@ func (lcm *ListClubMatch) ListClubMatch(ctx context.Context) (entity.ClubMatchs,
 	}
 
 	return lists, nil
+
+}
+
+func (ccm *ChangeClubMatch) ChangeClubMatch(ctx context.Context, reqcm *entity.ClubMatch) error {
+	sql := `update club_match set year=?,month=?,day=?,title=? where club_match_id=?`
+	_, err := ccm.DB.ExecContext(ctx, sql, reqcm.Year, reqcm.Month, reqcm.Day, reqcm.Title, reqcm.ID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (dcm *DeleteClubMatch) DeleteClubMatch(ctx context.Context, id entity.ClubMatchID) error {
+	sql := `delete from club_match where club_match_id=?`
+
+	_, err := dcm.DB.ExecContext(ctx, sql, id)
+	if err != nil {
+		return err
+	}
+
+	return nil
 
 }

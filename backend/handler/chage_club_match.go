@@ -8,13 +8,21 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-type AddClubMatch struct {
-	Repo      ClubMatchAdd
+type ChangeClubMatch struct {
+	Repo      ClubMatchChange
 	Validator *validator.Validate
 }
 
-func (acm *AddClubMatch) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (ccm *ChangeClubMatch) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
+	id, err := entity.StrTOClubMatchID(r)
+	if err != nil {
+		RespondJSON(ctx, w, ErrResponse{
+			Message: err.Error(),
+		}, http.StatusInternalServerError)
+		return
+	}
+
 	var clubMatchInfo struct {
 		Year  int    `json:"year" validate:"required"`
 		Month int    `json:"month" validate:"required"`
@@ -29,31 +37,32 @@ func (acm *AddClubMatch) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := acm.Validator.Struct(&clubMatchInfo); err != nil {
+	if err := ccm.Validator.Struct(&clubMatchInfo); err != nil {
 		RespondJSON(ctx, w, ErrResponse{
 			Message: err.Error(),
 		}, http.StatusBadRequest)
 		return
-
 	}
+
 	reqcm := &entity.ClubMatch{
+		ID:    entity.ClubMatchID(id),
 		Year:  clubMatchInfo.Year,
 		Month: clubMatchInfo.Month,
 		Day:   clubMatchInfo.Day,
 		Title: clubMatchInfo.Title,
 	}
 
-	err := acm.Repo.AddClubMatch(ctx, reqcm)
-
-	if err != nil {
+	if err := ccm.Repo.ChangeClubMatch(ctx, reqcm); err != nil {
 		RespondJSON(ctx, w, ErrResponse{
 			Message: err.Error(),
 		}, http.StatusInternalServerError)
 		return
 	}
+
 	req := struct {
 		ID entity.ClubMatchID `json:"club_match_id"`
 	}{ID: reqcm.ID}
 
 	RespondJSON(ctx, w, req, http.StatusOK)
+
 }

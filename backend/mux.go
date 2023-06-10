@@ -74,12 +74,23 @@ func Newmux(ctx context.Context, cfg *config.Config) (http.Handler, func(), erro
 		Repo: &store.ListClubMatch{DB: db},
 	}
 
+	ccm := &handler.ChangeClubMatch{
+		Repo:      &store.ChangeClubMatch{DB: db},
+		Validator: v,
+	}
+
+	dcm := &handler.DeleteClubMatch{
+		Repo: &store.DeleteClubMatch{DB: db},
+	}
+
 	mux.Route("/admin", func(r chi.Router) {
 		r.Use(handler.CROS, handler.AuthMiddleware(jwter), handler.AdminMiddleware)
 		r.Get("/", lcm.ServeHTTP)
-		r.Post("/addclubmatch", acm.ServeHTTP)
+		r.Post("/", acm.ServeHTTP)
+		r.Put("/users/{userId}", ccm.ServeHTTP)
+		r.Delete("/users/{userId}", dcm.ServeHTTP)
 	})
 
-	return mux, cleanup, err
+	return mux, cleanup, nil
 
 }

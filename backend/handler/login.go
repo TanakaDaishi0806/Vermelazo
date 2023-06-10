@@ -16,7 +16,7 @@ func (l *Login) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	var body struct {
-		StudentID string `json:"studentID" validate:"required"`
+		StudentID string `json:"student_id" validate:"required"`
 		Password  string `json:"password" validate:"required"`
 	}
 
