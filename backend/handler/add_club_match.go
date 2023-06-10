@@ -16,9 +16,10 @@ type AddClubMatch struct {
 func (acm *AddClubMatch) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	var clubMatchInfo struct {
-		Year  int `json:"year" validate:"required"`
-		Month int `json:"month" validate:"required"`
-		Day   int `json:"day" validate:"required"`
+		Year  int    `json:"year" validate:"required"`
+		Month int    `json:"month" validate:"required"`
+		Day   int    `json:"day" validate:"required"`
+		Title string `json:"title" validate:"required"`
 	}
 
 	if err := json.NewDecoder(r.Body).Decode(&clubMatchInfo); err != nil {
@@ -39,6 +40,7 @@ func (acm *AddClubMatch) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		Year:  clubMatchInfo.Year,
 		Month: clubMatchInfo.Month,
 		Day:   clubMatchInfo.Day,
+		Title: clubMatchInfo.Title,
 	}
 
 	err := acm.Repo.AddClubMatch(ctx, reqcm)
@@ -50,7 +52,7 @@ func (acm *AddClubMatch) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	req := struct {
-		ID entity.ClubMatchID `json:"club_match_num"`
+		ID entity.ClubMatchID `json:"club_match_id"`
 	}{ID: reqcm.ID}
 
 	RespondJSON(ctx, w, req, http.StatusOK)

@@ -36,9 +36,10 @@ const (
 )
 
 type User struct {
-	ID          UserId        `json:"id" db:"id"`
+	ID          UserId        `json:"user_id" db:"user_id"`
 	Name        string        `json:"name" db:"name"`
-	StudentID   string        `json:"studentID" db:"studentID"`
+	Furigana    string        `json:"furigana" db:"furigana"`
+	StudentID   string        `json:"student_id" db:"student_id"`
 	Password    string        `json:"password" db:"password"`
 	Grade       GradeNum      `json:"grade" db:"grade"`
 	Role        RoleNum       `json:"role" db:"role"`
@@ -46,7 +47,6 @@ type User struct {
 	Point       int           `json:"point" db:"point"`
 	Position    PositionNum   `json:"position" db:"position"`
 	Experience  ExperienceNum `json:"experience" db:"experience"`
-	Furigana    string        `json:"furigana" db:"furigana"`
 }
 
 func (u *User) ComparePassword(pw string) error {

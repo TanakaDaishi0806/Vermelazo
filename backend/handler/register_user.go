@@ -17,13 +17,13 @@ func (ru *RegisterUser) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	var userInfo struct {
 		Name        string `json:"name" validate:"required"`
-		StudentID   string `json:"studentID" validate:"required"`
+		Furigana    string `json:"furigana" validate:"required"`
+		StudentID   string `json:"student_id" validate:"required"`
 		Password    string `json:"password" validate:"required"`
 		Grade       int    `json:"grade" validate:"required"`
 		MailAddress string `json:"mailaddress" validate:"required"`
 		Position    int    `json:"position" validate:"required"`
 		Experience  int    `json:"experience"`
-		Furigana    string `json:"furigana" validate:"required"`
 	}
 
 	if err := json.NewDecoder(r.Body).Decode(&userInfo); err != nil {
@@ -41,13 +41,13 @@ func (ru *RegisterUser) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 	requ := &entity.User{
 		Name:        userInfo.Name,
+		Furigana:    userInfo.Furigana,
 		StudentID:   userInfo.StudentID,
 		Password:    userInfo.Password,
 		Grade:       entity.GradeNum(userInfo.Grade),
 		MailAddress: userInfo.MailAddress,
 		Position:    entity.PositionNum(userInfo.Position),
 		Experience:  entity.ExperienceNum(userInfo.Experience),
-		Furigana:    userInfo.Furigana,
 	}
 
 	u, err := ru.Service.RegisterUser(ctx, requ)
@@ -58,7 +58,7 @@ func (ru *RegisterUser) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	req := struct {
-		ID entity.UserId `json:"id"`
+		ID entity.UserId `json:"user_id"`
 	}{ID: u.ID}
 
 	RespondJSON(ctx, w, req, http.StatusOK)
