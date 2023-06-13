@@ -17,3 +17,7 @@ type UserGetter interface {
 type ClubMatchAdd interface {
 	AddClubMatch(ctx context.Context, reqcm *entity.ClubMatch) error
 }
+
+type ClubMatchReleasedSwitch interface {
+	SwitchClubMatchReleased(ctx context.Context, id entity.ClubMatchID, b bool) (entity.ClubMatchs, error)
+}
