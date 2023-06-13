@@ -27,7 +27,11 @@ CREATE TABLE `club_match` (
   `year` int(4) NOT NULL,
   `month` int(2) NOT NULL,
   `day` int(2) NOT NULL,
+  `vote_year` int(4) NOT NULL,
+  `vote_month` int(2) NOT NULL,
+  `vote_day` int(2) NOT NULL,
   `title` varchar(30) NOT NULL,
+  `is_released` boolean DEFAULT false,
   PRIMARY KEY (`club_match_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -40,6 +44,7 @@ LOCK TABLES `club_match` WRITE;
 /*!40000 ALTER TABLE `club_match` DISABLE KEYS */;
 /*!40000 ALTER TABLE `club_match` ENABLE KEYS */;
 UNLOCK TABLES;
+
 
 
 --
@@ -149,11 +154,11 @@ CREATE TABLE `users` (
   `student_id` char(8) NOT NULL,
   `password` varchar(60) NOT NULL,
   `grade` int(1) NOT NULL,
-  `role` int(1) DEFAULT '0',
+  `role` int(1) DEFAULT 0,
   `mailaddress` varchar(50) DEFAULT NULL,
-  `point` int(5) DEFAULT '0',
+  `point` int(5) DEFAULT 0,
   `position` int(1) NOT NULL,
-  `experience` int(1) DEFAULT '0',
+  `experience` int(1) DEFAULT 0,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;

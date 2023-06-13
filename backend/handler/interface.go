@@ -18,5 +18,5 @@ type ClubMatchChange interface {
 	ChangeClubMatch(ctx context.Context, reqcm *entity.ClubMatch) error
 }
 type ClubMatchDelete interface {
-	DeleteClubMatch(ctx context.Context, id entity.ClubMatchID) error
+	DeleteClubMatch(ctx context.Context, id entity.ClubMatchID) (entity.ClubMatchs, error)
 }
