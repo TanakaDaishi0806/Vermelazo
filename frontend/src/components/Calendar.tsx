@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Box, TextField, Button, Grid } from "@mui/material";
+import { TextField, Grid } from "@mui/material";
 import {
   LocalizationProvider,
   DatePicker,
@@ -8,44 +8,14 @@ import {
 } from "@mui/x-date-pickers-pro";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import ja from "date-fns/locale/ja";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
-import BaseButton from "../parts/BaseButton";
+import { DateValue } from "../type/velmelazo";
 
-const Calendar: React.FC = () => {
-  const [value, setValue] = React.useState<Date | null>(null);
-  const accessToken = localStorage.getItem("accessToken");
-  const navigate = useNavigate();
-  const handleChange = (newValue: Date | null) => {
-    console.log(newValue);
-    setValue(newValue);
-  };
-  const handleDateSubmit = () => {
-    if (value) {
-      const year = value.getFullYear();
-      const month = value.getMonth() + 1;
-      const day = value.getDate();
-      axios
-        .post(
-          "http://localhost:18000/admin/addclubmatch",
-          { year, month, day },
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        )
-        .then((response) => {
-          console.log("success login");
-          navigate("/admin");
-        })
-        .catch((error) => {
-          console.log(error);
-          console.log(value);
-        });
-    }
-  };
+type Props = {
+  dateValue: DateValue;
+};
+
+const Calendar: React.FC<Props> = ({ dateValue }) => {
   const styles = {
     mobiledialogprops: {
       ".MuiDatePickerToolbar-title": {
@@ -108,12 +78,12 @@ const Calendar: React.FC = () => {
         justifyContent="center"
         direction="column"
       >
-        <Grid item xs={12} sx={{ mt: "50px", mb: "20px" }}>
+        <Grid item xs={12} sx={{ mb: "20px" }}>
           <DatePicker
-            label="部内戦の日付"
+            label={dateValue.calenderText}
             minDate={new Date("2023-01-01")} // 選択範囲は2021年～
-            value={value}
-            onChange={handleChange}
+            value={dateValue.date}
+            onChange={dateValue.handleDateChange}
             inputFormat="yyyy年MM月dd日" // 選択済みの日付の表示
             mask="____年__月__日"
             toolbarFormat="yyyy年MM月dd日" // スマホ画面の左上 選択中日付表示
@@ -129,30 +99,6 @@ const Calendar: React.FC = () => {
             DialogProps={{ sx: styles.mobiledialogprops }} // スマホ画面の左上 選択中日付表示 文字の大きさ調整
             PaperProps={{ sx: styles.paperprops }} // 見だしの "土" "日" 表示色調整
             renderDay={renderWeekEndPickerDay} // 週末の色調整
-          />
-        </Grid>
-
-        <Grid item xs={12}>
-          {/* <Button
-            sx={{
-              fontSize: "15px",
-              mt: "20px",
-            }}
-            variant="contained"
-            color="primary"
-            onClick={handleDateSubmit}
-          >
-            日程を追加
-          </Button> */}
-          <BaseButton
-            baseButton={{
-              buttonText: "日程を追加",
-              onClick: handleDateSubmit,
-              width: "120px",
-              height: "50px",
-              mt: "",
-              mb: "",
-            }}
           />
         </Grid>
       </Grid>
