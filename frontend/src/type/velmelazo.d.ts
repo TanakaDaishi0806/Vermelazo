@@ -1,14 +1,14 @@
 import internal from "stream";
 
 export interface LoginInfo {
-  studentID: string;
+  student_id: string;
   password: string;
-  studentIDEmpty: boolean;
+  student_idEmpty: boolean;
   passwordEmpty: boolean;
   inputError: boolean;
   allEmptyError: boolean;
   setInputError: React.Dispatch<React.SetStateAction<boolean>>;
-  handleStudentIDChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleStudent_idChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handlePasswordChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleLogin: () => void;
 }
@@ -16,7 +16,7 @@ export interface LoginInfo {
 export interface NewAccountInfo {
   name: string;
   furigana: string;
-  studentID: string;
+  student_id: string;
   password: string;
   confirmPassword: string;
   mailaddress: string;
@@ -25,15 +25,15 @@ export interface NewAccountInfo {
   experience: number;
   nameEmpty: boolean;
   furiganaEmpty: boolean;
-  studentIDEmpty: boolean;
-  passwordEmpty: boolean;
+  student_idError: boolean;
+  passwordLengthError: boolean;
   passwordError: boolean;
   inputError: boolean;
   allEmptyError: boolean;
   setInputError: React.Dispatch<React.SetStateAction<boolean>>;
   handleNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleFuriganaChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleStudentIDChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleStudent_idChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handlePasswordChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleConfirmPasswordChange: (
     event: React.ChangeEvent<HTMLInputElement>
@@ -50,10 +50,16 @@ export interface HeaderText {
 }
 
 export interface ClubMatchGetData {
-  club_match_num: number;
+  club_match_id: number;
   year: number;
   month: number;
   day: number;
+  vote_year: number;
+  vote_month: number;
+  vote_day: number;
+  title: string;
+  is_released: number;
+  set: React.Dispatch<React.SetStateAction<ClubMatchGetData[]>>;
 }
 
 export interface BaseButtonInfo {
@@ -63,4 +69,58 @@ export interface BaseButtonInfo {
   height: string;
   mt: string;
   mb: string;
+}
+
+export interface ColorButtonInfo {
+  buttonText: string;
+  onClick: () => void;
+  buttonColor: OverridableStringUnion<
+    | "inherit"
+    | "info"
+    | "primary"
+    | "secondary"
+    | "success"
+    | "error"
+    | "warning",
+    ButtonPropsColorOverrides
+  >;
+  mt: string;
+  mb: string;
+}
+
+export interface DateValue {
+  date: Date | null;
+  calenderText: string;
+  handleDateChange: (dateValue: Date | null) => void;
+}
+
+export interface AddClubMatchInfo {
+  date: Date | null;
+  voteDate: Date | null;
+  title: string;
+  dateEmpty: boolean;
+  voteDateEmpty: boolean;
+  titleEmpty: boolean;
+  inputError: boolean;
+  allEmptyError: boolean;
+  setInputError: React.Dispatch<React.SetStateAction<boolean>>;
+  handleDateChange: (dateValue: Date | null) => void;
+  handleVoteDateChange: (dateValue: Date | null) => void;
+  handleTitleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleDateSubmit: () => void;
+}
+
+export interface ChangeClubMatchInfo {
+  date: Date | null;
+  voteDate: Date | null;
+  title: string;
+  dateEmpty: boolean;
+  voteDateEmpty: boolean;
+  titleEmpty: boolean;
+  inputError: boolean;
+  setInputError: React.Dispatch<React.SetStateAction<boolean>>;
+  handleDateChange: (dateValue: Date | null) => void;
+  handleVoteDateChange: (dateValue: Date | null) => void;
+  handleTitleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleChangeDateSubmit: () => void;
 }
