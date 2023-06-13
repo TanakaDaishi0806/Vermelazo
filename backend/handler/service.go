@@ -17,3 +17,7 @@ type LoginService interface {
 type SwitchClubMatchReleasedService interface {
 	SwitchClubMatchReleased(ctx context.Context, id entity.ClubMatchID, rbool bool) (entity.ClubMatchs, error)
 }
+
+type AddParticipantService interface {
+	AddParticipant(ctx context.Context, cmid entity.ClubMatchID) (*entity.Paticipant, error)
+}

@@ -21,3 +21,6 @@ type ClubMatchAdd interface {
 type ClubMatchReleasedSwitch interface {
 	SwitchClubMatchReleased(ctx context.Context, id entity.ClubMatchID, b bool) (entity.ClubMatchs, error)
 }
+type ParticipantAdd interface {
+	AddParticipant(ctx context.Context, p *entity.Paticipant) error
+}
