@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import AdminLogin from "./pages/AdminLogin";
 import AdminHome from "./pages/AdminHome";
 import AddClubMatch from "./pages/AddClubMatch";
+import ChangeClubMatch from "./pages/ChangeClubMatch";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/adminlogin" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminHome />} />
         <Route path="/admin/addclubmatch" element={<AddClubMatch />} />
+        <Route path="/admin/changeclubmatch" element={<ChangeClubMatch />} />
       </Routes>
     </BrowserRouter>
   );
