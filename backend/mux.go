@@ -57,14 +57,6 @@ func Newmux(ctx context.Context, cfg *config.Config) (http.Handler, func(), erro
 		r.Post("/", l.ServeHTTP)
 	})
 
-	mux.Route("/home", func(r chi.Router) {
-		r.Use(handler.CROS, handler.AuthMiddleware(jwter))
-		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-			w.Header().Set("Content-Type", "application/json; charset=utf-8")
-			_, _ = w.Write([]byte(`{"message": "home: success login"}`))
-		})
-	})
-
 	acm := &handler.AddClubMatch{
 		Repo:      &store.AddClubMatch{DB: db},
 		Validator: v,
@@ -89,6 +81,18 @@ func Newmux(ctx context.Context, cfg *config.Config) (http.Handler, func(), erro
 		},
 		Validator: v,
 	}
+	ap := &handler.AddParticipant{
+		Service: &service.AddParticipant{
+			Repo: &store.AddParticipant{DB: db},
+		},
+		Validator: v,
+	}
+
+	mux.Route("/home", func(r chi.Router) {
+		r.Use(handler.CROS, handler.AuthMiddleware(jwter))
+		r.Get("/", lcm.ServeHTTP)
+		r.Post("/", ap.ServeHTTP)
+	})
 
 	mux.Route("/admin", func(r chi.Router) {
 		r.Use(handler.CROS, handler.AuthMiddleware(jwter), handler.AdminMiddleware)
