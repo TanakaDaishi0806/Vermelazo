@@ -53,11 +53,11 @@ const LoginTemplate: React.FC<Props> = ({ loginInfo }) => {
               <TextField
                 sx={{ width: "250px" }}
                 label="学籍番号"
-                value={loginInfo.studentID}
-                onChange={loginInfo.handleStudentIDChange}
-                error={loginInfo.studentIDEmpty}
+                value={loginInfo.student_id}
+                onChange={loginInfo.handleStudent_idChange}
+                error={loginInfo.student_idEmpty}
                 helperText={
-                  loginInfo.studentIDEmpty ? "学籍番号を入力してください" : ""
+                  loginInfo.student_idEmpty ? "学籍番号を入力してください" : ""
                 }
               />
             </Grid>
@@ -84,7 +84,7 @@ const LoginTemplate: React.FC<Props> = ({ loginInfo }) => {
                 onClick={() => {
                   if (
                     !(
-                      loginInfo.studentIDEmpty ||
+                      loginInfo.student_idEmpty ||
                       loginInfo.passwordEmpty ||
                       loginInfo.allEmptyError
                     )
