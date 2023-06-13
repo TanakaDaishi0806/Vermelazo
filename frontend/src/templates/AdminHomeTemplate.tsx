@@ -1,11 +1,11 @@
-import ClubMatchData from "../components/ClubMatchData";
+import ClubMatchList from "../components/ClubMatchList";
 import Header from "../components/Header";
 
 const AdminHomeTemplate = () => {
   return (
     <div>
       <Header headertext={{ text: "Admin Page" }} />
-      <ClubMatchData />
+      <ClubMatchList />
     </div>
   );
 };

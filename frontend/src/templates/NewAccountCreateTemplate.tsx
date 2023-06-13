@@ -84,7 +84,7 @@ const NewAccountCreateTemplate: React.FC<Props> = ({ newAccountInfo }) => {
         direction="column"
       >
         {newAccountInfo.inputError && (
-          <Grid item xs={12} sx={{ pl: "15px", pb: "5px" }}>
+          <Grid item xs={12} sx={{ pt: "100px", pl: "15px", pb: "5px" }}>
             <Typography variant="body1" style={{ color: "red" }}>
               入力に誤りがあります。正しく入力してください。
             </Typography>
@@ -117,24 +117,28 @@ const NewAccountCreateTemplate: React.FC<Props> = ({ newAccountInfo }) => {
         <Grid item xs={12} sx={{ pl: "15px" }}>
           <TextField
             label="＊学籍番号"
-            value={newAccountInfo.studentID}
-            onChange={newAccountInfo.handleStudentIDChange}
-            error={newAccountInfo.studentIDEmpty}
+            value={newAccountInfo.student_id}
+            onChange={newAccountInfo.handleStudent_idChange}
+            error={newAccountInfo.student_idError}
             helperText={
-              newAccountInfo.studentIDEmpty ? "学籍番号を入力してください" : ""
+              newAccountInfo.student_idError
+                ? "正しい学籍番号を入力してください"
+                : ""
             }
           />
         </Grid>
         <br />
         <Grid item xs={12} sx={{ pl: "15px" }}>
           <TextField
-            label="＊パスワード"
+            label="＊パスワード(8文字以上)"
             type="password"
             value={newAccountInfo.password}
             onChange={newAccountInfo.handlePasswordChange}
-            error={newAccountInfo.passwordEmpty}
+            error={newAccountInfo.passwordLengthError}
             helperText={
-              newAccountInfo.passwordEmpty ? "パスワードを入力してください" : ""
+              newAccountInfo.passwordLengthError
+                ? "8文字以上のパスワードを入力してください"
+                : ""
             }
           />
         </Grid>
@@ -241,8 +245,8 @@ const NewAccountCreateTemplate: React.FC<Props> = ({ newAccountInfo }) => {
                   newAccountInfo.passwordError ||
                   newAccountInfo.nameEmpty ||
                   newAccountInfo.furiganaEmpty ||
-                  newAccountInfo.studentIDEmpty ||
-                  newAccountInfo.passwordEmpty ||
+                  newAccountInfo.student_idError ||
+                  newAccountInfo.passwordLengthError ||
                   newAccountInfo.allEmptyError
                 )
               ) {

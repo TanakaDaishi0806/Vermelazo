@@ -5,27 +5,27 @@ import axios from "axios";
 import AdminLoginTemplate from "../templates/AdminLoginTemplate";
 
 const AdminLogin = () => {
-  const [studentID, setStudentID] = useState("");
-  const [studentIDEmpty, setStudentIDEmpty] = useState(false);
+  const [student_id, setStudent_id] = useState("");
+  const [student_idEmpty, setStudent_idEmpty] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordEmpty, setPasswordEmpty] = useState(false);
   const [inputError, setInputError] = useState(false);
   const [allEmptyError, setAllEmptyError] = useState(true);
   const navigate = useNavigate();
 
-  const handleStudentIDChange = (
+  const handleStudent_idChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setStudentID(event.target.value);
-    handleStudentIDEmptyChange(event.target.value);
+    setStudent_id(event.target.value);
+    handleStudent_idEmptyChange(event.target.value);
     handleAllEmptyError();
   };
 
-  const handleStudentIDEmptyChange = (studentIDValue: string) => {
-    if (studentIDValue === "") {
-      setStudentIDEmpty(true);
+  const handleStudent_idEmptyChange = (student_idValue: string) => {
+    if (student_idValue === "") {
+      setStudent_idEmpty(true);
     } else {
-      setStudentIDEmpty(false);
+      setStudent_idEmpty(false);
     }
   };
 
@@ -50,7 +50,7 @@ const AdminLogin = () => {
   const handleLogin = () => {
     axios
       .post("http://localhost:18000/login", {
-        studentID,
+        student_id,
         password,
       })
       .then((response) => {
@@ -81,14 +81,14 @@ const AdminLogin = () => {
     <div>
       <AdminLoginTemplate
         loginInfo={{
-          studentID: studentID,
+          student_id: student_id,
           password: password,
-          studentIDEmpty: studentIDEmpty,
+          student_idEmpty: student_idEmpty,
           passwordEmpty: passwordEmpty,
           inputError: inputError,
           allEmptyError: allEmptyError,
           setInputError: setInputError,
-          handleStudentIDChange: handleStudentIDChange,
+          handleStudent_idChange: handleStudent_idChange,
           handlePasswordChange: handlePasswordChange,
           handleLogin: handleLogin,
         }}

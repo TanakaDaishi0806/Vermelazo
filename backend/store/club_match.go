@@ -19,12 +19,18 @@ type ChangeClubMatch struct {
 }
 
 type DeleteClubMatch struct {
-	DB Execer
+	DBExc Execer
+	DBQry Queryer
+}
+
+type SwitchClubMatchReleased struct {
+	DBExc Execer
+	DBQry Queryer
 }
 
 func (acm *AddClubMatch) AddClubMatch(ctx context.Context, reqcm *entity.ClubMatch) error {
-	sql := `INSERT INTO club_match (year,month,day,title) VALUES (?,?,?,?)`
-	result, err := acm.DB.ExecContext(ctx, sql, reqcm.Year, reqcm.Month, reqcm.Day, reqcm.Title)
+	sql := `INSERT INTO club_match (year,month,day,vote_year,vote_month,vote_day,title) VALUES (?,?,?,?,?,?,?)`
+	result, err := acm.DB.ExecContext(ctx, sql, reqcm.Year, reqcm.Month, reqcm.Day, reqcm.VoteYear, reqcm.VoteMonth, reqcm.VoteDay, reqcm.Title)
 	if err != nil {
 		return err
 	}
@@ -50,8 +56,8 @@ func (lcm *ListClubMatch) ListClubMatch(ctx context.Context) (entity.ClubMatchs,
 }
 
 func (ccm *ChangeClubMatch) ChangeClubMatch(ctx context.Context, reqcm *entity.ClubMatch) error {
-	sql := `update club_match set year=?,month=?,day=?,title=? where club_match_id=?`
-	_, err := ccm.DB.ExecContext(ctx, sql, reqcm.Year, reqcm.Month, reqcm.Day, reqcm.Title, reqcm.ID)
+	sql := `update club_match set year=?,month=?,day=?,vote_year=?,vote_month=?,vote_day=?,title=? where club_match_id=?`
+	_, err := ccm.DB.ExecContext(ctx, sql, reqcm.Year, reqcm.Month, reqcm.Day, reqcm.VoteYear, reqcm.VoteMonth, reqcm.VoteDay, reqcm.Title, reqcm.ID)
 	if err != nil {
 		return err
 	}
@@ -59,14 +65,42 @@ func (ccm *ChangeClubMatch) ChangeClubMatch(ctx context.Context, reqcm *entity.C
 	return nil
 }
 
-func (dcm *DeleteClubMatch) DeleteClubMatch(ctx context.Context, id entity.ClubMatchID) error {
+func (dcm *DeleteClubMatch) DeleteClubMatch(ctx context.Context, id entity.ClubMatchID) (entity.ClubMatchs, error) {
 	sql := `delete from club_match where club_match_id=?`
 
-	_, err := dcm.DB.ExecContext(ctx, sql, id)
+	_, err := dcm.DBExc.ExecContext(ctx, sql, id)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	lcm := &ListClubMatch{DB: dcm.DBQry}
+
+	lists, err := lcm.ListClubMatch(ctx)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return lists, nil
+
+}
+
+func (scmr *SwitchClubMatchReleased) SwitchClubMatchReleased(ctx context.Context, id entity.ClubMatchID, b bool) (entity.ClubMatchs, error) {
+	sql := `update club_match set is_released=? where club_match_id=?`
+
+	_, err := scmr.DBExc.ExecContext(ctx, sql, b, id)
+	if err != nil {
+		return nil, err
+	}
+
+	lcm := &ListClubMatch{DB: scmr.DBQry}
+
+	lists, err := lcm.ListClubMatch(ctx)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return lists, nil
 
 }

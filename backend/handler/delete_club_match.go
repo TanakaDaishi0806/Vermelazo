@@ -21,17 +21,32 @@ func (dcm *DeleteClubMatch) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := dcm.Repo.DeleteClubMatch(ctx, id); err != nil {
+	lists, err := dcm.Repo.DeleteClubMatch(ctx, id)
+
+	if err != nil {
 		RespondJSON(ctx, w, ErrResponse{
 			Message: err.Error(),
 		}, http.StatusInternalServerError)
 		return
 	}
 
-	req := struct {
-		ID entity.ClubMatchID `json:"club_match_id"`
-	}{ID: id}
+	rsq := []list{}
 
-	RespondJSON(ctx, w, req, http.StatusOK)
+	for _, l := range lists {
+		rsq = append(rsq, list{
+			ID:         l.ID,
+			Year:       l.Year,
+			Month:      l.Month,
+			Day:        l.Day,
+			VoteYear:   l.VoteYear,
+			VoteMonth:  l.VoteMonth,
+			VoteDay:    l.VoteDay,
+			Title:      l.Title,
+			IsReleased: l.IsReleased,
+		})
+
+	}
+
+	RespondJSON(ctx, w, rsq, http.StatusOK)
 
 }

@@ -4,13 +4,13 @@ import { Grid, TextField, Typography } from "@mui/material";
 import Header from "../components/Header";
 import Calendar from "../components/Calendar";
 import BaseButton from "../parts/BaseButton";
-import { AddClubMatchInfo } from "../type/velmelazo";
+import { ChangeClubMatchInfo } from "../type/velmelazo";
 
 type Props = {
-  addClubMatchInfo: AddClubMatchInfo;
+  changeClubMatchInfo: ChangeClubMatchInfo;
 };
 
-const AddClubMatchTemplate: React.FC<Props> = ({ addClubMatchInfo }) => {
+const ChangeClubMatchTemplate: React.FC<Props> = ({ changeClubMatchInfo }) => {
   return (
     <div>
       <Grid
@@ -20,7 +20,7 @@ const AddClubMatchTemplate: React.FC<Props> = ({ addClubMatchInfo }) => {
         direction="column"
       >
         <Header headertext={{ text: "Admin Page" }} />
-        {addClubMatchInfo.inputError && (
+        {changeClubMatchInfo.inputError && (
           <Grid item xs={12} sx={{ pl: "15px", pb: "5px", pt: "30px" }}>
             <Typography variant="body1" style={{ color: "red" }}>
               入力に誤りがあります。正しく入力してください。
@@ -30,47 +30,47 @@ const AddClubMatchTemplate: React.FC<Props> = ({ addClubMatchInfo }) => {
         <Grid item sx={{ mt: "50px" }}>
           <Calendar
             dateValue={{
-              date: addClubMatchInfo.date,
+              date: changeClubMatchInfo.date,
               calenderText: "部内戦の日付",
-              handleDateChange: addClubMatchInfo.handleDateChange,
+              handleDateChange: changeClubMatchInfo.handleDateChange,
             }}
           />
         </Grid>
 
         <Calendar
           dateValue={{
-            date: addClubMatchInfo.voteDate,
+            date: changeClubMatchInfo.voteDate,
             calenderText: "参加投票の締め切り",
-            handleDateChange: addClubMatchInfo.handleVoteDateChange,
+            handleDateChange: changeClubMatchInfo.handleVoteDateChange,
           }}
         />
 
         <Grid item xs={12}>
           <TextField
             label="＊タイトル"
-            value={addClubMatchInfo.title}
-            onChange={addClubMatchInfo.handleTitleChange}
-            error={addClubMatchInfo.titleEmpty}
+            value={changeClubMatchInfo.title}
+            onChange={changeClubMatchInfo.handleTitleChange}
+            error={changeClubMatchInfo.titleEmpty}
             helperText={
-              addClubMatchInfo.titleEmpty ? "タイトルを入力してください" : ""
+              changeClubMatchInfo.titleEmpty ? "タイトルを入力してください" : ""
             }
           />
         </Grid>
         <Grid item xs={12}>
           <BaseButton
             baseButton={{
-              buttonText: "日程を追加",
+              buttonText: "内容を変更",
               onClick: () => {
                 if (
                   !(
-                    addClubMatchInfo.dateEmpty ||
-                    addClubMatchInfo.titleEmpty ||
-                    addClubMatchInfo.allEmptyError
+                    changeClubMatchInfo.dateEmpty ||
+                    changeClubMatchInfo.voteDateEmpty ||
+                    changeClubMatchInfo.titleEmpty
                   )
                 ) {
-                  addClubMatchInfo.handleDateSubmit();
+                  changeClubMatchInfo.handleChangeDateSubmit();
                 } else {
-                  addClubMatchInfo.setInputError(true);
+                  changeClubMatchInfo.setInputError(true);
                 }
               },
               width: "120px",
@@ -85,4 +85,4 @@ const AddClubMatchTemplate: React.FC<Props> = ({ addClubMatchInfo }) => {
   );
 };
 
-export default AddClubMatchTemplate;
+export default ChangeClubMatchTemplate;

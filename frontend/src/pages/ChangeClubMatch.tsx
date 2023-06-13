@@ -1,25 +1,60 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
-import AddClubMatchTemplate from "../templates/AddClubMatchTemplate";
+import ChangeClubMatchTemplate from "../templates/ChangeClubMatchTemplate";
 
-const AddClubMatch = () => {
+const ChangeClubMatch = () => {
+  const location = useLocation();
+  const { state } = location;
+  const {
+    club_match_id,
+    preYear,
+    preMonth,
+    preDay,
+    preVoteYear,
+    preVoteMonth,
+    preVoteDay,
+    preTitle,
+  } = state;
+  console.log(club_match_id);
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("accessToken");
-  const [date, setDate] = useState<Date | null>(null);
-  const [dateEmpty, setDateEmpty] = useState(true);
-  const [voteDate, setVoteDate] = useState<Date | null>(null);
-  const [voteDateEmpty, setVoteDateEmpty] = useState(true);
-  const [title, setTitle] = useState("");
+  const [date, setDate] = useState<Date | null>(() => {
+    if (preYear && preMonth && preDay) {
+      const year = parseInt(preYear, 10);
+      const month = parseInt(preMonth, 10);
+      const day = parseInt(preDay, 10);
+
+      if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
+        return new Date(year, month - 1, day);
+      }
+    }
+    return null;
+  });
+
+  const [dateEmpty, setDateEmpty] = useState(false);
+  const [voteDate, setVoteDate] = useState<Date | null>(() => {
+    if (preVoteYear && preVoteMonth && preVoteDay) {
+      const year = parseInt(preVoteYear, 10);
+      const month = parseInt(preVoteMonth, 10);
+      const day = parseInt(preVoteDay, 10);
+
+      if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
+        return new Date(year, month - 1, day);
+      }
+    }
+    return null;
+  });
+  const [voteDateEmpty, setVoteDateEmpty] = useState(false);
+  const [title, setTitle] = useState<string>(preTitle || "");
   const [titleEmpty, setTitleEmpty] = useState(false);
   const [inputError, setInputError] = useState(false);
-  const [allEmptyError, setAllEmptyError] = useState(true);
 
   const handleDateChange = (dateValue: Date | null) => {
     setDate(dateValue);
     handleDateEmptyChange(dateValue);
-    handleAllEmptyError();
   };
   const handleDateEmptyChange = (dateValue: Date | null) => {
     if (dateValue === null) {
@@ -28,13 +63,12 @@ const AddClubMatch = () => {
       setDateEmpty(false);
     }
   };
-  const handleVoteDateChange = (dateValue: Date | null) => {
-    setVoteDate(dateValue);
-    handleVoteDateEmptyChange(dateValue);
-    handleAllEmptyError();
+  const handleVoteDateChange = (voteDateValue: Date | null) => {
+    setVoteDate(voteDateValue);
+    handleVoteDateEmptyChange(voteDateValue);
   };
-  const handleVoteDateEmptyChange = (dateValue: Date | null) => {
-    if (dateValue === null) {
+  const handleVoteDateEmptyChange = (voteDateValue: Date | null) => {
+    if (voteDateValue === null) {
       setVoteDateEmpty(true);
     } else {
       setVoteDateEmpty(false);
@@ -44,7 +78,6 @@ const AddClubMatch = () => {
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     handleTitleEmptyChange(event.target.value);
-    handleAllEmptyError();
   };
 
   const handleTitleEmptyChange = (titleValue: string) => {
@@ -55,11 +88,7 @@ const AddClubMatch = () => {
     }
   };
 
-  const handleAllEmptyError = () => {
-    setAllEmptyError(false);
-  };
-
-  const handleDateSubmit = () => {
+  const handleChangeDateSubmit = () => {
     if (date && voteDate) {
       const year = date.getFullYear();
       const month = date.getMonth() + 1;
@@ -68,9 +97,17 @@ const AddClubMatch = () => {
       const vote_month = voteDate.getMonth() + 1;
       const vote_day = voteDate.getDate();
       axios
-        .post(
-          "http://localhost:18000/admin",
-          { year, month, day, vote_year, vote_month, vote_day, title },
+        .put(
+          `http://localhost:18000/admin/clubmatchs/${club_match_id}`,
+          {
+            year,
+            month,
+            day,
+            vote_year,
+            vote_month,
+            vote_day,
+            title,
+          },
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -90,8 +127,8 @@ const AddClubMatch = () => {
     }
   };
   return (
-    <AddClubMatchTemplate
-      addClubMatchInfo={{
+    <ChangeClubMatchTemplate
+      changeClubMatchInfo={{
         date: date,
         voteDate: voteDate,
         title: title,
@@ -99,15 +136,14 @@ const AddClubMatch = () => {
         voteDateEmpty: voteDateEmpty,
         titleEmpty: titleEmpty,
         inputError: inputError,
-        allEmptyError: allEmptyError,
         setInputError: setInputError,
         handleDateChange: handleDateChange,
         handleVoteDateChange: handleVoteDateChange,
         handleTitleChange: handleTitleChange,
-        handleDateSubmit: handleDateSubmit,
+        handleChangeDateSubmit: handleChangeDateSubmit,
       }}
     />
   );
 };
 
-export default AddClubMatch;
+export default ChangeClubMatch;

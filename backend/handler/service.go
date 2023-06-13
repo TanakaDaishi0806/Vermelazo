@@ -13,3 +13,7 @@ type RegisterUserService interface {
 type LoginService interface {
 	Login(ctx context.Context, studentID string, pw string) (string, error)
 }
+
+type SwitchClubMatchReleasedService interface {
+	SwitchClubMatchReleased(ctx context.Context, id entity.ClubMatchID, rbool bool) (entity.ClubMatchs, error)
+}

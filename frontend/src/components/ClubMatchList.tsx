@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { Grid, Box, Button } from "@mui/material";
+import { Grid, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 import ClubMatchCard from "./ClubMatchCard";
@@ -37,8 +37,21 @@ const ClubMatchData = () => {
         direction="column"
       >
         {clubMatchList.map((clubMatch) => (
-          <Grid item xs={12} sm={4} key={clubMatch.club_match_num}>
-            <ClubMatchCard clubMatchGetData={clubMatch} />
+          <Grid item xs={12} sm={4} key={clubMatch.club_match_id}>
+            <ClubMatchCard
+              clubMatchGetData={{
+                club_match_id: clubMatch.club_match_id,
+                year: clubMatch.year,
+                month: clubMatch.month,
+                day: clubMatch.day,
+                vote_year: clubMatch.vote_year,
+                vote_month: clubMatch.vote_month,
+                vote_day: clubMatch.vote_day,
+                title: clubMatch.title,
+                is_released: clubMatch.is_released,
+                set: setClubMatchList,
+              }}
+            />
           </Grid>
         ))}
         <Grid item xs={12}>

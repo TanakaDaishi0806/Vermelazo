@@ -10,10 +10,10 @@ const NewAccountCreate = () => {
   const [nameEmpty, setNameEmpty] = useState(false);
   const [furigana, setFurigana] = useState("");
   const [furiganaEmpty, setFuriganaEmpty] = useState(false);
-  const [studentID, setStudentID] = useState("");
-  const [studentIDEmpty, setStudentIDEmpty] = useState(false);
+  const [student_id, setStudent_id] = useState("");
+  const [student_idError, setStudent_idError] = useState(false);
   const [password, setPassword] = useState("");
-  const [passwordEmpty, setPasswordEmpty] = useState(false);
+  const [passwordLengthError, setPasswordLengthError] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState(false);
   const [mailaddress, setMailaddress] = useState("");
@@ -52,33 +52,33 @@ const NewAccountCreate = () => {
     }
   };
 
-  const handleStudentIDChange = (
+  const handleStudent_idChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setStudentID(event.target.value);
-    handleStudentIDEmptyChange(event.target.value);
+    setStudent_id(event.target.value);
+    handleStudent_idErrorChange(event.target.value);
     handleAllEmptyError();
   };
 
-  const handleStudentIDEmptyChange = (studentIDValue: string) => {
-    if (studentIDValue === "") {
-      setStudentIDEmpty(true);
+  const handleStudent_idErrorChange = (student_idValue: string) => {
+    if (student_idValue.length === 8) {
+      setStudent_idError(false);
     } else {
-      setStudentIDEmpty(false);
+      setStudent_idError(true);
     }
   };
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
-    handlePasswordEmptyChange(event.target.value);
+    handlePasswordLengthErrorChange(event.target.value);
     handleAllEmptyError();
   };
 
-  const handlePasswordEmptyChange = (passwordValue: string) => {
-    if (passwordValue === "") {
-      setPasswordEmpty(true);
+  const handlePasswordLengthErrorChange = (passwordValue: string) => {
+    if (passwordValue.length >= 8) {
+      setPasswordLengthError(false);
     } else {
-      setPasswordEmpty(false);
+      setPasswordLengthError(true);
     }
   };
 
@@ -123,7 +123,7 @@ const NewAccountCreate = () => {
     axios
       .post("http://localhost:18000/register", {
         name,
-        studentID,
+        student_id,
         password,
         grade,
         mailaddress,
@@ -145,7 +145,7 @@ const NewAccountCreate = () => {
       newAccountInfo={{
         name: name,
         furigana: furigana,
-        studentID: studentID,
+        student_id: student_id,
         password: password,
         confirmPassword: confirmPassword,
         mailaddress: mailaddress,
@@ -154,14 +154,14 @@ const NewAccountCreate = () => {
         experience: experience,
         nameEmpty: nameEmpty,
         furiganaEmpty: furiganaEmpty,
-        studentIDEmpty: studentIDEmpty,
-        passwordEmpty: passwordEmpty,
+        student_idError: student_idError,
+        passwordLengthError: passwordLengthError,
         passwordError: passwordError,
         inputError: inputError,
         allEmptyError: allEmptyError,
         setInputError: setInputError,
         handleNameChange: handleNameChange,
-        handleStudentIDChange: handleStudentIDChange,
+        handleStudent_idChange: handleStudent_idChange,
         handleFuriganaChange: handleFuriganaChange,
         handlePasswordChange: handlePasswordChange,
         handleConfirmPasswordChange: handleConfirmPasswordChange,
