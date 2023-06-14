@@ -5,7 +5,9 @@ const AdminHomeTemplate = () => {
   return (
     <div>
       <Header headertext={{ text: "Admin Page" }} />
-      <ClubMatchList />
+      <ClubMatchList
+        getUrl={{ url: "http://localhost:18000/admin", isAdmin: true }}
+      />
     </div>
   );
 };

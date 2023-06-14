@@ -17,3 +17,15 @@ type LoginService interface {
 type SwitchClubMatchReleasedService interface {
 	SwitchClubMatchReleased(ctx context.Context, id entity.ClubMatchID, rbool bool) (entity.ClubMatchs, error)
 }
+
+type AddParticipantService interface {
+	AddParticipant(ctx context.Context, cmid entity.ClubMatchID) (entity.PaticipantClubMatchs, error)
+}
+
+type ListClubMatchUsersService interface {
+	ListClubMatchUsers(ctx context.Context) (entity.PaticipantClubMatchs, error)
+}
+
+type DeleteParticipantService interface {
+	DeleteParticipant(ctx context.Context, cmid entity.ClubMatchID) (entity.PaticipantClubMatchs, error)
+}

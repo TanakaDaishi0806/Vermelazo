@@ -25,7 +25,7 @@ type ClubMatch struct {
 type ClubMatchs []*ClubMatch
 
 func StrTOClubMatchID(r *http.Request) (ClubMatchID, error) {
-	param := chi.URLParam(r, "userId")
+	param := chi.URLParam(r, "clubMatchId")
 	log.Print("param:"+param, r.URL)
 	intid, err := strconv.Atoi(param)
 	id := ClubMatchID(intid)

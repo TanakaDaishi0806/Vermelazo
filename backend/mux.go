@@ -57,14 +57,6 @@ func Newmux(ctx context.Context, cfg *config.Config) (http.Handler, func(), erro
 		r.Post("/", l.ServeHTTP)
 	})
 
-	mux.Route("/home", func(r chi.Router) {
-		r.Use(handler.CROS, handler.AuthMiddleware(jwter))
-		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-			w.Header().Set("Content-Type", "application/json; charset=utf-8")
-			_, _ = w.Write([]byte(`{"message": "home: success login"}`))
-		})
-	})
-
 	acm := &handler.AddClubMatch{
 		Repo:      &store.AddClubMatch{DB: db},
 		Validator: v,
@@ -90,13 +82,39 @@ func Newmux(ctx context.Context, cfg *config.Config) (http.Handler, func(), erro
 		Validator: v,
 	}
 
+	lcmu := &handler.ListClubMatchUsers{
+		Service: &service.ListClubMatchUsers{
+			Repo: &store.ListParticipant{DB: db},
+		},
+	}
+
+	ap := &handler.AddParticipant{
+		Service: &service.AddParticipant{
+			Repo: &store.AddParticipant{DBExc: db, DBQry: db},
+		},
+		Validator: v,
+	}
+
+	dp := &handler.DeleteParticipant{
+		Service: &service.DeleteParticipant{
+			Repo: &store.DeleteParticipant{DBExc: db, DBQry: db},
+		},
+	}
+
+	mux.Route("/home", func(r chi.Router) {
+		r.Use(handler.CROS, handler.AuthMiddleware(jwter))
+		r.Get("/", lcmu.ServeHTTP)
+		r.Post("/", ap.ServeHTTP)
+		r.Delete("/participant/{clubMatchId}", dp.ServeHTTP)
+	})
+
 	mux.Route("/admin", func(r chi.Router) {
 		r.Use(handler.CROS, handler.AuthMiddleware(jwter), handler.AdminMiddleware)
 		r.Get("/", lcm.ServeHTTP)
 		r.Post("/", acm.ServeHTTP)
-		r.Put("/clubmatchs/{userId}", ccm.ServeHTTP)
-		r.Put("/clubmatchs/isreleased/{userId}", scmr.ServeHTTP)
-		r.Delete("/clubmatchs/{userId}", dcm.ServeHTTP)
+		r.Put("/clubmatchs/{clubMatchId}", ccm.ServeHTTP)
+		r.Put("/clubmatchs/isreleased/{clubMatchId}", scmr.ServeHTTP)
+		r.Delete("/clubmatchs/{clubMatchId}", dcm.ServeHTTP)
 	})
 
 	return mux, cleanup, nil

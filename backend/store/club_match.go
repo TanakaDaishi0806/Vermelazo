@@ -14,6 +14,10 @@ type ListClubMatch struct {
 	DB Queryer
 }
 
+type ListClubMatchUsers struct {
+	DB Queryer
+}
+
 type ChangeClubMatch struct {
 	DB Execer
 }
@@ -48,6 +52,19 @@ func (lcm *ListClubMatch) ListClubMatch(ctx context.Context) (entity.ClubMatchs,
 	lists := entity.ClubMatchs{}
 
 	if err := lcm.DB.SelectContext(ctx, &lists, sql); err != nil {
+		return nil, err
+	}
+
+	return lists, nil
+
+}
+
+func (lcmu *ListClubMatchUsers) ListClubMatchUsers(ctx context.Context) (entity.ClubMatchs, error) {
+	sql := `select * from club_match where is_released=true`
+
+	lists := entity.ClubMatchs{}
+
+	if err := lcmu.DB.SelectContext(ctx, &lists, sql); err != nil {
 		return nil, err
 	}
 
