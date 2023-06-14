@@ -8,11 +8,11 @@ import (
 	"github.com/TanakaDaishi0806/Vermelazo.git/backend/entity"
 )
 
-type AddParticipant struct {
-	Repo ParticipantAdd
+type DeleteParticipant struct {
+	Repo ParticipantDelete
 }
 
-func (ap *AddParticipant) AddParticipant(ctx context.Context, cmid entity.ClubMatchID) (entity.PaticipantClubMatchs, error) {
+func (dp *DeleteParticipant) DeleteParticipant(ctx context.Context, cmid entity.ClubMatchID) (entity.PaticipantClubMatchs, error) {
 	uid, ok := auth.GetUserID(ctx)
 
 	if !ok {
@@ -24,7 +24,7 @@ func (ap *AddParticipant) AddParticipant(ctx context.Context, cmid entity.ClubMa
 		UserID:      uid,
 	}
 
-	list, err := ap.Repo.AddParticipant(ctx, p)
+	list, err := dp.Repo.DeleteParticipant(ctx, p)
 
 	if err != nil {
 		return nil, err
