@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Grid, Box } from "@mui/material";
@@ -5,16 +6,20 @@ import { useNavigate } from "react-router-dom";
 
 import ClubMatchCard from "./ClubMatchCard";
 import BaseButton from "../parts/BaseButton";
-import { ClubMatchGetData } from "../type/velmelazo";
+import { ClubMatchGetData, GetURL } from "../type/velmelazo";
 
-const ClubMatchData = () => {
+type Props = {
+  getUrl: GetURL;
+};
+
+const ClubMatchData: React.FC<Props> = ({ getUrl }) => {
   const accessToken = localStorage.getItem("accessToken");
   const [clubMatchList, setClubMatchList] = useState<ClubMatchGetData[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     axios
-      .get("http://localhost:18000/admin", {
+      .get(getUrl.url, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -49,25 +54,29 @@ const ClubMatchData = () => {
                 vote_day: clubMatch.vote_day,
                 title: clubMatch.title,
                 is_released: clubMatch.is_released,
+                isAdmin: getUrl.isAdmin,
+                is_participant: clubMatch.is_participant,
                 set: setClubMatchList,
               }}
             />
           </Grid>
         ))}
-        <Grid item xs={12}>
-          <BaseButton
-            baseButton={{
-              buttonText: "日程を追加",
-              onClick: () => {
-                navigate("/admin/addclubmatch");
-              },
-              width: "120px",
-              height: "50px",
-              mt: "20px",
-              mb: "50px",
-            }}
-          />
-        </Grid>
+        {getUrl.isAdmin && (
+          <Grid item xs={12}>
+            <BaseButton
+              baseButton={{
+                buttonText: "日程を追加",
+                onClick: () => {
+                  navigate("/admin/addclubmatch");
+                },
+                width: "120px",
+                height: "50px",
+                mt: "20px",
+                mb: "50px",
+              }}
+            />
+          </Grid>
+        )}
       </Grid>
     </Box>
   );
