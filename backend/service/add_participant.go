@@ -12,7 +12,7 @@ type AddParticipant struct {
 	Repo ParticipantAdd
 }
 
-func (ap *AddParticipant) AddParticipant(ctx context.Context, cmid entity.ClubMatchID) (entity.PaticipantClubMatchs, error) {
+func (ap *AddParticipant) AddParticipant(ctx context.Context, cmid entity.ClubMatchID) (entity.ClubMatchs, error) {
 	uid, ok := auth.GetUserID(ctx)
 
 	if !ok {

@@ -61,6 +61,7 @@ export interface ClubMatchGetData {
   is_released: number;
   isAdmin: boolean;
   is_participant: boolean;
+  participant_num: number;
   set: React.Dispatch<React.SetStateAction<ClubMatchGetData[]>>;
 }
 

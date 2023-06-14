@@ -22,13 +22,13 @@ type ClubMatchReleasedSwitch interface {
 	SwitchClubMatchReleased(ctx context.Context, id entity.ClubMatchID, b bool) (entity.ClubMatchs, error)
 }
 type ParticipantAdd interface {
-	AddParticipant(ctx context.Context, p *entity.Paticipant) (entity.PaticipantClubMatchs, error)
+	AddParticipant(ctx context.Context, p *entity.Paticipant) (entity.ClubMatchs, error)
 }
 
 type ParticipantDelete interface {
-	DeleteParticipant(ctx context.Context, p *entity.Paticipant) (entity.PaticipantClubMatchs, error)
+	DeleteParticipant(ctx context.Context, p *entity.Paticipant) (entity.ClubMatchs, error)
 }
 
 type ListParticipant interface {
-	ListParticipant(ctx context.Context, uid entity.UserId) (entity.PaticipantClubMatchs, error)
+	ListParticipant(ctx context.Context, uid entity.UserId) (entity.ClubMatchs, error)
 }

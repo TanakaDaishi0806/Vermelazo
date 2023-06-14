@@ -12,7 +12,7 @@ type ListClubMatchUsers struct {
 	Repo ListParticipant
 }
 
-func (lcmu *ListClubMatchUsers) ListClubMatchUsers(ctx context.Context) (entity.PaticipantClubMatchs, error) {
+func (lcmu *ListClubMatchUsers) ListClubMatchUsers(ctx context.Context) (entity.ClubMatchs, error) {
 	uid, ok := auth.GetUserID(ctx)
 
 	if !ok {

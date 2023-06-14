@@ -20,7 +20,7 @@ type ListParticipant struct {
 	DB Queryer
 }
 
-func (ap *AddParticipant) AddParticipant(ctx context.Context, p *entity.Paticipant) (entity.PaticipantClubMatchs, error) {
+func (ap *AddParticipant) AddParticipant(ctx context.Context, p *entity.Paticipant) (entity.ClubMatchs, error) {
 	sql := `INSERT INTO participant (club_match_id,user_id) VALUES (?,?)`
 
 	result, err := ap.DBExc.ExecContext(ctx, sql, p.ClubMatchID, p.UserID)
@@ -47,7 +47,7 @@ func (ap *AddParticipant) AddParticipant(ctx context.Context, p *entity.Paticipa
 	return l, nil
 }
 
-func (dp *DeleteParticipant) DeleteParticipant(ctx context.Context, p *entity.Paticipant) (entity.PaticipantClubMatchs, error) {
+func (dp *DeleteParticipant) DeleteParticipant(ctx context.Context, p *entity.Paticipant) (entity.ClubMatchs, error) {
 	sql := `delete from participant where club_match_id=? AND user_id=?`
 
 	result, err := dp.DBExc.ExecContext(ctx, sql, p.ClubMatchID, p.UserID)
@@ -74,7 +74,7 @@ func (dp *DeleteParticipant) DeleteParticipant(ctx context.Context, p *entity.Pa
 	return l, nil
 }
 
-func (lp *ListParticipant) ListParticipant(ctx context.Context, uid entity.UserId) (entity.PaticipantClubMatchs, error) {
+func (lp *ListParticipant) ListParticipant(ctx context.Context, uid entity.UserId) (entity.ClubMatchs, error) {
 	sql := `SELECT
     cm.club_match_id,
     cm.year,
@@ -88,13 +88,16 @@ func (lp *ListParticipant) ListParticipant(ctx context.Context, uid entity.UserI
     CASE
         WHEN p.club_match_id IS NOT NULL THEN true
         ELSE false
-    END AS is_participant
+    END AS is_participant,
+	COUNT(p.club_match_id) AS participant_num
 FROM
     club_match cm
 LEFT JOIN
-    participant p ON cm.club_match_id = p.club_match_id AND p.user_id = ?`
+    participant p ON cm.club_match_id = p.club_match_id AND p.user_id = ?
+GROUP BY
+	cm.club_match_id`
 
-	l := entity.PaticipantClubMatchs{}
+	l := entity.ClubMatchs{}
 
 	if err := lp.DB.SelectContext(ctx, &l, sql, uid); err != nil {
 		return nil, err

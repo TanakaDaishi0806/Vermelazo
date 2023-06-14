@@ -190,6 +190,29 @@ const ClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
                     {clubMatchGetData.vote_day}
                   </Typography>
                 </Grid>
+                <Grid item xs={4}>
+                  <Typography
+                    sx={{
+                      mx: "15px",
+                      fontWeight: "600",
+                      fontsize: "15px",
+                      py: "5px",
+                      textAlign: "center",
+                    }}
+                  >
+                    参加人数:
+                  </Typography>
+                </Grid>
+                <Grid item xs={8}>
+                  <Typography
+                    sx={{
+                      fontsize: "15px",
+                      py: "5px",
+                    }}
+                  >
+                    {clubMatchGetData.participant_num}
+                  </Typography>
+                </Grid>
                 {clubMatchGetData.isAdmin && (
                   <Grid item xs={4}>
                     <Typography

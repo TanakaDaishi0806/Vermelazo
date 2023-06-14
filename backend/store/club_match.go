@@ -2,6 +2,7 @@ package store
 
 import (
 	"context"
+	"log"
 
 	"github.com/TanakaDaishi0806/Vermelazo.git/backend/entity"
 )
@@ -47,7 +48,23 @@ func (acm *AddClubMatch) AddClubMatch(ctx context.Context, reqcm *entity.ClubMat
 }
 
 func (lcm *ListClubMatch) ListClubMatch(ctx context.Context) (entity.ClubMatchs, error) {
-	sql := `select * from club_match`
+	sql := `SELECT
+    club_match.club_match_id,
+    club_match.year,
+    club_match.month,
+    club_match.day,
+    club_match.vote_year,
+    club_match.vote_month,
+    club_match.vote_day,
+    club_match.title,
+    club_match.is_released,
+    COUNT(participant.club_match_id) AS participant_num
+FROM
+    club_match
+LEFT JOIN
+    participant ON club_match.club_match_id = participant.club_match_id
+GROUP BY
+    club_match.club_match_id`
 
 	lists := entity.ClubMatchs{}
 
@@ -60,9 +77,26 @@ func (lcm *ListClubMatch) ListClubMatch(ctx context.Context) (entity.ClubMatchs,
 }
 
 func (lcmu *ListClubMatchUsers) ListClubMatchUsers(ctx context.Context) (entity.ClubMatchs, error) {
-	sql := `select * from club_match where is_released=true`
+	sql := `SELECT
+    club_match.club_match_id,
+    club_match.year,
+    club_match.month,
+    club_match.day,
+    club_match.vote_year,
+    club_match.vote_month,
+    club_match.vote_day,
+    club_match.title,
+    club_match.is_released,
+    COUNT(participant.club_match_id) AS participant_num
+FROM
+    club_match
+LEFT JOIN
+    participant ON club_match.club_match_id = participant.club_match_id
+GROUP BY
+    club_match.club_match_id`
 
 	lists := entity.ClubMatchs{}
+	log.Print(lists)
 
 	if err := lcmu.DB.SelectContext(ctx, &lists, sql); err != nil {
 		return nil, err
@@ -83,9 +117,14 @@ func (ccm *ChangeClubMatch) ChangeClubMatch(ctx context.Context, reqcm *entity.C
 }
 
 func (dcm *DeleteClubMatch) DeleteClubMatch(ctx context.Context, id entity.ClubMatchID) (entity.ClubMatchs, error) {
-	sql := `delete from club_match where club_match_id=?`
+	sql1 := `delete from participant where club_match_id=?`
+	sql2 := `delete from club_match where club_match_id=?`
 
-	_, err := dcm.DBExc.ExecContext(ctx, sql, id)
+	_, err := dcm.DBExc.ExecContext(ctx, sql1, id)
+	if err != nil {
+		return nil, err
+	}
+	_, err = dcm.DBExc.ExecContext(ctx, sql2, id)
 	if err != nil {
 		return nil, err
 	}
