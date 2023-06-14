@@ -56,6 +56,7 @@ const ClubMatchData: React.FC<Props> = ({ getUrl }) => {
                 is_released: clubMatch.is_released,
                 isAdmin: getUrl.isAdmin,
                 is_participant: clubMatch.is_participant,
+                participant_num: clubMatch.participant_num,
                 set: setClubMatchList,
               }}
             />

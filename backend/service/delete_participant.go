@@ -12,7 +12,7 @@ type DeleteParticipant struct {
 	Repo ParticipantDelete
 }
 
-func (dp *DeleteParticipant) DeleteParticipant(ctx context.Context, cmid entity.ClubMatchID) (entity.PaticipantClubMatchs, error) {
+func (dp *DeleteParticipant) DeleteParticipant(ctx context.Context, cmid entity.ClubMatchID) (entity.ClubMatchs, error) {
 	uid, ok := auth.GetUserID(ctx)
 
 	if !ok {

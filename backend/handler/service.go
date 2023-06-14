@@ -19,13 +19,13 @@ type SwitchClubMatchReleasedService interface {
 }
 
 type AddParticipantService interface {
-	AddParticipant(ctx context.Context, cmid entity.ClubMatchID) (entity.PaticipantClubMatchs, error)
+	AddParticipant(ctx context.Context, cmid entity.ClubMatchID) (entity.ClubMatchs, error)
 }
 
 type ListClubMatchUsersService interface {
-	ListClubMatchUsers(ctx context.Context) (entity.PaticipantClubMatchs, error)
+	ListClubMatchUsers(ctx context.Context) (entity.ClubMatchs, error)
 }
 
 type DeleteParticipantService interface {
-	DeleteParticipant(ctx context.Context, cmid entity.ClubMatchID) (entity.PaticipantClubMatchs, error)
+	DeleteParticipant(ctx context.Context, cmid entity.ClubMatchID) (entity.ClubMatchs, error)
 }
