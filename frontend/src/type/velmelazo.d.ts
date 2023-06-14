@@ -59,6 +59,8 @@ export interface ClubMatchGetData {
   vote_day: number;
   title: string;
   is_released: number;
+  isAdmin: boolean;
+  is_participant: boolean;
   set: React.Dispatch<React.SetStateAction<ClubMatchGetData[]>>;
 }
 
@@ -123,4 +125,9 @@ export interface ChangeClubMatchInfo {
   handleVoteDateChange: (dateValue: Date | null) => void;
   handleTitleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleChangeDateSubmit: () => void;
+}
+
+export interface GetURL {
+  url: string;
+  isAdmin: boolean;
 }
