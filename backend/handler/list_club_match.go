@@ -22,6 +22,7 @@ type list struct {
 	IsReleased     bool               `json:"is_released"`
 	IsParticipant  bool               `json:"is_participant"`
 	ParticipantNum int                `json:"participant_num"`
+	IsCreateTeam   bool               `json:"is_create_team"`
 }
 
 func (lcm *ListClubMatch) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -49,6 +50,7 @@ func (lcm *ListClubMatch) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			IsReleased:     l.IsReleased,
 			IsParticipant:  l.IsParticipant,
 			ParticipantNum: l.ParticipantNum,
+			IsCreateTeam:   l.IsCreateTeam,
 		})
 
 	}
