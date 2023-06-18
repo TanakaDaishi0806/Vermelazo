@@ -22,6 +22,7 @@ type ClubMatch struct {
 	IsReleased     bool        `json:"is_released" db:"is_released"`
 	IsParticipant  bool        `json:"is_participant" db:"is_participant"`
 	ParticipantNum int         `json:"participant_num" db:"participant_num"`
+	IsCreateTeam   bool        `json:"is_create_team" db:"is_create_team"`
 }
 
 type ClubMatchs []*ClubMatch

@@ -2,7 +2,6 @@ package store
 
 import (
 	"context"
-	"log"
 
 	"github.com/TanakaDaishi0806/Vermelazo.git/backend/entity"
 )
@@ -12,10 +11,6 @@ type AddClubMatch struct {
 }
 
 type ListClubMatch struct {
-	DB Queryer
-}
-
-type ListClubMatchUsers struct {
 	DB Queryer
 }
 
@@ -48,57 +43,11 @@ func (acm *AddClubMatch) AddClubMatch(ctx context.Context, reqcm *entity.ClubMat
 }
 
 func (lcm *ListClubMatch) ListClubMatch(ctx context.Context) (entity.ClubMatchs, error) {
-	sql := `SELECT
-    club_match.club_match_id,
-    club_match.year,
-    club_match.month,
-    club_match.day,
-    club_match.vote_year,
-    club_match.vote_month,
-    club_match.vote_day,
-    club_match.title,
-    club_match.is_released,
-    COUNT(participant.club_match_id) AS participant_num
-FROM
-    club_match
-LEFT JOIN
-    participant ON club_match.club_match_id = participant.club_match_id
-GROUP BY
-    club_match.club_match_id`
+	sql := `select * from club_match`
 
 	lists := entity.ClubMatchs{}
 
 	if err := lcm.DB.SelectContext(ctx, &lists, sql); err != nil {
-		return nil, err
-	}
-
-	return lists, nil
-
-}
-
-func (lcmu *ListClubMatchUsers) ListClubMatchUsers(ctx context.Context) (entity.ClubMatchs, error) {
-	sql := `SELECT
-    club_match.club_match_id,
-    club_match.year,
-    club_match.month,
-    club_match.day,
-    club_match.vote_year,
-    club_match.vote_month,
-    club_match.vote_day,
-    club_match.title,
-    club_match.is_released,
-    COUNT(participant.club_match_id) AS participant_num
-FROM
-    club_match
-LEFT JOIN
-    participant ON club_match.club_match_id = participant.club_match_id
-GROUP BY
-    club_match.club_match_id`
-
-	lists := entity.ClubMatchs{}
-	log.Print(lists)
-
-	if err := lcmu.DB.SelectContext(ctx, &lists, sql); err != nil {
 		return nil, err
 	}
 
@@ -118,13 +67,23 @@ func (ccm *ChangeClubMatch) ChangeClubMatch(ctx context.Context, reqcm *entity.C
 
 func (dcm *DeleteClubMatch) DeleteClubMatch(ctx context.Context, id entity.ClubMatchID) (entity.ClubMatchs, error) {
 	sql1 := `delete from participant where club_match_id=?`
-	sql2 := `delete from club_match where club_match_id=?`
+	sql2 := `delete from team_member where team_id in (select team_id from team where club_match_id=?)`
+	sql3 := `delete from team where club_match_id=?`
+	sql := `delete from club_match where club_match_id=?`
 
 	_, err := dcm.DBExc.ExecContext(ctx, sql1, id)
 	if err != nil {
 		return nil, err
 	}
 	_, err = dcm.DBExc.ExecContext(ctx, sql2, id)
+	if err != nil {
+		return nil, err
+	}
+	_, err = dcm.DBExc.ExecContext(ctx, sql3, id)
+	if err != nil {
+		return nil, err
+	}
+	_, err = dcm.DBExc.ExecContext(ctx, sql, id)
 	if err != nil {
 		return nil, err
 	}
