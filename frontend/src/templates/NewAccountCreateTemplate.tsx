@@ -158,7 +158,7 @@ const NewAccountCreateTemplate: React.FC<Props> = ({ newAccountInfo }) => {
         <br />
         <Grid item xs={12} sx={{ pl: "15px" }}>
           <TextField
-            label="メールアドレス"
+            label="*メールアドレス"
             value={newAccountInfo.mailaddress}
             onChange={newAccountInfo.handleMailaddressChange}
           />
