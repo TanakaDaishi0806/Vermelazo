@@ -45,6 +45,7 @@ func (dp *DeleteParticipant) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			IsReleased:     l.IsReleased,
 			IsParticipant:  l.IsParticipant,
 			ParticipantNum: l.ParticipantNum,
+			IsCreateTeam:   l.IsCreateTeam,
 		})
 	}
 
