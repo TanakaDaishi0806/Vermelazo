@@ -29,3 +29,23 @@ type ListClubMatchUsersService interface {
 type DeleteParticipantService interface {
 	DeleteParticipant(ctx context.Context, cmid entity.ClubMatchID) (entity.ClubMatchs, error)
 }
+
+type CreateTeamService interface {
+	CreateTeam(ctx context.Context, cti *entity.CreateTeamInfo) (entity.EachTeams, error)
+}
+
+type ChangeTeamService interface {
+	ChangeTeam(ctx context.Context, ctm *entity.ChangeTeamMember) (entity.EachTeams, error)
+}
+
+type DeleteTeamMemberService interface {
+	DeleteTeamMember(ctx context.Context, cmid entity.ClubMatchID) (entity.ClubMatchs, error)
+}
+
+type ListTeamService interface {
+	ListTeam(ctx context.Context, cmid entity.ClubMatchID) (entity.EachTeams, error)
+}
+
+type AddTeamMemberService interface {
+	AddTeamMember(ctx context.Context, cmid entity.ClubMatchID) (entity.ClubMatchs, error)
+}
