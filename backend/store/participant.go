@@ -21,9 +21,16 @@ type ListParticipant struct {
 }
 
 func (ap *AddParticipant) AddParticipant(ctx context.Context, p *entity.Paticipant) (entity.ClubMatchs, error) {
-	sql := `INSERT INTO participant (club_match_id,user_id) VALUES (?,?)`
+	sql1 := `INSERT INTO participant (club_match_id,user_id) VALUES (?,?)`
+	sql2 := `UPDATE club_match SET participant_num = participant_num + 1 WHERE club_match_id = ?`
 
-	result, err := ap.DBExc.ExecContext(ctx, sql, p.ClubMatchID, p.UserID)
+	result, err := ap.DBExc.ExecContext(ctx, sql1, p.ClubMatchID, p.UserID)
+
+	if err != nil {
+		return nil, err
+	}
+
+	_, err = ap.DBExc.ExecContext(ctx, sql2, p.ClubMatchID)
 
 	if err != nil {
 		return nil, err
@@ -49,8 +56,15 @@ func (ap *AddParticipant) AddParticipant(ctx context.Context, p *entity.Paticipa
 
 func (dp *DeleteParticipant) DeleteParticipant(ctx context.Context, p *entity.Paticipant) (entity.ClubMatchs, error) {
 	sql := `delete from participant where club_match_id=? AND user_id=?`
+	sql2 := `UPDATE club_match SET participant_num = participant_num - 1 WHERE club_match_id = ?`
 
 	result, err := dp.DBExc.ExecContext(ctx, sql, p.ClubMatchID, p.UserID)
+
+	if err != nil {
+		return nil, err
+	}
+
+	_, err = dp.DBExc.ExecContext(ctx, sql2, p.ClubMatchID)
 
 	if err != nil {
 		return nil, err
@@ -85,17 +99,17 @@ func (lp *ListParticipant) ListParticipant(ctx context.Context, uid entity.UserI
     cm.vote_day,
     cm.title,
     cm.is_released,
+	cm.participant_num,
+	cm.is_create_team,
     CASE
         WHEN p.club_match_id IS NOT NULL THEN true
         ELSE false
-    END AS is_participant,
-	COUNT(p.club_match_id) AS participant_num
+    END AS is_participant
+	
 FROM
     club_match cm
 LEFT JOIN
-    participant p ON cm.club_match_id = p.club_match_id AND p.user_id = ?
-GROUP BY
-	cm.club_match_id`
+    participant p ON cm.club_match_id = p.club_match_id AND p.user_id = ?`
 
 	l := entity.ClubMatchs{}
 
