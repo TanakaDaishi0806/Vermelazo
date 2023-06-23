@@ -2,22 +2,34 @@ package handler
 
 import (
 	"net/http"
+
+	"github.com/TanakaDaishi0806/Vermelazo.git/backend/entity"
 )
 
-type ListClubMatchUsers struct {
-	Service ListClubMatchUsersService
+type DeleteTeamMember struct {
+	Service DeleteTeamMemberService
 }
 
-func (lcmu *ListClubMatchUsers) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (dtm *DeleteTeamMember) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
-	lists, err := lcmu.Service.ListClubMatchUsers(ctx)
+	cmid, err := entity.StrTOClubMatchID(r)
 	if err != nil {
 		RespondJSON(ctx, w, ErrResponse{
 			Message: err.Error(),
 		}, http.StatusInternalServerError)
 		return
 	}
+
+	lists, err := dtm.Service.DeleteTeamMember(ctx, cmid)
+
+	if err != nil {
+		RespondJSON(ctx, w, ErrResponse{
+			Message: err.Error(),
+		}, http.StatusInternalServerError)
+		return
+	}
+
 	rsq := []list{}
 
 	for _, l := range lists {
@@ -35,8 +47,8 @@ func (lcmu *ListClubMatchUsers) ServeHTTP(w http.ResponseWriter, r *http.Request
 			ParticipantNum: l.ParticipantNum,
 			IsCreateTeam:   l.IsCreateTeam,
 		})
-
 	}
 
 	RespondJSON(ctx, w, rsq, http.StatusOK)
+
 }

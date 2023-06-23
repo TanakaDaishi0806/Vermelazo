@@ -32,6 +32,8 @@ CREATE TABLE `club_match` (
   `vote_day` int(2) NOT NULL,
   `title` varchar(30) NOT NULL,
   `is_released` boolean DEFAULT false,
+  `participant_num` int DEFAULT 0,
+  `is_create_team` boolean DEFAULT false,
   PRIMARY KEY (`club_match_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -55,9 +57,9 @@ DROP TABLE IF EXISTS `match_mom`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `match_mom` (
-  `club_match_id` int(5) DEFAULT NULL,
-  `match_id` int(5) DEFAULT NULL,
-  `user_id` int(5) DEFAULT NULL,
+  `club_match_id` int(5) NOT NULL,
+  `match_id` int(5) NOT NULL,
+  `user_id` int(5) NOT NULL,
   KEY `club_match_id` (`club_match_id`),
   KEY `match_id` (`match_id`),
   KEY `user_id` (`user_id`),
@@ -86,11 +88,11 @@ DROP TABLE IF EXISTS `matchs`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `matchs` (
   `match_id` int(5) NOT NULL AUTO_INCREMENT,
-  `team_id_a` int(5) DEFAULT NULL,
-  `team_id_b` int(5) DEFAULT NULL,
-  `score_a` int(5) DEFAULT NULL,
-  `score_b` int(5) DEFAULT NULL,
-  `club_match_id` int(5) DEFAULT NULL,
+  `team_id_a` int(5) NOT NULL,
+  `team_id_b` int(5) NOT NULL,
+  `score_a` int(5) NOT NULL,
+  `score_b` int(5) NOT NULL,
+  `club_match_id` int(5) NOT NULL,
   PRIMARY KEY (`match_id`),
   KEY `team_id_a` (`team_id_a`),
   KEY `team_id_b` (`team_id_b`),
@@ -118,9 +120,9 @@ DROP TABLE IF EXISTS `my_team_mom`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `my_team_mom` (
-  `club_match_id` int(5) DEFAULT NULL,
-  `match_id` int(5) DEFAULT NULL,
-  `user_id` int(5) DEFAULT NULL,
+  `club_match_id` int(5) NOT NULL,
+  `match_id` int(5) NOT NULL,
+  `user_id` int(5) NOT NULL,
   KEY `club_match_id` (`club_match_id`),
   KEY `match_id` (`match_id`),
   KEY `user_id` (`user_id`),
@@ -155,7 +157,7 @@ CREATE TABLE `users` (
   `password` varchar(60) NOT NULL,
   `grade` int(1) NOT NULL,
   `role` int(1) DEFAULT 0,
-  `mailaddress` varchar(50) DEFAULT NULL,
+  `mailaddress` varchar(50) NOT NULL,
   `point` int(5) DEFAULT 0,
   `position` int(1) NOT NULL,
   `experience` int(1) DEFAULT 0,
@@ -172,6 +174,7 @@ LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
 --
 -- Table structure for table `point_getter`
 --
@@ -181,9 +184,9 @@ DROP TABLE IF EXISTS `point_getter`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `point_getter` (
   `point_id` int(5) NOT NULL AUTO_INCREMENT,
-  `match_id` int(5) DEFAULT NULL,
-  `team_id` int(5) DEFAULT NULL,
-  `user_id` int(5) DEFAULT NULL,
+  `match_id` int(5) NOT NULL,
+  `team_id` int(5) NOT NULL,
+  `user_id` int(5) NOT NULL,
   PRIMARY KEY (`point_id`),
   KEY `match_id` (`match_id`),
   KEY `team_id` (`team_id`),
@@ -211,9 +214,9 @@ DROP TABLE IF EXISTS `posision_mom`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `posision_mom` (
-  `club_match_id` int(5) DEFAULT NULL,
+  `club_match_id` int(5) NOT NULL,
   `posision` int(5) NOT NULL,
-  `user_id` int(5) DEFAULT NULL,
+  `user_id` int(5) NOT NULL,
   KEY `club_match_id` (`club_match_id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `posision_mom_ibfk_1` FOREIGN KEY (`club_match_id`) REFERENCES `club_match` (`club_match_id`),
@@ -240,7 +243,7 @@ DROP TABLE IF EXISTS `team`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `team` (
   `team_id` int(5) NOT NULL AUTO_INCREMENT,
-  `club_match_id` int(5) DEFAULT NULL,
+  `club_match_id` int(5) NOT NULL,
   PRIMARY KEY (`team_id`),
   KEY `club_match_id` (`club_match_id`),
   CONSTRAINT `team_ibfk_1` FOREIGN KEY (`club_match_id`) REFERENCES `club_match` (`club_match_id`)
@@ -292,12 +295,17 @@ DROP TABLE IF EXISTS `team_member`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `team_member` (
-  `team_id` int(5) DEFAULT NULL,
-  `user_id` int(5) DEFAULT NULL,
+  `team_id` int(5) NOT NULL,
+  `user_id` int(5) NOT NULL,
+  `club_match_id` int(5) NOT NULL,
+  `is_exist` boolean DEFAULT true,
   KEY `team_id` (`team_id`),
   KEY `user_id` (`user_id`),
+  KEY `club_match_id` (`club_match_id`),
   CONSTRAINT `team_member_ibfk_1` FOREIGN KEY (`team_id`) REFERENCES `team` (`team_id`),
-  CONSTRAINT `team_member_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+  CONSTRAINT `team_member_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `team_member_ibfk_3` FOREIGN KEY (`club_match_id`) REFERENCES `club_match` (`club_match_id`),
+  PRIMARY KEY (`team_id`, `user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -309,6 +317,9 @@ LOCK TABLES `team_member` WRITE;
 /*!40000 ALTER TABLE `team_member` DISABLE KEYS */;
 /*!40000 ALTER TABLE `team_member` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

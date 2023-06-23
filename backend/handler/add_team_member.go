@@ -8,48 +8,43 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-type SwitchClubMatchReleased struct {
-	Service   SwitchClubMatchReleasedService
+type AddTeamMember struct {
+	Service   AddTeamMemberService
 	Validator *validator.Validate
 }
 
-func (scmr *SwitchClubMatchReleased) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (atm *AddTeamMember) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	id, err := entity.StrTOClubMatchID(r)
-	if err != nil {
-		RespondJSON(ctx, w, &ErrResponse{
-			Message: err.Error(),
-		}, http.StatusInternalServerError)
-		return
-	}
-	var isReleased struct {
-		IsReleased bool `json:"is_released"`
+
+	var p struct {
+		ClubMatchID entity.ClubMatchID `json:"club_match_id" validate:"required"`
 	}
 
-	if err := json.NewDecoder(r.Body).Decode(&isReleased); err != nil {
-		RespondJSON(ctx, w, &ErrResponse{
+	if err := json.NewDecoder(r.Body).Decode(&p); err != nil {
+		RespondJSON(ctx, w, ErrResponse{
 			Message: err.Error(),
 		}, http.StatusInternalServerError)
 		return
 	}
 
-	if err := scmr.Validator.Struct(&isReleased); err != nil {
-		RespondJSON(ctx, w, &ErrResponse{
+	if err := atm.Validator.Struct(&p); err != nil {
+		RespondJSON(ctx, w, ErrResponse{
 			Message: err.Error(),
 		}, http.StatusBadRequest)
 		return
 	}
 
-	rbool := isReleased.IsReleased
+	cmid := p.ClubMatchID
 
-	lists, err := scmr.Service.SwitchClubMatchReleased(ctx, id, rbool)
+	lists, err := atm.Service.AddTeamMember(ctx, cmid)
 
 	if err != nil {
-		RespondJSON(ctx, w, &ErrResponse{
+		RespondJSON(ctx, w, ErrResponse{
 			Message: err.Error(),
 		}, http.StatusInternalServerError)
 		return
 	}
+
 	rsq := []list{}
 
 	for _, l := range lists {
@@ -63,9 +58,11 @@ func (scmr *SwitchClubMatchReleased) ServeHTTP(w http.ResponseWriter, r *http.Re
 			VoteDay:        l.VoteDay,
 			Title:          l.Title,
 			IsReleased:     l.IsReleased,
+			IsParticipant:  l.IsParticipant,
 			ParticipantNum: l.ParticipantNum,
 			IsCreateTeam:   l.IsCreateTeam,
 		})
+
 	}
 
 	RespondJSON(ctx, w, rsq, http.StatusOK)

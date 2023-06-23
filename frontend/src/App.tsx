@@ -7,6 +7,9 @@ import AdminLogin from "./pages/AdminLogin";
 import AdminHome from "./pages/AdminHome";
 import AddClubMatch from "./pages/AddClubMatch";
 import ChangeClubMatch from "./pages/ChangeClubMatch";
+import CreateTeam from "./pages/CreateTeam";
+import ChangeTeamMember from "./pages/ChangeTeamMember";
+import TeamList from "./pages/TeamList";
 
 function App() {
   return (
@@ -19,6 +22,9 @@ function App() {
         <Route path="/admin" element={<AdminHome />} />
         <Route path="/admin/addclubmatch" element={<AddClubMatch />} />
         <Route path="/admin/changeclubmatch" element={<ChangeClubMatch />} />
+        <Route path="/admin/team/create" element={<CreateTeam />} />
+        <Route path="/admin/team/change" element={<ChangeTeamMember />} />
+        <Route path="/home/teamlist" element={<TeamList />} />
       </Routes>
     </BrowserRouter>
   );

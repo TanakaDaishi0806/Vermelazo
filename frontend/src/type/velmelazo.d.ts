@@ -62,6 +62,7 @@ export interface ClubMatchGetData {
   isAdmin: boolean;
   is_participant: boolean;
   participant_num: number;
+  is_create_team: boolean;
   set: React.Dispatch<React.SetStateAction<ClubMatchGetData[]>>;
 }
 
@@ -131,4 +132,45 @@ export interface ChangeClubMatchInfo {
 export interface GetURL {
   url: string;
   isAdmin: boolean;
+}
+
+export interface CreateTeamInfo {
+  teamNum: string;
+  teamNumEmpty: boolean;
+  allEmptyError: boolean;
+  handleTeamNumChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleCreateTeamDataSubmit: () => void;
+}
+
+export interface TeamMember {
+  team_id: number;
+  club_match_id: number;
+  user_id: number;
+  name: string;
+  furigana: string;
+  position: number;
+  experience: number;
+}
+
+export interface TeamMemberListInfo {
+  teamMemberList: TeamMember[][];
+  club_match_id: number;
+  setTeamMemberList: React.Dispatch<React.SetStateAction<TeamMember[][]>>;
+}
+
+export interface ClubMatchID {
+  club_match_id: number;
+}
+
+export interface TeamSelectBoxInfo {
+  teamNum: number;
+  defaultNum: number;
+  handleTeamNameSideChange: (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => void;
+}
+
+export interface ChangeMember {
+  changeTeamID: number;
+  userID: number;
 }
