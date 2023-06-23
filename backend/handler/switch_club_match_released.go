@@ -64,6 +64,7 @@ func (scmr *SwitchClubMatchReleased) ServeHTTP(w http.ResponseWriter, r *http.Re
 			Title:          l.Title,
 			IsReleased:     l.IsReleased,
 			ParticipantNum: l.ParticipantNum,
+			IsCreateTeam:   l.IsCreateTeam,
 		})
 	}
 

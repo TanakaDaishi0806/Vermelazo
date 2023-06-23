@@ -25,10 +25,8 @@ func (ct *ChangeTeam) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var c struct {
-		LeftTeamID  entity.TeamID `json:"left_team_id" validate:"required"`
-		RightTeamID entity.TeamID `json:"right_team_id" validate:"required"`
-		LeftUserID  entity.UserId `json:"left_user_id" validate:"required"`
-		RightUserID entity.UserId `json:"right_user_id" validate:"required"`
+		ChangeTeamID entity.TeamID `json:"change_team_id" validate:"required"`
+		UserID       entity.UserId `json:"user_id" validate:"required"`
 	}
 
 	if err := json.NewDecoder(r.Body).Decode(&c); err != nil {
@@ -46,11 +44,9 @@ func (ct *ChangeTeam) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ctm := &entity.ChangeTeamMember{
-		LeftTeamID:  c.LeftTeamID,
-		RightTeamID: c.RightTeamID,
-		LeftUserID:  c.LeftUserID,
-		RightUserID: c.RightUserID,
-		ClubMatchID: cmid,
+		ChangeTeamID: c.ChangeTeamID,
+		UserID:       c.UserID,
+		ClubMatchID:  cmid,
 	}
 
 	lists, err := ct.Service.ChangeTeam(ctx, ctm)

@@ -145,7 +145,6 @@ func Newmux(ctx context.Context, cfg *config.Config) (http.Handler, func(), erro
 	mux.Route("/admin", func(r chi.Router) {
 		r.Use(handler.CROS, handler.AuthMiddleware(jwter), handler.AdminMiddleware)
 		r.Get("/", lcm.ServeHTTP)
-		r.Get("/team/list/{clubMatchId}", lt.ServeHTTP)
 		r.Post("/", acm.ServeHTTP)
 		r.Post("/team/create", ct.ServeHTTP)
 		r.Put("/team/change/{clubMatchId}", chgt.ServeHTTP)
