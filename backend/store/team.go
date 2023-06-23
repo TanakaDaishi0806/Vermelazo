@@ -41,7 +41,7 @@ func (tr *TeamRepository) ResisterTeamName(ctx context.Context, cti *entity.Crea
 }
 
 func (tr *TeamRepository) OrderParticipant(ctx context.Context, cmid entity.ClubMatchID) (entity.Teams, error) {
-	sql := `select p.club_match_id, u.user_id, u.position, u.experience from users u, participant p where p.club_match_id=? AND u.user_id=p.user_id order by u.position asc, (u.point+u.experience*10) desc`
+	sql := `select p.club_match_id, u.user_id, u.name ,u.furigana,u.position, u.experience from users u, participant p where p.club_match_id=? AND u.user_id=p.user_id order by u.position asc, (u.point+u.experience*10) desc`
 
 	lists := entity.Teams{}
 	if err := tr.DBQry.SelectContext(ctx, &lists, sql, cmid); err != nil {
@@ -75,14 +75,9 @@ func (tr *TeamRepository) ResisterTeamMember(ctx context.Context, lists entity.T
 }
 
 func (tr *TeamRepository) ChangeTeamMember(ctx context.Context, ctm *entity.ChangeTeamMember) error {
-	sql := `update team_member set team_id=? where team_id=? AND user_id=?`
+	sql := `update team_member set team_id=? where user_id=? AND club_match_id=?`
 
-	_, err := tr.DBExc.ExecContext(ctx, sql, ctm.RightTeamID, ctm.LeftTeamID, ctm.LeftUserID)
-	if err != nil {
-		return err
-	}
-
-	_, err = tr.DBExc.ExecContext(ctx, sql, ctm.LeftTeamID, ctm.RightTeamID, ctm.RightUserID)
+	_, err := tr.DBExc.ExecContext(ctx, sql, ctm.ChangeTeamID, ctm.UserID, ctm.ClubMatchID)
 	if err != nil {
 		return err
 	}
@@ -92,7 +87,7 @@ func (tr *TeamRepository) ChangeTeamMember(ctx context.Context, ctm *entity.Chan
 }
 
 func (tr *TeamRepository) OrderTeams(ctx context.Context, cmid entity.ClubMatchID) (entity.Teams, error) {
-	sql := `select t.team_id,t.club_match_id, u.user_id, u.position, u.experience from users u, team_member t where t.club_match_id=? AND u.user_id=t.user_id AND t.is_exist=true order by t.team_id`
+	sql := `select t.team_id,t.club_match_id, u.user_id, u.name,u.furigana,u.position, u.experience from users u, team_member t where t.club_match_id=? AND u.user_id=t.user_id AND t.is_exist=true order by t.team_id`
 
 	lists := entity.Teams{}
 	if err := tr.DBQry.SelectContext(ctx, &lists, sql, cmid); err != nil {
