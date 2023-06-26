@@ -14,13 +14,18 @@ type TeamRepository struct {
 
 func (tr *TeamRepository) ResisterTeamName(ctx context.Context, cti *entity.CreateTeamInfo) (entity.TeamIDs, error) {
 	sql1 := `delete from team_member where club_match_id=?`
-	sql2 := `delete from team where club_match_id=?`
+	sql2 := `delete from matchs where club_match_id=?`
+	sql3 := `delete from team where club_match_id=?`
 	sql := `INSERT INTO team (club_match_id) VALUES (?)`
 	_, err := tr.DBExc.ExecContext(ctx, sql1, cti.ClubMatchID)
 	if err != nil {
 		return nil, err
 	}
 	_, err = tr.DBExc.ExecContext(ctx, sql2, cti.ClubMatchID)
+	if err != nil {
+		return nil, err
+	}
+	_, err = tr.DBExc.ExecContext(ctx, sql3, cti.ClubMatchID)
 	if err != nil {
 		return nil, err
 	}
