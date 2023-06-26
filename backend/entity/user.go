@@ -47,6 +47,7 @@ type User struct {
 	Point       int           `json:"point" db:"point"`
 	Position    PositionNum   `json:"position" db:"position"`
 	Experience  ExperienceNum `json:"experience" db:"experience"`
+	GoalNum     int           `json:"goal_num" db:"goal_num"`
 }
 
 func (u *User) ComparePassword(pw string) error {
