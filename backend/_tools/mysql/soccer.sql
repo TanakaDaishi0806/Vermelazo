@@ -34,6 +34,8 @@ CREATE TABLE `club_match` (
   `is_released` boolean DEFAULT false,
   `participant_num` int DEFAULT 0,
   `is_create_team` boolean DEFAULT false,
+  `is_add_match` boolean DEFAULT false,
+  `is_finish` boolean DEFAULT false,
   PRIMARY KEY (`club_match_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -90,9 +92,10 @@ CREATE TABLE `matchs` (
   `match_id` int(5) NOT NULL AUTO_INCREMENT,
   `team_id_a` int(5) NOT NULL,
   `team_id_b` int(5) NOT NULL,
-  `score_a` int(5) NOT NULL,
-  `score_b` int(5) NOT NULL,
+  `score_a` int(5),
+  `score_b` int(5),
   `club_match_id` int(5) NOT NULL,
+  `is_resister` boolean DEFAULT false,
   PRIMARY KEY (`match_id`),
   KEY `team_id_a` (`team_id_a`),
   KEY `team_id_b` (`team_id_b`),
@@ -161,6 +164,7 @@ CREATE TABLE `users` (
   `point` int(5) DEFAULT 0,
   `position` int(1) NOT NULL,
   `experience` int(1) DEFAULT 0,
+  `goal_num` int(3) DEFAULT 0,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -193,7 +197,7 @@ CREATE TABLE `point_getter` (
   KEY `user_id` (`user_id`),
   CONSTRAINT `point_getter_ibfk_1` FOREIGN KEY (`match_id`) REFERENCES `matchs` (`match_id`),
   CONSTRAINT `point_getter_ibfk_2` FOREIGN KEY (`team_id`) REFERENCES `team` (`team_id`),
-  CONSTRAINT `point_getter_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+  CONSTRAINT `point_getter_ibfk_4` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -207,31 +211,31 @@ LOCK TABLES `point_getter` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `posision_mom`
+-- Table structure for table `position_mom`
 --
 
-DROP TABLE IF EXISTS `posision_mom`;
+DROP TABLE IF EXISTS `position_mom`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `posision_mom` (
+CREATE TABLE `position_mom` (
   `club_match_id` int(5) NOT NULL,
-  `posision` int(5) NOT NULL,
+  `position` int(5) NOT NULL,
   `user_id` int(5) NOT NULL,
   KEY `club_match_id` (`club_match_id`),
   KEY `user_id` (`user_id`),
-  CONSTRAINT `posision_mom_ibfk_1` FOREIGN KEY (`club_match_id`) REFERENCES `club_match` (`club_match_id`),
-  CONSTRAINT `posision_mom_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `position_mom_ibfk_1` FOREIGN KEY (`club_match_id`) REFERENCES `club_match` (`club_match_id`),
+  CONSTRAINT `position_mom_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
   PRIMARY KEY (`club_match_id`, `position`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `posision_mom`
+-- Dumping data for table `position_mom`
 --
 
-LOCK TABLES `posision_mom` WRITE;
-/*!40000 ALTER TABLE `posision_mom` DISABLE KEYS */;
-/*!40000 ALTER TABLE `posision_mom` ENABLE KEYS */;
+LOCK TABLES `position_mom` WRITE;
+/*!40000 ALTER TABLE `position_mom` DISABLE KEYS */;
+/*!40000 ALTER TABLE `position_mom` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -274,7 +278,7 @@ CREATE TABLE `participant` (
   KEY `club_match_id` (`club_match_id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `fk_club_match_id` FOREIGN KEY (`club_match_id`) REFERENCES `club_match` (`club_match_id`),
-  CONSTRAINT `point_getter_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+  CONSTRAINT `fk_club_match_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -316,6 +320,67 @@ CREATE TABLE `team_member` (
 LOCK TABLES `team_member` WRITE;
 /*!40000 ALTER TABLE `team_member` DISABLE KEYS */;
 /*!40000 ALTER TABLE `team_member` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `team_rank`
+--
+
+DROP TABLE IF EXISTS `team_rank`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `team_rank` (
+  `team_id` int(5) NOT NULL,
+  `club_match_id` int(5) NOT NULL,
+  `rank` int(2) NOT NULL,
+  `point` int(3) NOT NULL,
+  `match_num` int(2) NOT NULL,
+  `win_num` int(2) NOT NULL,
+  `draw_num` int(2) NOT NULL,
+  `lose_num` int(2) NOT NULL,
+  `goal_num` int(3) NOT NULL,
+  `is_last rank` boolean DEFAULT false,
+  PRIMARY KEY (`team_id`),
+  KEY `club_match_id` (`club_match_id`),
+  CONSTRAINT `team_rank_ibfk_1` FOREIGN KEY (`club_match_id`) REFERENCES `club_match` (`club_match_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `team_rank`
+--
+
+LOCK TABLES `team_rank` WRITE;
+/*!40000 ALTER TABLE `team_rank` DISABLE KEYS */;
+/*!40000 ALTER TABLE `team_rank` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `match_vote`
+--
+
+DROP TABLE IF EXISTS `match_vote`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `match_vote` (
+  `match_id` int(5) NOT NULL,
+  `user_id` int(5) NOT NULL,
+  `is_vote` boolean DEFAULT false,
+  PRIMARY KEY (`match_id`,`user_id`),
+  KEY `match_id` (`match_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `match_vote_ibfk_1` FOREIGN KEY (`match_id`) REFERENCES `matchs` (`match_id`),
+  CONSTRAINT `match_vote_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `match_vote`
+--
+
+LOCK TABLES `match_vote` WRITE;
+/*!40000 ALTER TABLE `match_vote` DISABLE KEYS */;
+/*!40000 ALTER TABLE `match_vote` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
