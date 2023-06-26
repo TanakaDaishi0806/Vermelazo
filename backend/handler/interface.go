@@ -20,3 +20,11 @@ type ClubMatchChange interface {
 type ClubMatchDelete interface {
 	DeleteClubMatch(ctx context.Context, id entity.ClubMatchID) (entity.ClubMatchs, error)
 }
+
+type MatchList interface {
+	ListMatch(ctx context.Context, cmid entity.ClubMatchID) (entity.Matchs, error)
+}
+
+type ScoreAdd interface {
+	AddScore(ctx context.Context, m *entity.Match) error
+}
