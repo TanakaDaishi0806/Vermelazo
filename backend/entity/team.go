@@ -28,3 +28,20 @@ type ChangeTeamMember struct {
 type Teams []*Team
 
 type EachTeams [][]*Team
+
+type SelectNum struct {
+	TeamID TeamID
+	Num    int
+}
+
+type SelectNums []SelectNum
+
+func Contains(list SelectNums, tid TeamID) bool {
+	for _, l := range list {
+		if l.TeamID == tid {
+			return true
+		}
+	}
+
+	return false
+}
