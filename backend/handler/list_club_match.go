@@ -10,21 +10,6 @@ type ListClubMatch struct {
 	Repo ClubMatchList
 }
 
-type list struct {
-	ID             entity.ClubMatchID `json:"club_match_id"`
-	Year           int                `json:"year"`
-	Month          int                `json:"month"`
-	Day            int                `json:"day"`
-	VoteYear       int                `json:"vote_year"`
-	VoteMonth      int                `json:"vote_month"`
-	VoteDay        int                `json:"vote_day"`
-	Title          string             `json:"title"`
-	IsReleased     bool               `json:"is_released"`
-	IsParticipant  bool               `json:"is_participant"`
-	ParticipantNum int                `json:"participant_num"`
-	IsCreateTeam   bool               `json:"is_create_team"`
-}
-
 func (lcm *ListClubMatch) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
@@ -35,10 +20,10 @@ func (lcm *ListClubMatch) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}, http.StatusInternalServerError)
 		return
 	}
-	rsq := []list{}
+	rsq := entity.ClubMatchs{}
 
 	for _, l := range lists {
-		rsq = append(rsq, list{
+		rsq = append(rsq, &entity.ClubMatch{
 			ID:             l.ID,
 			Year:           l.Year,
 			Month:          l.Month,
@@ -51,6 +36,8 @@ func (lcm *ListClubMatch) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			IsParticipant:  l.IsParticipant,
 			ParticipantNum: l.ParticipantNum,
 			IsCreateTeam:   l.IsCreateTeam,
+			IsAddMatch:     l.IsAddMatch,
+			IsFinish:       l.IsFinish,
 		})
 
 	}
