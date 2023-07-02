@@ -131,13 +131,116 @@ func Newmux(ctx context.Context, cfg *config.Config) (http.Handler, func(), erro
 		},
 		Validator: v,
 	}
+	am := &handler.AddMatch{
+		Service: &service.AddMatch{
+			Repo: &store.MatchRepository{DBExc: db, DBQry: db},
+		},
+		Validator: v,
+	}
+
+	lm := &handler.ListMatch{
+		Repo: &store.MatchRepository{DBExc: db, DBQry: db},
+	}
+
+	as := &handler.AddScore{
+		Repo:      &store.MatchRepository{DBExc: db, DBQry: db},
+		Validator: v,
+	}
+
+	apg := &handler.AddPointGetter{
+		Repo:      &store.PointGetterRepository{DBExc: db, DBQry: db},
+		Validator: v,
+	}
+
+	lpg := &handler.ListPointGetter{
+		Repo: &store.PointGetterRepository{DBExc: db, DBQry: db},
+	}
+
+	dpg := &handler.DeletePointGetter{
+		Repo: &store.PointGetterRepository{DBExc: db, DBQry: db},
+	}
+
+	lst := &handler.ListSpecifyTeam{
+		Repo: &store.TeamRepository{DBExc: db, DBQry: db},
+	}
+
+	scmf := &handler.SwitchClubMatchFinish{
+		Repo: &store.SwitchClubMatchFinish{DBExc: db, DBQry: db},
+	}
+
+	lpm := &handler.ListPositionMember{
+		Repo:      &store.TeamRepository{DBExc: db, DBQry: db},
+		Validator: v,
+	}
+	apm := &handler.AddPositionMom{
+		Repo:      &store.VoteRepository{DBExc: db, DBQry: db},
+		Validator: v,
+	}
+
+	lptm := &handler.ListPositionMom{
+		Repo: &store.ListPositionMom{DB: db},
+	}
+
+	cpm := &handler.ChangePositionMom{
+		Repo:      &store.VoteRepository{DBExc: db, DBQry: db},
+		Validator: v,
+	}
+
+	vk := &handler.VoteKind{
+		Service: &service.VoteKind{
+			Repo: &store.VoteRepository{DBExc: db, DBQry: db},
+		},
+	}
+
+	amtm := &handler.AddMyteamMom{
+		Repo:      &store.VoteRepository{DBExc: db, DBQry: db},
+		Validator: v,
+	}
+
+	amm := &handler.AddMatchMom{
+		Repo:      &store.VoteRepository{DBExc: db, DBQry: db},
+		Validator: v,
+	}
+
+	lmiv := &handler.ListMyIsVote{
+		Repo: &store.VoteRepository{DBExc: db, DBQry: db},
+	}
+
+	emm := &handler.EachMatchMom{
+		Repo: &store.VoteRepository{DBExc: db, DBQry: db},
+	}
+
+	mr := &handler.MyRank{
+		Service: &service.MyRank{
+			Repo: &store.MyRankRepository{DBExc: db, DBQry: db},
+		},
+	}
+
+	ltr := &handler.ListTeamRank{
+		Repo: &store.TeamRankRepository{DBExc: db, DBQry: db},
+	}
+	ts := &handler.TopScorer{
+		Repo: &store.TopScorerRepository{DBExc: db, DBQry: db},
+	}
 
 	mux.Route("/home", func(r chi.Router) {
 		r.Use(handler.CROS, handler.AuthMiddleware(jwter))
 		r.Get("/", lcmu.ServeHTTP)
 		r.Get("/team/list/{clubMatchId}", lt.ServeHTTP)
+		r.Get("/match/list/{clubMatchId}", lm.ServeHTTP)
+		r.Get("/pointgetter/list/{matchId}", lpg.ServeHTTP)
+		r.Get("/team/specify/list/{teamId}", lst.ServeHTTP)
+		r.Get("/mom/position/list/{clubMatchId}", lptm.ServeHTTP)
+		r.Get("/votekind/list/{clubMatchId}", vk.ServeHTTP)
+		r.Get("/myisvote/list", lmiv.ServeHTTP)
+		r.Get("/mom/eachmatch/{matchId}", emm.ServeHTTP)
+		r.Get("/myrank/list", mr.ServeHTTP)
+		r.Get("/teamrank/list/{clubMatchId}", ltr.ServeHTTP)
+		r.Get("/topscorer/list/{clubMatchId}", ts.ServeHTTP)
 		r.Post("/", ap.ServeHTTP)
 		r.Post("/teammember/add", atm.ServeHTTP)
+		r.Post("/vote/myteam/add", amtm.ServeHTTP)
+		r.Post("/vote/match/add", amm.ServeHTTP)
 		r.Delete("/participant/{clubMatchId}", dp.ServeHTTP)
 		r.Delete("/teammember/{clubMatchId}", dtm.ServeHTTP)
 	})
@@ -145,12 +248,23 @@ func Newmux(ctx context.Context, cfg *config.Config) (http.Handler, func(), erro
 	mux.Route("/admin", func(r chi.Router) {
 		r.Use(handler.CROS, handler.AuthMiddleware(jwter), handler.AdminMiddleware)
 		r.Get("/", lcm.ServeHTTP)
+		r.Get("/match/list/{clubMatchId}", lm.ServeHTTP)
+		r.Get("/pointgetter/list/{matchId}", lpg.ServeHTTP)
+		r.Get("/team/specify/list/{teamId}", lst.ServeHTTP)
+		r.Get("/user/position/list/{clubMatchId}", lpm.ServeHTTP)
 		r.Post("/", acm.ServeHTTP)
 		r.Post("/team/create", ct.ServeHTTP)
+		r.Post("/pointgetter/add", apg.ServeHTTP)
+		r.Post("/match/combination/create", am.ServeHTTP)
+		r.Post("/mom/position/add", apm.ServeHTTP)
 		r.Put("/team/change/{clubMatchId}", chgt.ServeHTTP)
 		r.Put("/clubmatchs/{clubMatchId}", ccm.ServeHTTP)
 		r.Put("/clubmatchs/isreleased/{clubMatchId}", scmr.ServeHTTP)
+		r.Put("/clubmatchs/isfinish/{clubMatchId}", scmf.ServeHTTP)
+		r.Put("/match/score/add/{matchId}/{clubMatchId}", as.ServeHTTP)
+		r.Put("/mom/position/change/{clubMatchId}", cpm.ServeHTTP)
 		r.Delete("/clubmatchs/{clubMatchId}", dcm.ServeHTTP)
+		r.Delete("/pointgetter/{matchId}", dpg.ServeHTTP)
 	})
 
 	return mux, cleanup, nil
