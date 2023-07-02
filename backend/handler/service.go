@@ -53,3 +53,11 @@ type AddTeamMemberService interface {
 type AddMatchService interface {
 	AddMatch(ctx context.Context, cmid entity.ClubMatchID, matchNum int) (entity.Matchs, error)
 }
+
+type VoteKindService interface {
+	VoteKind(ctx context.Context, cmid entity.ClubMatchID) (entity.VoteKindNums, error)
+}
+
+type MyRankService interface {
+	MyRank(ctx context.Context) (*entity.MyRank, error)
+}
