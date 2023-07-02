@@ -14,9 +14,13 @@ type TeamRepository struct {
 
 func (tr *TeamRepository) ResisterTeamName(ctx context.Context, cti *entity.CreateTeamInfo) (entity.TeamIDs, error) {
 	sql1 := `delete from team_member where club_match_id=?`
-	sql2 := `delete from matchs where club_match_id=?`
-	sql3 := `delete from team where club_match_id=?`
+	sql4 := `delete from matchs where club_match_id=?`
+	sql3 := `delete from team_rank where club_match_id=?`
+	sql2 := `delete from point_getter where club_match_id=?`
+	sql7 := `delete from match_vote from club_match_id=?`
+	sql5 := `delete from team where club_match_id=?`
 	sql := `INSERT INTO team (club_match_id) VALUES (?)`
+	sql6 := `insert into team_rank (team_id,club_match_id) values (?,?)`
 	_, err := tr.DBExc.ExecContext(ctx, sql1, cti.ClubMatchID)
 	if err != nil {
 		return nil, err
@@ -26,6 +30,18 @@ func (tr *TeamRepository) ResisterTeamName(ctx context.Context, cti *entity.Crea
 		return nil, err
 	}
 	_, err = tr.DBExc.ExecContext(ctx, sql3, cti.ClubMatchID)
+	if err != nil {
+		return nil, err
+	}
+	_, err = tr.DBExc.ExecContext(ctx, sql7, cti.ClubMatchID)
+	if err != nil {
+		return nil, err
+	}
+	_, err = tr.DBExc.ExecContext(ctx, sql4, cti.ClubMatchID)
+	if err != nil {
+		return nil, err
+	}
+	_, err = tr.DBExc.ExecContext(ctx, sql5, cti.ClubMatchID)
 	if err != nil {
 		return nil, err
 	}
@@ -40,6 +56,11 @@ func (tr *TeamRepository) ResisterTeamName(ctx context.Context, cti *entity.Crea
 			return nil, err
 		}
 		lists = append(lists, entity.TeamID(id))
+		_, err = tr.DBExc.ExecContext(ctx, sql6, id, cti.ClubMatchID)
+		if err != nil {
+			return nil, err
+		}
+
 	}
 
 	return lists, nil
@@ -199,4 +220,28 @@ func (tr *TeamRepository) AddTeamMember(ctx context.Context, p *entity.Paticipan
 	}
 
 	return l, nil
+}
+
+func (tr *TeamRepository) ListSpecifyTeam(ctx context.Context, tid entity.TeamID) (entity.Teams, error) {
+	sql := `select t.team_id,t.club_match_id, u.user_id, u.name,u.furigana,u.position, u.experience from users u, team_member t where t.team_id=? AND u.user_id=t.user_id AND t.is_exist=true`
+
+	lists := entity.Teams{}
+	if err := tr.DBQry.SelectContext(ctx, &lists, sql, tid); err != nil {
+		return nil, err
+	}
+
+	return lists, nil
+
+}
+
+func (tr *TeamRepository) ListPositionMember(ctx context.Context, cmid entity.ClubMatchID, ptnum entity.PositionNum) (entity.Teams, error) {
+	sql := `select t.team_id,t.club_match_id, u.user_id, u.name,u.furigana,u.position, u.experience from users u, team_member t where t.club_match_id=?  AND u.user_id=t.user_id AND t.is_exist=true and u.position=?`
+
+	lists := entity.Teams{}
+	if err := tr.DBQry.SelectContext(ctx, &lists, sql, cmid, ptnum); err != nil {
+		return nil, err
+	}
+
+	return lists, nil
+
 }
