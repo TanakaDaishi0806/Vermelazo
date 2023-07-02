@@ -23,9 +23,18 @@ func (as *AddScore) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}, http.StatusInternalServerError)
 		return
 	}
+	cmid, err := entity.StrTOClubMatchID(r)
+	if err != nil {
+		RespondJSON(ctx, w, ErrResponse{
+			Message: err.Error(),
+		}, http.StatusInternalServerError)
+		return
+	}
 	var s struct {
-		ScoreA int `json:"score_a" validate:"required"`
-		ScoreB int `json:"score_b" validate:"required"`
+		TeamIDA entity.TeamID `json:"team_id_a" validate:"required"`
+		TeamIDB entity.TeamID `json:"team_id_b" validate:"required"`
+		ScoreA  int           `json:"score_a" validate:"omitempty"`
+		ScoreB  int           `json:"score_b" validate:"omitempty"`
 	}
 
 	if err := json.NewDecoder(r.Body).Decode(&s); err != nil {
@@ -43,9 +52,12 @@ func (as *AddScore) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	m := &entity.Match{
-		MatchID: mid,
-		ScoreA:  s.ScoreA,
-		ScoreB:  s.ScoreB,
+		MatchID:     mid,
+		TeamIDA:     s.TeamIDA,
+		TeamIDB:     s.TeamIDB,
+		ScoreA:      s.ScoreA,
+		ScoreB:      s.ScoreB,
+		ClubMatchID: cmid,
 	}
 
 	if err := as.Repo.AddScore(ctx, m); err != nil {
