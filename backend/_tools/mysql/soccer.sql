@@ -59,6 +59,7 @@ DROP TABLE IF EXISTS `match_mom`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `match_mom` (
+  `id` int(5) NOT NULL AUTO_INCREMENT,
   `club_match_id` int(5) NOT NULL,
   `match_id` int(5) NOT NULL,
   `user_id` int(5) NOT NULL,
@@ -68,7 +69,7 @@ CREATE TABLE `match_mom` (
   CONSTRAINT `match_mom_ibfk_1` FOREIGN KEY (`club_match_id`) REFERENCES `club_match` (`club_match_id`),
   CONSTRAINT `match_mom_ibfk_2` FOREIGN KEY (`match_id`) REFERENCES `matchs` (`match_id`),
   CONSTRAINT `match_mom_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
-  PRIMARY KEY (`club_match_id`, `match_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -123,6 +124,7 @@ DROP TABLE IF EXISTS `my_team_mom`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `my_team_mom` (
+  `id` int(5) NOT NULL AUTO_INCREMENT,
   `club_match_id` int(5) NOT NULL,
   `match_id` int(5) NOT NULL,
   `user_id` int(5) NOT NULL,
@@ -132,7 +134,7 @@ CREATE TABLE `my_team_mom` (
   CONSTRAINT `my_team_mom_ibfk_1` FOREIGN KEY (`club_match_id`) REFERENCES `club_match` (`club_match_id`),
   CONSTRAINT `my_team_mom_ibfk_2` FOREIGN KEY (`match_id`) REFERENCES `matchs` (`match_id`),
   CONSTRAINT `my_team_mom_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
-  PRIMARY KEY (`club_match_id`, `match_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -191,13 +193,16 @@ CREATE TABLE `point_getter` (
   `match_id` int(5) NOT NULL,
   `team_id` int(5) NOT NULL,
   `user_id` int(5) NOT NULL,
+  `club_match_id` int(5) NOT NULL,
   PRIMARY KEY (`point_id`),
+  KEY `club_match_id` (`club_match_id`),
   KEY `match_id` (`match_id`),
   KEY `team_id` (`team_id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `point_getter_ibfk_1` FOREIGN KEY (`match_id`) REFERENCES `matchs` (`match_id`),
   CONSTRAINT `point_getter_ibfk_2` FOREIGN KEY (`team_id`) REFERENCES `team` (`team_id`),
-  CONSTRAINT `point_getter_ibfk_4` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+  CONSTRAINT `point_getter_ibfk_4` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `point_getter_ibfk_5` FOREIGN KEY (`club_match_id`) REFERENCES `club_match` (`club_match_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -332,16 +337,17 @@ DROP TABLE IF EXISTS `team_rank`;
 CREATE TABLE `team_rank` (
   `team_id` int(5) NOT NULL,
   `club_match_id` int(5) NOT NULL,
-  `rank` int(2) NOT NULL,
-  `point` int(3) NOT NULL,
-  `match_num` int(2) NOT NULL,
-  `win_num` int(2) NOT NULL,
-  `draw_num` int(2) NOT NULL,
-  `lose_num` int(2) NOT NULL,
-  `goal_num` int(3) NOT NULL,
-  `is_last rank` boolean DEFAULT false,
-  PRIMARY KEY (`team_id`),
+  `point` int(3) DEFAULT 0,
+  `match_num` int(2) DEFAULT 0,
+  `win_num` int(2) DEFAULT 0,
+  `draw_num` int(2) DEFAULT 0,
+  `lose_num` int(2) DEFAULT 0,
+  `goal_num` int(3) DEFAULT 0,
+  `is_last_rank` boolean DEFAULT false,
+  PRIMARY KEY (`team_id`,`club_match_id`),
   KEY `club_match_id` (`club_match_id`),
+  KEY `team_id` (`team_id`),
+  CONSTRAINT `team_rank_ibfk_2` FOREIGN KEY (`team_id`) REFERENCES `team` (`team_id`),
   CONSTRAINT `team_rank_ibfk_1` FOREIGN KEY (`club_match_id`) REFERENCES `club_match` (`club_match_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -365,10 +371,13 @@ DROP TABLE IF EXISTS `match_vote`;
 CREATE TABLE `match_vote` (
   `match_id` int(5) NOT NULL,
   `user_id` int(5) NOT NULL,
+  `club_match_id` int(5) NOT NULL,
   `is_vote` boolean DEFAULT false,
   PRIMARY KEY (`match_id`,`user_id`),
   KEY `match_id` (`match_id`),
   KEY `user_id` (`user_id`),
+  KEY `club_match_id` (`club_match_id`),
+  CONSTRAINT `match_vote_ibfk_3` FOREIGN KEY (`club_match_id`) REFERENCES `club_match` (`club_match_id`),
   CONSTRAINT `match_vote_ibfk_1` FOREIGN KEY (`match_id`) REFERENCES `matchs` (`match_id`),
   CONSTRAINT `match_vote_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
