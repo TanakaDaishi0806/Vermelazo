@@ -22,6 +22,13 @@ type Match struct {
 
 type Matchs []*Match
 
+type PreGoalNum struct {
+	UserID UserId `json:"user_id" db:"user_id"`
+	Count  int    `json:"cuont" db:"count"`
+}
+
+type PreGoalNums []*PreGoalNum
+
 func StrTOMatchID(r *http.Request) (MatchID, error) {
 	param := chi.URLParam(r, "matchId")
 	log.Print("param:"+param, r.URL)
