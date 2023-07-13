@@ -53,22 +53,23 @@ const TeamMemberList: React.FC<Props> = ({ teamMemberListInfo }) => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {row.map((member, memberIndex) => (
-                      <TableRow
-                        key={memberIndex}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                      >
-                        <TableCell
-                          component="th"
-                          scope="row"
-                          sx={{ fontSize: "13px", py: "10px" }}
+                    {row &&
+                      row.map((member, memberIndex) => (
+                        <TableRow
+                          key={memberIndex}
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
                         >
-                          {member.name}
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                          <TableCell
+                            component="th"
+                            scope="row"
+                            sx={{ fontSize: "13px", py: "10px" }}
+                          >
+                            {member.name}
+                          </TableCell>
+                        </TableRow>
+                      ))}
                   </TableBody>
                 </Table>
               </TableContainer>
