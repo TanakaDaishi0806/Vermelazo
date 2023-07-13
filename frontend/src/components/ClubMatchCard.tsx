@@ -904,25 +904,27 @@ const ClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
                       )}
                     </Grid>
                   )}
-                  {!clubMatchGetData.isAdmin && (
-                    <Grid item xs={4}>
-                      {clubMatchGetData.is_add_match && (
-                        <Typography
-                          sx={{
-                            mx: "15px",
-                            fontWeight: "600",
-                            fontsize: "15px",
-                            py: "5px",
-                            textAlign: "center",
-                          }}
-                        >
-                          投票:
-                        </Typography>
-                      )}
-                    </Grid>
-                  )}
+                  {!clubMatchGetData.isAdmin &&
+                    clubMatchGetData.is_participant && (
+                      <Grid item xs={4}>
+                        {clubMatchGetData.is_add_match && (
+                          <Typography
+                            sx={{
+                              mx: "15px",
+                              fontWeight: "600",
+                              fontsize: "15px",
+                              py: "5px",
+                              textAlign: "center",
+                            }}
+                          >
+                            投票:
+                          </Typography>
+                        )}
+                      </Grid>
+                    )}
 
                   {!clubMatchGetData.isAdmin &&
+                    clubMatchGetData.is_participant &&
                     clubMatchGetData.is_add_match && (
                       <Grid item xs={8}>
                         <ColorButton
