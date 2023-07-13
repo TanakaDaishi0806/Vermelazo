@@ -10,6 +10,22 @@ import ChangeClubMatch from "./pages/ChangeClubMatch";
 import CreateTeam from "./pages/CreateTeam";
 import ChangeTeamMember from "./pages/ChangeTeamMember";
 import TeamList from "./pages/TeamList";
+import CreateMatch from "./pages/CreateMatch";
+import ListCreateMatch from "./pages/ListCreateMatch";
+import ListAddScoreMatch from "./pages/ListAddScoreMatch";
+import AddMatchResult from "./pages/AddMatchResult";
+import ResisterOFMom from "./pages/ResisterOFMom";
+import ResisterDFMom from "./pages/ResisterDFMom";
+import ResisterGKMom from "./pages/ResisterGKMom";
+import AdminHomeFinish from "./pages/AdminHomeFinish";
+import ListVoteMatch from "./pages/ListVoteMatch";
+import ResisterMyTeamVote from "./pages/ResisterMyTeamVote";
+import ResisterMatchVote from "./pages/ResisterMatchVote";
+import InterimResult from "./pages/InterimResult";
+import ResultDetail from "./pages/ResultDetail";
+import HomeFinish from "./pages/HomeFinish";
+import FinishResult from "./pages/FinishResult";
+import MyRank from "./pages/MyRank";
 
 function App() {
   return (
@@ -18,13 +34,29 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/newaccountcreate" element={<NewAccountCreate />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/home/finish" element={<HomeFinish />} />
         <Route path="/adminlogin" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminHome />} />
+        <Route path="/admin/finish" element={<AdminHomeFinish />} />
         <Route path="/admin/addclubmatch" element={<AddClubMatch />} />
         <Route path="/admin/changeclubmatch" element={<ChangeClubMatch />} />
         <Route path="/admin/team/create" element={<CreateTeam />} />
         <Route path="/admin/team/change" element={<ChangeTeamMember />} />
         <Route path="/home/teamlist" element={<TeamList />} />
+        <Route path="/admin/match/create" element={<CreateMatch />} />
+        <Route path="/admin/match/list" element={<ListCreateMatch />} />
+        <Route path="/admin/match/score" element={<ListAddScoreMatch />} />
+        <Route path="/admin/match/result/add" element={<AddMatchResult />} />
+        <Route path="/admin/mom/of" element={<ResisterOFMom />} />
+        <Route path="/admin/mom/df" element={<ResisterDFMom />} />
+        <Route path="/admin/mom/gk" element={<ResisterGKMom />} />
+        <Route path="/home/match/vote" element={<ListVoteMatch />} />
+        <Route path="/home/vote/myteam" element={<ResisterMyTeamVote />} />
+        <Route path="/home/vote/match" element={<ResisterMatchVote />} />
+        <Route path="/home/result/interim" element={<InterimResult />} />
+        <Route path="/home/result/detail" element={<ResultDetail />} />
+        <Route path="/home/result/finish" element={<FinishResult />} />
+        <Route path="/home/rank" element={<MyRank />} />
       </Routes>
     </BrowserRouter>
   );
