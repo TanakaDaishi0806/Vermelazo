@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"encoding/json"
 	"net/http"
 
 	"github.com/TanakaDaishi0806/Vermelazo.git/backend/entity"
@@ -22,28 +21,15 @@ func (lpm *ListPositionMember) ServeHTTP(w http.ResponseWriter, r *http.Request)
 		}, http.StatusInternalServerError)
 		return
 	}
-
-	var p struct {
-		Position entity.PositionNum `json:"position" validate:"required"`
-	}
-
-	if err := json.NewDecoder(r.Body).Decode(&p); err != nil {
+	p, err := entity.StrTOPosition(r)
+	if err != nil {
 		RespondJSON(ctx, w, ErrResponse{
 			Message: err.Error(),
 		}, http.StatusInternalServerError)
 		return
 	}
 
-	if err := lpm.Validator.Struct(p); err != nil {
-		RespondJSON(ctx, w, ErrResponse{
-			Message: err.Error(),
-		}, http.StatusBadRequest)
-		return
-	}
-
-	ptnum := p.Position
-
-	lists, err := lpm.Repo.ListPositionMember(ctx, cmid, ptnum)
+	lists, err := lpm.Repo.ListPositionMember(ctx, cmid, p)
 
 	if err != nil {
 		RespondJSON(ctx, w, ErrResponse{
