@@ -83,12 +83,11 @@ const ChangeTeamMemberCard: React.FC<Props> = ({ teamMemberListInfo }) => {
     if (firstTeamIdErr && !defaultRightErr) {
       setFirstTeamIdErr(false);
       const tmp = new Array(teamMemberListInfo.teamMemberList.length);
-      {
-        teamMemberListInfo.teamMemberList.map(
-          (member, index) => (tmp[index] = member[index].team_id)
-        );
-      }
-      console.log(teamMemberListInfo.teamMemberList);
+
+      teamMemberListInfo.teamMemberList.map((member, index) => {
+        tmp[index] = member[0].team_id;
+      });
+
       setTeamIdList(tmp);
     }
   }, [defaultRightErr]);
@@ -105,11 +104,18 @@ const ChangeTeamMemberCard: React.FC<Props> = ({ teamMemberListInfo }) => {
     setTeamNumRight(parseInt(event.target.value, 10));
   };
 
-  const handleToggle = (value: TeamMember) => () => {
+  const handleToggle = (value: TeamMember, items: TeamMember[]) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
+    let num = 0;
+    newChecked.map((mem, index) => {
+      const i = items.indexOf(mem);
+      if (i !== -1) {
+        num++;
+      }
+    });
 
-    if (currentIndex === -1) {
+    if (currentIndex === -1 && items.length - num >= 2) {
       newChecked.push(value);
     } else {
       newChecked.splice(currentIndex, 1);
@@ -190,7 +196,7 @@ const ChangeTeamMemberCard: React.FC<Props> = ({ teamMemberListInfo }) => {
                 <ListItem
                   key={index}
                   role="listitem"
-                  onClick={handleToggle(value)}
+                  onClick={handleToggle(value, items)}
                   sx={{ height: "40px", px: "0px", py: "0px" }}
                 >
                   <ListItemIcon>
