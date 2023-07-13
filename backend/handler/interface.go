@@ -34,7 +34,7 @@ type PointGetterAdd interface {
 }
 
 type PointGetterList interface {
-	ListPointGetter(ctx context.Context, mid entity.MatchID) (entity.PointGetters, error)
+	ListPointGetter(ctx context.Context, mid entity.MatchID, tid entity.TeamID) (entity.Teams, error)
 }
 
 type PointGetterDelete interface {
@@ -70,7 +70,7 @@ type MyteamMomAdd interface {
 }
 
 type MyIsVoteList interface {
-	ListMyIsVote(ctx context.Context, uid entity.UserId) (entity.MatchVotes, error)
+	ListMyIsVote(ctx context.Context, uid entity.UserId, cmid entity.ClubMatchID) (entity.MatchVotes, error)
 }
 
 type MatchMomAdd interface {
