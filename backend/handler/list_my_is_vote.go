@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/TanakaDaishi0806/Vermelazo.git/backend/auth"
+	"github.com/TanakaDaishi0806/Vermelazo.git/backend/entity"
 )
 
 type ListMyIsVote struct {
@@ -19,8 +20,16 @@ func (lmsv *ListMyIsVote) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}, http.StatusInternalServerError)
 		return
 	}
+	cmid, err := entity.StrTOClubMatchID(r)
 
-	lists, err := lmsv.Repo.ListMyIsVote(ctx, uid)
+	if err != nil {
+		RespondJSON(ctx, w, ErrResponse{
+			Message: err.Error(),
+		}, http.StatusInternalServerError)
+		return
+	}
+
+	lists, err := lmsv.Repo.ListMyIsVote(ctx, uid, cmid)
 
 	if err != nil {
 		RespondJSON(ctx, w, ErrResponse{
