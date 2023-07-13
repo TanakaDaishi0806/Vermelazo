@@ -33,7 +33,7 @@ func (vr *VoteRepository) AddPositionMom(ctx context.Context, pm entity.Position
 }
 
 func (lpm *ListPositionMom) ListPositionMom(ctx context.Context, cmid entity.ClubMatchID) (entity.PositionMoms, error) {
-	sql := `select pm.club_match_id,pm.position,pm.user_id,u.name,u.furigana from position_mom pm left join users u on pm.club_match_id=? and pm.user_id=u.user_id order by pm.position`
+	sql := `select pm.club_match_id,pm.position,pm.user_id,u.name,u.furigana from position_mom pm left join users u on pm.user_id=u.user_id where pm.club_match_id=? order by pm.position`
 
 	pml := entity.PositionMoms{}
 
@@ -93,13 +93,15 @@ func (vr *VoteRepository) AddMyteamMom(ctx context.Context, mm entity.MyTeamMom,
 func (vr *VoteRepository) ListMyIsVote(ctx context.Context, uid entity.UserId, cmid entity.ClubMatchID) (entity.MatchVotes, error) {
 	sql := `select mv.match_id,mv.club_match_id,mv.user_id,tm.team_id,mv.is_vote 
 			from match_vote mv 
-			left join team_member tm 
+			left join (select * 
+						from team_member 
+						where club_match_id=?) tm 
 			on mv.user_id =tm.user_id 
 			where tm.user_id=? and mv.club_match_id=?`
 
 	lists := entity.MatchVotes{}
 
-	if err := vr.DBQry.SelectContext(ctx, &lists, sql, uid, cmid); err != nil {
+	if err := vr.DBQry.SelectContext(ctx, &lists, sql, cmid, uid, cmid); err != nil {
 		return nil, err
 	}
 	return lists, nil
