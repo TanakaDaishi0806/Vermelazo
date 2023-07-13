@@ -57,7 +57,7 @@ func (vr *VoteRepository) ChangePositionMom(ctx context.Context, pm entity.Posit
 
 func (vr *VoteRepository) VoteKind(ctx context.Context, cmid entity.ClubMatchID, uid entity.UserId) (entity.VoteKindNums, error) {
 	sql1 := `select team_id from team_member where club_match_id=? and user_id=?`
-	sql2 := `select case when m.team_id_a=? or m.team_id_b=? then 0 else 1 end as vote_kind_num from matchs m where club_match_id=?`
+	sql2 := `select case when m.team_id_a=? or m.team_id_b=? then false else true end as vote_kind_num from matchs m where club_match_id=?`
 
 	tid := []int{}
 	if err := vr.DBQry.SelectContext(ctx, &tid, sql1, cmid, uid); err != nil {
@@ -90,12 +90,16 @@ func (vr *VoteRepository) AddMyteamMom(ctx context.Context, mm entity.MyTeamMom,
 	return nil
 }
 
-func (vr *VoteRepository) ListMyIsVote(ctx context.Context, uid entity.UserId) (entity.MatchVotes, error) {
-	sql := `select * from match_vote where user_id=?`
+func (vr *VoteRepository) ListMyIsVote(ctx context.Context, uid entity.UserId, cmid entity.ClubMatchID) (entity.MatchVotes, error) {
+	sql := `select mv.match_id,mv.club_match_id,mv.user_id,tm.team_id,mv.is_vote 
+			from match_vote mv 
+			left join team_member tm 
+			on mv.user_id =tm.user_id 
+			where tm.user_id=? and mv.club_match_id=?`
 
 	lists := entity.MatchVotes{}
 
-	if err := vr.DBQry.SelectContext(ctx, &lists, sql, uid); err != nil {
+	if err := vr.DBQry.SelectContext(ctx, &lists, sql, uid, cmid); err != nil {
 		return nil, err
 	}
 	return lists, nil
