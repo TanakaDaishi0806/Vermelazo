@@ -57,12 +57,12 @@ func (pgr *PointGetterRepository) AddPointGetter(ctx context.Context, pg *entity
 	return nil
 }
 
-func (pgr *PointGetterRepository) ListPointGetter(ctx context.Context, mid entity.MatchID) (entity.PointGetters, error) {
-	sql := `select pg.point_id,pg.match_id,pg.team_id,pg.user_id,pg.club_match_id,u.name,u.furigana from point_getter pg left join users u on pg.match_id=? and pg.user_id=u.user_id`
+func (pgr *PointGetterRepository) ListPointGetter(ctx context.Context, mid entity.MatchID, tid entity.TeamID) (entity.Teams, error) {
+	sql := `select pg.team_id,pg.user_id,pg.club_match_id,u.name,u.furigana,u.position,u.experience from point_getter pg left join users u on  pg.user_id=u.user_id where pg.match_id=? and pg.team_id=?`
 
-	l := entity.PointGetters{}
+	l := entity.Teams{}
 
-	if err := pgr.DBQry.SelectContext(ctx, &l, sql, mid); err != nil {
+	if err := pgr.DBQry.SelectContext(ctx, &l, sql, mid, tid); err != nil {
 		return nil, err
 	}
 
