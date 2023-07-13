@@ -1,6 +1,13 @@
 package entity
 
-import "golang.org/x/crypto/bcrypt"
+import (
+	"log"
+	"net/http"
+	"strconv"
+
+	"github.com/go-chi/chi/v5"
+	"golang.org/x/crypto/bcrypt"
+)
 
 type UserId int64
 type GradeNum int
@@ -52,4 +59,12 @@ type User struct {
 
 func (u *User) ComparePassword(pw string) error {
 	return bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(pw))
+}
+
+func StrTOPosition(r *http.Request) (PositionNum, error) {
+	param := chi.URLParam(r, "position")
+	log.Print("param:"+param, r.URL)
+	intid, err := strconv.Atoi(param)
+	id := PositionNum(intid)
+	return id, err
 }
