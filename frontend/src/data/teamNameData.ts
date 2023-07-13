@@ -8,3 +8,5 @@ export const teamNameData = [
   "Team G",
   "Team H",
 ];
+
+export const teamIdentifyData = ["A", "B", "C", "D", "E", "F", "G", "H"];
