@@ -19,8 +19,15 @@ func (lpg *ListPointGetter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}, http.StatusInternalServerError)
 		return
 	}
+	tid, err := entity.StrTOTeamID(r)
+	if err != nil {
+		RespondJSON(ctx, w, ErrResponse{
+			Message: err.Error(),
+		}, http.StatusInternalServerError)
+		return
+	}
 
-	lists, err := lpg.Repo.ListPointGetter(ctx, mid)
+	lists, err := lpg.Repo.ListPointGetter(ctx, mid, tid)
 
 	if err != nil {
 		RespondJSON(ctx, w, ErrResponse{
