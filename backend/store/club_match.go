@@ -135,7 +135,7 @@ func (scmr *SwitchClubMatchFinish) SwitchClubMatchFinish(ctx context.Context, cm
 	sql6 := `select coalesce(count(*),0) as count from (select * from my_team_mom where user_id=? and club_match_id=? 
 		union all select * from match_mom where user_id=? and club_match_id=?) sub group by sub.user_id`
 	sql7 := `select coalesce(count(*)*10,0) as count from position_mom where user_id=? and club_match_id=?`
-	sql8 := `update users set goal_num=?,point=point+? where user_id=?`
+	sql8 := `update users set goal_num=goal_num+?,point=point+? where user_id=?`
 	sql9 := `select is_finish from club_match where club_match_id=?`
 
 	_, err := scmr.DBExc.ExecContext(ctx, sql, cmid)
@@ -200,14 +200,17 @@ func (scmr *SwitchClubMatchFinish) SwitchClubMatchFinish(ctx context.Context, cm
 		}
 
 		var addpoint int
+		var addgoalnum int
 
 		if b[0] {
 			addpoint = teampoint[0] + votepoint[0] + mompoint[0]
+			addgoalnum = goalnum[0]
 		} else {
 			addpoint = -teampoint[0] - votepoint[0] - mompoint[0]
+			addgoalnum = -goalnum[0]
 		}
 
-		_, err = scmr.DBExc.ExecContext(ctx, sql8, goalnum[0], addpoint, uid)
+		_, err = scmr.DBExc.ExecContext(ctx, sql8, addgoalnum, addpoint, uid)
 		if err != nil {
 			return nil, err
 		}
