@@ -33,7 +33,7 @@ func (mr *MatchRepository) AddMatch(ctx context.Context, mlist entity.Matchs) er
 	sql8 := `delete from matchs where club_match_id=?`
 	sql := `insert into matchs (team_id_a,team_id_b,score_a,score_b,club_match_id) values (?,?,?,?,?)`
 	sql1 := `update club_match set is_add_match=true where club_match_id=?`
-	sql9 := `select m.match_id,m.club_match_id,tm.user_id from team_member tm left join matchs m on tm.club_match_id=m.club_match_id`
+	sql9 := `select m.match_id,m.club_match_id,tm.user_id from team_member tm left join matchs m on tm.club_match_id=m.club_match_id where tm.club_match_id=?`
 	sql10 := `insert into match_vote (club_match_id,match_id,user_id) values (?,?,?)`
 	sql11 := `select user_id,count(*) as count from point_getter pg where club_match_id=? group by user_id`
 	sql12 := `update users set goal_num=goal_num-? where user_id=?`
@@ -104,7 +104,7 @@ func (mr *MatchRepository) AddMatch(ctx context.Context, mlist entity.Matchs) er
 	}
 
 	lists := entity.MatchVotes{}
-	if err := mr.DBQry.SelectContext(ctx, &lists, sql9); err != nil {
+	if err := mr.DBQry.SelectContext(ctx, &lists, sql9, mlist[0].ClubMatchID); err != nil {
 		return err
 	}
 
