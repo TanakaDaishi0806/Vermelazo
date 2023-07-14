@@ -37,7 +37,7 @@ const ResultList: React.FC<Props> = ({ resultPageInfo }) => {
           navigate("/");
         }
       });
-  }, []);
+  }, [accessToken, navigate, resultPageInfo.club_match_id]);
 
   React.useEffect(() => {
     if (matchList !== undefined && matchList.length !== 0) {
@@ -99,6 +99,7 @@ const ResultList: React.FC<Props> = ({ resultPageInfo }) => {
             alignItems="center"
             justifyContent="center"
             sx={{ mb: "20px" }}
+            key={index}
           >
             <Grid item xs={6}>
               <Typography

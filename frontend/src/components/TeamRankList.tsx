@@ -33,7 +33,7 @@ const TeamRankList: React.FC<Props> = ({ clubMatchID }) => {
           navigate("/");
         }
       });
-  }, []);
+  }, [accessToken, clubMatchID, navigate]);
 
   React.useEffect(() => {
     if (rankList !== undefined && rankList.length !== 0) {
@@ -189,7 +189,7 @@ const TeamRankList: React.FC<Props> = ({ clubMatchID }) => {
         </Grid>
       </Grid>
       {rankList.map((rank, index) => (
-        <Grid container>
+        <Grid container key={index}>
           <Grid
             item
             xs={1.3}
