@@ -32,7 +32,7 @@ const TeamList = () => {
           navigate("/");
         }
       });
-  }, []);
+  }, [accessToken, club_match_id, navigate]);
 
   const handleCreateTeamNavigate = () => {
     navigate("/admin/create/team", {

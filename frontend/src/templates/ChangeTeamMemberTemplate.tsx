@@ -24,7 +24,7 @@ const ChangeTeamMemberTemplate: React.FC<Props> = ({ teamMemberListInfo }) => {
       <TeamMemberList teamMemberListInfo={teamMemberListInfo} />
       <BaseButton
         baseButton={{
-          buttonText: "ホームに戻る",
+          buttonText: "チーム数を変更",
           onClick: teamMemberListInfo.handleCreateTeamNaviaget,
           width: "150px",
           height: "50px",
