@@ -34,12 +34,19 @@ const FinishClubMatchList: React.FC<Props> = ({ getUrl }) => {
   }, []);
 
   return (
-    <Box sx={{ height: "100vh", bgcolor: "#eeeeee", overflow: "auto" }}>
+    <Box
+      sx={{
+        height: "100vh",
+        bgcolor: "#eeeeee",
+        overflow: "auto",
+      }}
+    >
       <Grid
         container
         alignItems="center"
         justifyContent="center"
         direction="column"
+        sx={{ mb: "420px" }}
       >
         {clubMatchList.map((clubMatch) => (
           <Grid item xs={12} sm={4} key={clubMatch.club_match_id}>
