@@ -93,6 +93,7 @@ const AddMatchResult = () => {
         .then((response) => {
           console.log(response.data);
           setTmpPointGettersA(response.data);
+          setPgReceived(1);
           axios
             .get(
               `http://localhost:18000/admin/pointgetter/list/${match_id}/${team_id_b}`,
@@ -133,12 +134,10 @@ const AddMatchResult = () => {
   React.useEffect(() => {
     if (
       pgReceived === 1 &&
-      tmpPointGettersA.length !== 0 &&
-      tmpPointGettersB.length !== 0 &&
+      (tmpPointGettersA.length !== 0 || tmpPointGettersB.length !== 0) &&
       pointA.length !== 0 &&
       pointB.length !== 0
     ) {
-      console.log("a");
       const tmpa = [...pointGettersA];
       const newpointa = [...pointA];
       const tmpb = [...pointGettersB];
