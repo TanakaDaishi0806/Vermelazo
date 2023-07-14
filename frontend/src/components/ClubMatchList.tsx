@@ -34,7 +34,7 @@ const ClubMatchData: React.FC<Props> = ({ getUrl }) => {
           navigate("/");
         }
       });
-  }, []);
+  }, [accessToken, getUrl.url, navigate]);
 
   return (
     <Box sx={{ height: "100vh", bgcolor: "#eeeeee", overflow: "auto" }}>

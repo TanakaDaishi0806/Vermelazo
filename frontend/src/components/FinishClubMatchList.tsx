@@ -33,7 +33,7 @@ const FinishClubMatchList: React.FC<Props> = ({ getUrl }) => {
           navigate("/");
         }
       });
-  }, []);
+  }, [accessToken, getUrl.url, navigate]);
 
   return (
     <Box
