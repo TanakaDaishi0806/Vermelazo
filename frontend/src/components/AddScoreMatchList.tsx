@@ -66,6 +66,7 @@ const AddScoreMatchList: React.FC<Props> = ({ matchListInfo }) => {
             alignItems="center"
             justifyContent="center"
             sx={{ mb: "20px" }}
+            key={index}
           >
             <Grid item xs={3}>
               <Typography
