@@ -22,7 +22,7 @@ type Props = {
   teamMemberListInfo: TeamMemberListInfo;
 };
 
-const TeamMemberList: React.FC<Props> = ({ teamMemberListInfo }) => {
+const HomeTeamMemberList: React.FC<Props> = ({ teamMemberListInfo }) => {
   const [length, setLength] = useState(1);
   const [columnCount, setColumnCount] = useState(1);
 
@@ -41,7 +41,7 @@ const TeamMemberList: React.FC<Props> = ({ teamMemberListInfo }) => {
             alignItems="center"
             justifyContent="center"
             direction="column"
-            sx={{ mt: "30px" }}
+            sx={{ mt: "30px", mb: "400px" }}
           >
             <Grid item xs={10}>
               <TableContainer component={Paper}>
@@ -129,4 +129,4 @@ const TeamMemberList: React.FC<Props> = ({ teamMemberListInfo }) => {
   );
 };
 
-export default TeamMemberList;
+export default HomeTeamMemberList;
