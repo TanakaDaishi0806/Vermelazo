@@ -158,6 +158,7 @@ export interface TeamMemberListInfo {
   teamMemberList: TeamMember[][];
   club_match_id: number;
   setTeamMemberList: React.Dispatch<React.SetStateAction<TeamMember[][]>>;
+  handleCreateTeamNaviaget: () => void;
 }
 
 export interface ClubMatchID {

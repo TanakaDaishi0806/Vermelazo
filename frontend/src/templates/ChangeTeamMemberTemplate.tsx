@@ -5,7 +5,7 @@ import Header from "../components/Header";
 import TeamMemberList from "../components/TeamMemberList";
 import { TeamMemberListInfo } from "../type/velmelazo";
 import ChangeTeamMemberCard from "../components/ChangeTeamMemberCard";
-import ToHomeButton from "../parts/ToHomeButton";
+import BaseButton from "../parts/BaseButton";
 import AdminFooter from "../components/AdminFooter";
 
 type Props = {
@@ -22,7 +22,16 @@ const ChangeTeamMemberTemplate: React.FC<Props> = ({ teamMemberListInfo }) => {
     >
       <Header headertext={{ text: "Admin Page" }} />
       <TeamMemberList teamMemberListInfo={teamMemberListInfo} />
-      <ToHomeButton homeUrl="/admin" />
+      <BaseButton
+        baseButton={{
+          buttonText: "ホームに戻る",
+          onClick: teamMemberListInfo.handleCreateTeamNaviaget,
+          width: "150px",
+          height: "50px",
+          mt: "30px",
+          mb: "50px",
+        }}
+      />
       <ChangeTeamMemberCard teamMemberListInfo={teamMemberListInfo} />
       <AdminFooter footerValue={{ vnum: 0 }} />
     </Grid>

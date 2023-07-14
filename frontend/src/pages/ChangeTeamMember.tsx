@@ -33,6 +33,14 @@ const ChangeTeamMember = () => {
       });
   }, []);
 
+  const handleCreateTeamNavigate = () => {
+    navigate("/admin/create/team", {
+      state: {
+        club_match_id: club_match_id,
+      },
+    });
+  };
+
   return (
     <div>
       <ChangeTeamMemberTemplate
@@ -40,6 +48,7 @@ const ChangeTeamMember = () => {
           teamMemberList: teamMemberList,
           club_match_id: club_match_id,
           setTeamMemberList: setTeamMemberList,
+          handleCreateTeamNaviaget: handleCreateTeamNavigate,
         }}
       />
     </div>

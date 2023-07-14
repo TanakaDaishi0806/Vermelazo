@@ -34,6 +34,14 @@ const TeamList = () => {
       });
   }, []);
 
+  const handleCreateTeamNavigate = () => {
+    navigate("/admin/create/team", {
+      state: {
+        club_match_id: club_match_id,
+      },
+    });
+  };
+
   return (
     <div>
       <TeamListTeamplate
@@ -41,6 +49,7 @@ const TeamList = () => {
           teamMemberList: teamMemberList,
           club_match_id: club_match_id,
           setTeamMemberList: setTeamMemberList,
+          handleCreateTeamNaviaget: handleCreateTeamNavigate,
         }}
       />
       <ToHomeButton homeUrl="/home" />
