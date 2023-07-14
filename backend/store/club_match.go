@@ -128,7 +128,7 @@ func (scmr *SwitchClubMatchReleased) SwitchClubMatchReleased(ctx context.Context
 func (scmr *SwitchClubMatchFinish) SwitchClubMatchFinish(ctx context.Context, cmid entity.ClubMatchID) (entity.ClubMatchs, error) {
 	sql := `update club_match set is_finish= not is_finish where club_match_id=?`
 	sql1 := `update team_rank set is_last_rank= not is_last_rank where club_match_id=?`
-	sql2 := `select user_id from team_member where club_match_id=?`
+	sql2 := `select user_id from team_member where club_match_id=? && is_exist=true`
 	sql3 := `select coalesce(count(*),0) as count from point_getter where user_id=? and club_match_id=? group by user_id`
 	sql5 := `select tr.point from team_rank tr 
 	where tr.team_id=(select team_id from team_member where user_id=? and club_match_id=?)`
