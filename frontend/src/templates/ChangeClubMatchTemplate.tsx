@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import Calendar from "../components/Calendar";
 import BaseButton from "../parts/BaseButton";
 import { ChangeClubMatchInfo } from "../type/velmelazo";
+import AdminFooter from "../components/AdminFooter";
 
 type Props = {
   changeClubMatchInfo: ChangeClubMatchInfo;
@@ -80,6 +81,7 @@ const ChangeClubMatchTemplate: React.FC<Props> = ({ changeClubMatchInfo }) => {
             }}
           />
         </Grid>
+        <AdminFooter footerValue={{ vnum: 0 }} />
       </Grid>
     </div>
   );
