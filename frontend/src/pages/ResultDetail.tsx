@@ -63,14 +63,23 @@ const ResultDetail = () => {
               })
               .catch((error) => {
                 console.log(error);
+                if (error.response.status === 401) {
+                  navigate("/");
+                }
               });
           })
           .catch((error) => {
             console.log(error);
+            if (error.response.status === 401) {
+              navigate("/");
+            }
           });
       })
       .catch((error) => {
         console.log(error);
+        if (error.response.status === 401) {
+          navigate("/");
+        }
       });
   }, []);
 

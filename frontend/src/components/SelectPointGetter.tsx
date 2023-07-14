@@ -5,7 +5,6 @@ import {
   ListItemText,
   Paper,
   Button,
-  Typography,
 } from "@mui/material";
 
 import { SelectPointGetterInfo } from "../type/velmelazo";
@@ -19,7 +18,6 @@ type Props = {
 const SelectPointGetter: React.FC<Props> = ({ selectPointGetterInfo }) => {
   const customList = (
     items: TeamMember[],
-    checked: TeamMember[],
     defaultErr: boolean,
     point: number[],
     handlePlus: (value: TeamMember) => () => void,
@@ -140,7 +138,6 @@ const SelectPointGetter: React.FC<Props> = ({ selectPointGetterInfo }) => {
         <Grid container justifyContent="center" alignItems="center">
           {customList(
             selectPointGetterInfo.teamAMember,
-            selectPointGetterInfo.pointGetterA,
             false,
             selectPointGetterInfo.pointA,
             selectPointGetterInfo.handlePlusPointGetterAChange,
@@ -152,7 +149,6 @@ const SelectPointGetter: React.FC<Props> = ({ selectPointGetterInfo }) => {
         <Grid container justifyContent="center" alignItems="center">
           {customList(
             selectPointGetterInfo.teamBMember,
-            selectPointGetterInfo.pointGetterB,
             false,
             selectPointGetterInfo.pointB,
             selectPointGetterInfo.handlePlusPointGetterBChange,

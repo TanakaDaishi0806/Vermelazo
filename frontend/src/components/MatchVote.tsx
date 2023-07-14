@@ -51,10 +51,16 @@ const MatchVote: React.FC<Props> = ({ matchVoteInfo }) => {
           })
           .catch((error) => {
             console.log(error);
+            if (error.response.status === 401) {
+              navigate("/");
+            }
           });
       })
       .catch((error) => {
         console.log(error);
+        if (error.response.status === 401) {
+          navigate("/");
+        }
       });
   }, []);
 
@@ -130,6 +136,9 @@ const MatchVote: React.FC<Props> = ({ matchVoteInfo }) => {
           })
           .catch((error) => {
             console.log(error);
+            if (error.response.status === 401) {
+              navigate("/");
+            }
           });
       });
     } else {

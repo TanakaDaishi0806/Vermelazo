@@ -5,7 +5,6 @@ import { Grid, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 import FinishClubMatchCard from "./FinishClubMatchCard";
-import BaseButton from "../parts/BaseButton";
 import { ClubMatchGetData, GetURL } from "../type/velmelazo";
 
 type Props = {
@@ -30,6 +29,9 @@ const FinishClubMatchList: React.FC<Props> = ({ getUrl }) => {
       })
       .catch((error) => {
         console.log(error);
+        if (error.response.status === 401) {
+          navigate("/");
+        }
       });
   }, []);
 

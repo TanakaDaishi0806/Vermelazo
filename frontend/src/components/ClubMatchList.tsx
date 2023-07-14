@@ -30,6 +30,9 @@ const ClubMatchData: React.FC<Props> = ({ getUrl }) => {
       })
       .catch((error) => {
         console.log(error);
+        if (error.response.status === 401) {
+          navigate("/");
+        }
       });
   }, []);
 
@@ -40,6 +43,7 @@ const ClubMatchData: React.FC<Props> = ({ getUrl }) => {
         alignItems="center"
         justifyContent="center"
         direction="column"
+        sx={{ mb: "420px" }}
       >
         {clubMatchList.map((clubMatch) => (
           <Grid item xs={12} sm={4} key={clubMatch.club_match_id}>

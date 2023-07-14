@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Grid, Typography } from "@mui/material";
 
 import ColorButton from "../parts/ColorButton";
@@ -19,7 +19,6 @@ type Props = {
 const VoteMatchList: React.FC<Props> = ({ matchListInfo }) => {
   const accessToken = localStorage.getItem("accessToken");
   const navigate = useNavigate();
-
   const [matchList, setMatchList] = React.useState<MatchGetData[]>([]);
   const [myVoteList, setMyVoteList] = React.useState<MyVoteBool[]>([]);
   const [voteKindList, setVoteKindList] = React.useState<VoteKind[]>([]);
@@ -42,6 +41,9 @@ const VoteMatchList: React.FC<Props> = ({ matchListInfo }) => {
       })
       .catch((error) => {
         console.log(error);
+        if (error.response.status === 401) {
+          navigate("/");
+        }
       });
   }, []);
 
@@ -73,10 +75,16 @@ const VoteMatchList: React.FC<Props> = ({ matchListInfo }) => {
           })
           .catch((error) => {
             console.log(error);
+            if (error.response.status === 401) {
+              navigate("/");
+            }
           });
       })
       .catch((error) => {
         console.log(error);
+        if (error.response.status === 401) {
+          navigate("/");
+        }
       });
   }, []);
 

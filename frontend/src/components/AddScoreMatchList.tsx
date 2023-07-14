@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Grid, Typography } from "@mui/material";
 
 import ColorButton from "../parts/ColorButton";
@@ -33,6 +33,9 @@ const AddScoreMatchList: React.FC<Props> = ({ matchListInfo }) => {
       })
       .catch((error) => {
         console.log(error);
+        if (error.response.status === 401) {
+          navigate("/adminlogin");
+        }
       });
   }, []);
 

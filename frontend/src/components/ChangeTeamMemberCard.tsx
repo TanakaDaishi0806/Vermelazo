@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import {
   Grid,
   List,
@@ -34,6 +35,7 @@ function intersection(a: TeamMember[], b: TeamMember[]) {
 const ChangeTeamMemberCard: React.FC<Props> = ({ teamMemberListInfo }) => {
   const defaultTeamLeft = 0;
   const defaultTeamRight = 1;
+  const navigate = useNavigate();
 
   const [checked, setChecked] = React.useState<TeamMember[]>([]);
   const [teamNumLeft, setTeamNumLeft] = React.useState(defaultTeamLeft);
@@ -180,6 +182,9 @@ const ChangeTeamMemberCard: React.FC<Props> = ({ teamMemberListInfo }) => {
         })
         .catch((error) => {
           console.log(error);
+          if (error.response.status === 401) {
+            navigate("/adminlogin");
+          }
         });
     });
   };

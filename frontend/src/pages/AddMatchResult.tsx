@@ -60,6 +60,9 @@ const AddMatchResult = () => {
       })
       .catch((error) => {
         console.log(error);
+        if (error.response.status === 401) {
+          navigate("/adminlogin");
+        }
       });
     axios
       .get(`http://localhost:18000/admin/team/specify/list/${team_id_b}`, {
@@ -72,6 +75,9 @@ const AddMatchResult = () => {
       })
       .catch((error) => {
         console.log(error);
+        if (error.response.status === 401) {
+          navigate("/adminlogin");
+        }
       });
 
     if (pgReceived === 0) {
@@ -103,10 +109,16 @@ const AddMatchResult = () => {
             })
             .catch((error) => {
               console.log(error);
+              if (error.response.status === 401) {
+                navigate("/adminlogin");
+              }
             });
         })
         .catch((error) => {
           console.log(error);
+          if (error.response.status === 401) {
+            navigate("/adminlogin");
+          }
         });
     }
   }, []);
@@ -289,12 +301,18 @@ const AddMatchResult = () => {
                 })
                 .catch((error) => {
                   console.log(error);
+                  if (error.response.status === 401) {
+                    navigate("/adminlogin");
+                  }
                 });
             });
           }
         })
         .catch((error) => {
           console.log(error);
+          if (error.response.status === 401) {
+            navigate("/adminlogin");
+          }
         });
 
       axios
@@ -318,6 +336,9 @@ const AddMatchResult = () => {
         })
         .catch((error) => {
           console.log(error);
+          if (error.response.status === 401) {
+            navigate("/adminlogin");
+          }
         });
     } else {
       setSubmitError(true);

@@ -1,5 +1,6 @@
 import React from "react";
 import { AppBar, Typography, Grid } from "@mui/material";
+
 import { HeaderText } from "../type/velmelazo";
 
 type Props = {

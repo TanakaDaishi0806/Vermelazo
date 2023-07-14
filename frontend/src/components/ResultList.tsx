@@ -1,7 +1,6 @@
 import React from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 import { Grid, Typography } from "@mui/material";
 
 import { ResultPageInfo } from "../type/velmelazo";
@@ -34,6 +33,9 @@ const ResultList: React.FC<Props> = ({ resultPageInfo }) => {
       })
       .catch((error) => {
         console.log(error);
+        if (error.response.status === 401) {
+          navigate("/");
+        }
       });
   }, []);
 

@@ -1,7 +1,5 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-
 import {
   Grid,
   TableContainer,
@@ -13,9 +11,8 @@ import {
   TableBody,
 } from "@mui/material";
 
-import { TeamMemberListInfo, TeamMember } from "../type/velmelazo";
+import { TeamMemberListInfo } from "../type/velmelazo";
 import { teamNameData } from "../data/teamNameData";
-import BaseButton from "../parts/BaseButton";
 
 type Props = {
   teamMemberListInfo: TeamMemberListInfo;
@@ -24,7 +21,6 @@ type Props = {
 const TeamMemberList: React.FC<Props> = ({ teamMemberListInfo }) => {
   const [length, setLength] = useState(1);
   const [columnCount, setColumnCount] = useState(1);
-  const navigate = useNavigate();
 
   useEffect(() => {
     setLength(teamMemberListInfo.teamMemberList.length);

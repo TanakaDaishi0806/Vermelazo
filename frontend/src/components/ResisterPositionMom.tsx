@@ -54,10 +54,16 @@ const ResisterPositionMom: React.FC<Props> = ({ eachPositionMom }) => {
           })
           .catch((error) => {
             console.log(error);
+            if (error.response.status === 401) {
+              navigate("/adminlogin");
+            }
           });
       })
       .catch((error) => {
         console.log(error);
+        if (error.response.status === 401) {
+          navigate("/adminlogin");
+        }
       });
   }, []);
 
@@ -169,6 +175,9 @@ const ResisterPositionMom: React.FC<Props> = ({ eachPositionMom }) => {
         })
         .catch((error) => {
           console.log(error);
+          if (error.response.status === 401) {
+            navigate("/adminlogin");
+          }
         });
     } else {
       setSubmitError(true);

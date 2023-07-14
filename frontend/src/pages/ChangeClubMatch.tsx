@@ -18,7 +18,6 @@ const ChangeClubMatch = () => {
     preVoteDay,
     preTitle,
   } = state;
-  console.log(club_match_id);
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("accessToken");
   const [date, setDate] = useState<Date | null>(() => {
@@ -123,6 +122,9 @@ const ChangeClubMatch = () => {
           console.log(error);
           console.log(date);
           setInputError(true);
+          if (error.response.status === 401) {
+            navigate("/adminlogin");
+          }
         });
     }
   };

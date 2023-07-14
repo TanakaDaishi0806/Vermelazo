@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { Grid, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 import { MatchListInfo, MatchGetData } from "../type/velmelazo";
 import { teamIdentifyData } from "../data/teamNameData";
@@ -11,6 +12,7 @@ type Props = {
 
 const MatchList: React.FC<Props> = ({ matchListInfo }) => {
   const accessToken = localStorage.getItem("accessToken");
+  const navigate = useNavigate();
 
   const [matchList, setMatchList] = React.useState<MatchGetData[]>([]);
   const [minTeamID, setMinTeamID] = React.useState(0);
@@ -30,6 +32,9 @@ const MatchList: React.FC<Props> = ({ matchListInfo }) => {
       })
       .catch((error) => {
         console.log(error);
+        if (error.response.status === 401) {
+          navigate("/");
+        }
       });
   }, []);
 

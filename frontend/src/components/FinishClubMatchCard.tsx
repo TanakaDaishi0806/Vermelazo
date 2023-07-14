@@ -1,15 +1,7 @@
 import React from "react";
-import {
-  Box,
-  Grid,
-  Typography,
-  Backdrop,
-  CircularProgress,
-  Button,
-} from "@mui/material";
+import { Box, Grid, Typography, Backdrop } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 import ColorButton from "../parts/ColorButton";
 import { ClubMatchGetData } from "../type/velmelazo";
@@ -60,6 +52,9 @@ const FinishClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
       })
       .catch((error) => {
         console.log(error);
+        if (error.response.status === 401) {
+          navigate("/");
+        }
       });
   };
 
@@ -99,10 +94,16 @@ const FinishClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
           })
           .catch((error) => {
             console.log(error);
+            if (error.response.status === 401) {
+              navigate("/");
+            }
           });
       })
       .catch((error) => {
         console.log(error);
+        if (error.response.status === 401) {
+          navigate("/");
+        }
       });
   }, []);
 

@@ -41,6 +41,9 @@ const MyTeamVote: React.FC<Props> = ({ myTeamVoteInfo }) => {
       })
       .catch((error) => {
         console.log(error);
+        if (error.response.status === 401) {
+          navigate("/");
+        }
       });
   }, []);
 
@@ -116,6 +119,9 @@ const MyTeamVote: React.FC<Props> = ({ myTeamVoteInfo }) => {
           })
           .catch((error) => {
             console.log(error);
+            if (error.response.status === 401) {
+              navigate("/");
+            }
           });
       });
     } else {

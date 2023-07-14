@@ -1,13 +1,13 @@
 import React from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import ChangeTeamMemberTemplate from "../templates/ChangeTeamMemberTemplate";
 import { TeamMember } from "../type/velmelazo";
-import TeamMemberList from "../components/TeamMemberList";
 
 const ChangeTeamMember = () => {
   const locate = useLocation();
+  const navigate = useNavigate();
   const { state } = locate;
   const { club_match_id } = state;
   const accessToken = localStorage.getItem("accessToken");
@@ -27,6 +27,9 @@ const ChangeTeamMember = () => {
       })
       .catch((error) => {
         console.log(error);
+        if (error.response.status === 401) {
+          navigate("/adminlogin");
+        }
       });
   }, []);
 
