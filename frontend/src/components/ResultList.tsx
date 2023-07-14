@@ -17,6 +17,13 @@ const ResultList: React.FC<Props> = ({ resultPageInfo }) => {
   const navigate = useNavigate();
   const [matchList, setMatchList] = React.useState<MatchGetData[]>([]);
   const [minTeamID, setMinTeamID] = React.useState(0);
+  const [vnum, setVnum] = React.useState(0);
+
+  React.useEffect(() => {
+    if (resultPageInfo.is_finish) {
+      setVnum(1);
+    }
+  }, [resultPageInfo.is_finish]);
 
   React.useEffect(() => {
     axios
@@ -67,6 +74,7 @@ const ResultList: React.FC<Props> = ({ resultPageInfo }) => {
           match_id: match_id,
           score_a: score_a,
           score_b: score_b,
+          vnum: vnum,
         },
       });
     };

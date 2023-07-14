@@ -374,6 +374,7 @@ export interface ResultDetailInfo {
   pointGetterA: TeamMember[];
   mom: EachMatchMomMember[];
   is_finish: boolean;
+  vnum: number;
   handleResultListNavigate: () => void;
 }
 

@@ -21,6 +21,7 @@ const ResultDetail = () => {
     score_a,
     score_b,
     is_finish,
+    vnum,
   } = state;
   const [pointGettersA, setPointGettersA] = React.useState<TeamMember[]>([]);
   const [pointGettersB, setPointGettersB] = React.useState<TeamMember[]>([]);
@@ -81,7 +82,7 @@ const ResultDetail = () => {
           navigate("/");
         }
       });
-  }, []);
+  }, [accessToken, match_id, navigate, team_id_a, team_id_b]);
 
   const handleResultListNavigate = () => {
     if (!is_finish) {
@@ -106,6 +107,7 @@ const ResultDetail = () => {
         pointGetterB: pointGettersB,
         mom: mom,
         is_finish: is_finish,
+        vnum: vnum,
         handleResultListNavigate: handleResultListNavigate,
       }}
     />

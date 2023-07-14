@@ -3,6 +3,7 @@ import { Grid, Typography } from "@mui/material";
 import { ResultDetailInfo } from "../type/velmelazo";
 import Header from "../components/Header";
 import TextItem from "../parts/TextItem";
+import HomeFooter from "../components/HomeFooter";
 
 type Props = {
   resultDerailInfo: ResultDetailInfo;
@@ -213,6 +214,7 @@ const ResultDetailTemplate: React.FC<Props> = ({ resultDerailInfo }) => {
           </Grid>
         </Grid>
       )}
+      <HomeFooter footerValue={{ vnum: resultDerailInfo.vnum }} />
     </Grid>
   );
 };
