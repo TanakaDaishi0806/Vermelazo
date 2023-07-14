@@ -4,6 +4,7 @@ import { ResultDetailInfo } from "../type/velmelazo";
 import Header from "../components/Header";
 import TextItem from "../parts/TextItem";
 import HomeFooter from "../components/HomeFooter";
+import BaseButton from "../parts/BaseButton";
 
 type Props = {
   resultDerailInfo: ResultDetailInfo;
@@ -214,6 +215,21 @@ const ResultDetailTemplate: React.FC<Props> = ({ resultDerailInfo }) => {
           </Grid>
         </Grid>
       )}
+      <Grid item xs={12}>
+        <Grid container justifyContent="center" alignItems="center">
+          <BaseButton
+            baseButton={{
+              buttonText: "戻る",
+              onClick: resultDerailInfo.handleResultListNavigate,
+              width: "80px",
+              height: "40px",
+              mt: "70px",
+              mb: "50px",
+            }}
+          />
+        </Grid>
+      </Grid>
+
       <HomeFooter footerValue={{ vnum: resultDerailInfo.vnum }} />
     </Grid>
   );
