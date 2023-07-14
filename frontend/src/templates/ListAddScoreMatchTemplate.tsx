@@ -4,6 +4,7 @@ import { Grid } from "@mui/material";
 import { AddScoreMatchListInfo } from "../type/velmelazo";
 import AddScoreMatchList from "../components/AddScoreMatchList";
 import Header from "../components/Header";
+import AdminFooter from "../components/AdminFooter";
 
 type Props = {
   MatchListInfo: AddScoreMatchListInfo;
@@ -26,6 +27,7 @@ const ListAddScoreMatchTemplate: React.FC<Props> = ({ MatchListInfo }) => {
       >
         <AddScoreMatchList matchListInfo={MatchListInfo} />
       </Grid>
+      <AdminFooter footerValue={{ vnum: 0 }} />
     </Grid>
   );
 };

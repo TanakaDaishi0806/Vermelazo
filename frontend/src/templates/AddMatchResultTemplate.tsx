@@ -6,6 +6,7 @@ import { AddMatchResultInfo } from "../type/velmelazo";
 import AddScore from "../components/AddScore";
 import SelectPointGetter from "../components/SelectPointGetter";
 import BaseButton from "../parts/BaseButton";
+import AdminFooter from "../components/AdminFooter";
 
 type Props = {
   addMatchResultInfo: AddMatchResultInfo;
@@ -68,10 +69,11 @@ const AddMatchResultTemplate: React.FC<Props> = ({ addMatchResultInfo }) => {
             width: "150px",
             height: "50px",
             mt: "30px",
-            mb: "50px",
+            mb: "100px",
           }}
         />
       </Grid>
+      <AdminFooter footerValue={{ vnum: 0 }} />
     </Grid>
   );
 };

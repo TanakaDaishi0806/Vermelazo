@@ -5,6 +5,7 @@ import { ChangeMatchListInfo } from "../type/velmelazo";
 import MatchList from "../components/MatchList";
 import Header from "../components/Header";
 import BaseButton from "../parts/BaseButton";
+import AdminFooter from "../components/AdminFooter";
 
 type Props = {
   changeMatchListInfo: ChangeMatchListInfo;
@@ -22,6 +23,7 @@ const ListCreateMatchTemplate: React.FC<Props> = ({ changeMatchListInfo }) => {
       <Grid
         sx={{
           mt: "40px",
+          mb: "100px",
           width: "320px",
         }}
       >
@@ -59,6 +61,7 @@ const ListCreateMatchTemplate: React.FC<Props> = ({ changeMatchListInfo }) => {
           </Grid>
         </Grid>
       </Grid>
+      <AdminFooter footerValue={{ vnum: 0 }} />
     </Grid>
   );
 };

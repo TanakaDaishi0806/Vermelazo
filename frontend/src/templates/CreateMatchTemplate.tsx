@@ -4,6 +4,7 @@ import { Grid, TextField } from "@mui/material";
 import { CreateMatchInfo } from "../type/velmelazo";
 import Header from "../components/Header";
 import BaseButton from "../parts/BaseButton";
+import AdminFooter from "../components/AdminFooter";
 
 type Props = {
   createMatchInfo: CreateMatchInfo;
@@ -49,6 +50,7 @@ const CreateMatchTemplate: React.FC<Props> = ({ createMatchInfo }) => {
           }}
         />
       </Grid>
+      <AdminFooter footerValue={{ vnum: 0 }} />
     </Grid>
   );
 };

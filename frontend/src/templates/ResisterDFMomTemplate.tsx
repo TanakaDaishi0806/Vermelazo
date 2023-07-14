@@ -2,6 +2,7 @@ import { Grid } from "@mui/material";
 
 import Header from "../components/Header";
 import ResisterPositionMom from "../components/ResisterPositionMom";
+import AdminFooter from "../components/AdminFooter";
 
 type Props = {
   clubMatchID: number;
@@ -15,6 +16,7 @@ const ResisterDFMomTemplate: React.FC<Props> = ({ clubMatchID }) => {
       justifyContent="center"
       alignItems="center"
       direction="column"
+      sx={{ mb: "100px" }}
     >
       <Header headertext={{ text: "Admin Page" }} />
       <ResisterPositionMom
@@ -28,6 +30,7 @@ const ResisterDFMomTemplate: React.FC<Props> = ({ clubMatchID }) => {
           position: pnum,
         }}
       />
+      <AdminFooter footerValue={{ vnum: 0 }} />
     </Grid>
   );
 };
