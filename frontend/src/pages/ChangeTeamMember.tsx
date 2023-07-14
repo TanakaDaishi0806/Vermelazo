@@ -34,7 +34,7 @@ const ChangeTeamMember = () => {
   }, [accessToken, club_match_id, navigate]);
 
   const handleCreateTeamNavigate = () => {
-    navigate("/admin/create/team", {
+    navigate("/admin/team/create", {
       state: {
         club_match_id: club_match_id,
       },
