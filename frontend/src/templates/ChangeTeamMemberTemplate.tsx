@@ -6,6 +6,7 @@ import TeamMemberList from "../components/TeamMemberList";
 import { TeamMemberListInfo } from "../type/velmelazo";
 import ChangeTeamMemberCard from "../components/ChangeTeamMemberCard";
 import ToHomeButton from "../parts/ToHomeButton";
+import AdminFooter from "../components/AdminFooter";
 
 type Props = {
   teamMemberListInfo: TeamMemberListInfo;
@@ -23,6 +24,7 @@ const ChangeTeamMemberTemplate: React.FC<Props> = ({ teamMemberListInfo }) => {
       <TeamMemberList teamMemberListInfo={teamMemberListInfo} />
       <ToHomeButton homeUrl="/admin" />
       <ChangeTeamMemberCard teamMemberListInfo={teamMemberListInfo} />
+      <AdminFooter footerValue={{ vnum: 0 }} />
     </Grid>
   );
 };
