@@ -16,6 +16,7 @@ import { TeamMember } from "../type/velmelazo";
 import { MyTeamVoteInfo } from "../type/velmelazo";
 import TextItem from "../parts/TextItem";
 import BaseButton from "../parts/BaseButton";
+import HomeFooter from "./HomeFooter";
 
 type Props = {
   myTeamVoteInfo: MyTeamVoteInfo;
@@ -131,13 +132,17 @@ const MyTeamVote: React.FC<Props> = ({ myTeamVoteInfo }) => {
 
   return (
     <Grid container justifyContent="center" alignItems="center">
-      <Grid item xs={4}>
-        <Grid container alignItems="center" sx={{ ml: "40px", mt: "40px" }}>
+      <Grid item xs={6}>
+        <Grid
+          container
+          alignItems="center"
+          sx={{ ml: "40px", mt: "40px", mb: "10px" }}
+        >
           <TextItem textItemInfo={{ itemText: "MYチーム MOM" }} />
           <TextItem textItemInfo={{ itemText: "(3人まで投票可能)" }} />
         </Grid>
       </Grid>
-      <Grid item xs={8}></Grid>
+      <Grid item xs={6}></Grid>
       <Grid item xs={12}>
         <Grid container justifyContent="center" alignItems="center">
           {customList(teamMember)}
@@ -162,11 +167,12 @@ const MyTeamVote: React.FC<Props> = ({ myTeamVoteInfo }) => {
               width: "150px",
               height: "50px",
               mt: "30px",
-              mb: "50px",
+              mb: "100px",
             }}
           />
         </Grid>
       </Grid>
+      <HomeFooter footerValue={{ vnum: 0 }} />
     </Grid>
   );
 };

@@ -16,6 +16,7 @@ import { TeamMember } from "../type/velmelazo";
 import { MatchVoteInfo } from "../type/velmelazo";
 import TextItem from "../parts/TextItem";
 import BaseButton from "../parts/BaseButton";
+import HomeFooter from "./HomeFooter";
 
 type Props = {
   matchVoteInfo: MatchVoteInfo;
@@ -206,11 +207,12 @@ const MatchVote: React.FC<Props> = ({ matchVoteInfo }) => {
               width: "150px",
               height: "50px",
               mt: "30px",
-              mb: "50px",
+              mb: "100px",
             }}
           />
         </Grid>
       </Grid>
+      <HomeFooter footerValue={{ vnum: 0 }} />
     </Grid>
   );
 };
