@@ -4,6 +4,7 @@ import { Grid } from "@mui/material";
 import { AddScoreMatchListInfo } from "../type/velmelazo";
 import VoteMatchList from "../components/VoteMatchList";
 import Header from "../components/Header";
+import HomeFooter from "../components/HomeFooter";
 
 type Props = {
   MatchListInfo: AddScoreMatchListInfo;
@@ -26,6 +27,7 @@ const ListVoteMatchTemplate: React.FC<Props> = ({ MatchListInfo }) => {
       >
         <VoteMatchList matchListInfo={MatchListInfo} />
       </Grid>
+      <HomeFooter footerValue={{ vnum: 0 }} />
     </Grid>
   );
 };
