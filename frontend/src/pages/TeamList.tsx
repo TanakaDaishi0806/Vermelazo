@@ -4,13 +4,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { TeamMember } from "../type/velmelazo";
 import TeamListTeamplate from "../templates/TeamListTeamplate";
-import ToHomeButton from "../parts/ToHomeButton";
 
 const TeamList = () => {
   const locate = useLocation();
   const navigate = useNavigate();
   const { state } = locate;
-  const { club_match_id } = state;
+  const { club_match_id, vnum } = state;
   const accessToken = localStorage.getItem("accessToken");
   const [teamMemberList, setTeamMemberList] = React.useState<TeamMember[][]>(
     []
@@ -48,11 +47,11 @@ const TeamList = () => {
         teamMemberListInfo={{
           teamMemberList: teamMemberList,
           club_match_id: club_match_id,
+          vnum: vnum,
           setTeamMemberList: setTeamMemberList,
           handleCreateTeamNaviaget: handleCreateTeamNavigate,
         }}
       />
-      <ToHomeButton homeUrl="/home" />
     </div>
   );
 };

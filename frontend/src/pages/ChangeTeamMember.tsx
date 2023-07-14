@@ -47,6 +47,7 @@ const ChangeTeamMember = () => {
         teamMemberListInfo={{
           teamMemberList: teamMemberList,
           club_match_id: club_match_id,
+          vnum: 0,
           setTeamMemberList: setTeamMemberList,
           handleCreateTeamNaviaget: handleCreateTeamNavigate,
         }}

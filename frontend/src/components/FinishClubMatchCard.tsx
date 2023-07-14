@@ -31,6 +31,7 @@ const FinishClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
     navigate("/home/teamlist", {
       state: {
         club_match_id: clubMatchGetData.club_match_id,
+        vnum: 1,
       },
     });
   };
@@ -105,7 +106,7 @@ const FinishClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
           navigate("/");
         }
       });
-  }, []);
+  }, [accessToken, clubMatchGetData.club_match_id, navigate]);
 
   return (
     <div>

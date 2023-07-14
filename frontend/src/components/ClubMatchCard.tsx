@@ -201,6 +201,7 @@ const ClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
     navigate("/home/teamlist", {
       state: {
         club_match_id: clubMatchGetData.club_match_id,
+        vnum: 0,
       },
     });
   };
