@@ -50,8 +50,8 @@ const FinishClubMatchList: React.FC<Props> = ({ getUrl }) => {
         direction="column"
         sx={{ mb: "420px" }}
       >
-        {clubMatchList.map((clubMatch) => (
-          <Grid item xs={12} sm={4} key={clubMatch.club_match_id}>
+        {clubMatchList.map((clubMatch, index) => (
+          <Grid item xs={12} sm={4} key={index}>
             <FinishClubMatchCard
               clubMatchGetData={{
                 club_match_id: clubMatch.club_match_id,
