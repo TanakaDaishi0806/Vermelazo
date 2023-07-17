@@ -11,7 +11,7 @@ type Props = {
 
 const MyRankTemplate: React.FC<Props> = ({ myRankData }) => {
   return (
-    <Grid container>
+    <Grid container sx={{ mb: "80px" }}>
       <Header headertext={{ text: "Home Page" }} />
       <Grid item xs={12} sx={{ mt: "100px", mb: "40px" }}>
         <Grid container alignItems="flex-end" justifyContent="center">
