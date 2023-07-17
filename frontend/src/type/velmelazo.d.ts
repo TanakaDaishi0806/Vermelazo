@@ -396,3 +396,8 @@ export interface MyRankData {
   total_goal: number;
   is_released: number;
 }
+
+export interface BackDropInfo {
+  open: boolean;
+  handleClose: () => void;
+}
