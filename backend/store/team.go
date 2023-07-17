@@ -25,6 +25,7 @@ func (tr *TeamRepository) ResisterTeamName(ctx context.Context, cti *entity.Crea
 	sql5 := `delete from team where club_match_id=?`
 	sql := `INSERT INTO team (club_match_id) VALUES (?)`
 	sql6 := `insert into team_rank (team_id,club_match_id) values (?,?)`
+	sql11 := `update club_match set is_add_match=false where club_match_id=?`
 	_, err := tr.DBExc.ExecContext(ctx, sql1, cti.ClubMatchID)
 	if err != nil {
 		return nil, errors.New("a")
@@ -58,6 +59,10 @@ func (tr *TeamRepository) ResisterTeamName(ctx context.Context, cti *entity.Crea
 		return nil, errors.New("e")
 	}
 	_, err = tr.DBExc.ExecContext(ctx, sql5, cti.ClubMatchID)
+	if err != nil {
+		return nil, errors.New("f")
+	}
+	_, err = tr.DBExc.ExecContext(ctx, sql11, cti.ClubMatchID)
 	if err != nil {
 		return nil, errors.New("f")
 	}
