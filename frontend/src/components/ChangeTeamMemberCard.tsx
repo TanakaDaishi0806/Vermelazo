@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import {
   Grid,
   List,
@@ -34,6 +35,7 @@ function intersection(a: TeamMember[], b: TeamMember[]) {
 const ChangeTeamMemberCard: React.FC<Props> = ({ teamMemberListInfo }) => {
   const defaultTeamLeft = 0;
   const defaultTeamRight = 1;
+  const navigate = useNavigate();
 
   const [checked, setChecked] = React.useState<TeamMember[]>([]);
   const [teamNumLeft, setTeamNumLeft] = React.useState(defaultTeamLeft);
@@ -83,12 +85,11 @@ const ChangeTeamMemberCard: React.FC<Props> = ({ teamMemberListInfo }) => {
     if (firstTeamIdErr && !defaultRightErr) {
       setFirstTeamIdErr(false);
       const tmp = new Array(teamMemberListInfo.teamMemberList.length);
-      {
-        teamMemberListInfo.teamMemberList.map(
-          (member, index) => (tmp[index] = member[index].team_id)
-        );
-      }
-      console.log(teamMemberListInfo.teamMemberList);
+
+      teamMemberListInfo.teamMemberList.map((member, index) => {
+        tmp[index] = member[0].team_id;
+      });
+
       setTeamIdList(tmp);
     }
   }, [defaultRightErr]);
@@ -105,11 +106,18 @@ const ChangeTeamMemberCard: React.FC<Props> = ({ teamMemberListInfo }) => {
     setTeamNumRight(parseInt(event.target.value, 10));
   };
 
-  const handleToggle = (value: TeamMember) => () => {
+  const handleToggle = (value: TeamMember, items: TeamMember[]) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
+    let num = 0;
+    newChecked.map((mem, index) => {
+      const i = items.indexOf(mem);
+      if (i !== -1) {
+        num++;
+      }
+    });
 
-    if (currentIndex === -1) {
+    if (currentIndex === -1 && items.length - num >= 2) {
       newChecked.push(value);
     } else {
       newChecked.splice(currentIndex, 1);
@@ -174,6 +182,9 @@ const ChangeTeamMemberCard: React.FC<Props> = ({ teamMemberListInfo }) => {
         })
         .catch((error) => {
           console.log(error);
+          if (error.response.status === 401) {
+            navigate("/adminlogin");
+          }
         });
     });
   };
@@ -190,7 +201,7 @@ const ChangeTeamMemberCard: React.FC<Props> = ({ teamMemberListInfo }) => {
                 <ListItem
                   key={index}
                   role="listitem"
-                  onClick={handleToggle(value)}
+                  onClick={handleToggle(value, items)}
                   sx={{ height: "40px", px: "0px", py: "0px" }}
                 >
                   <ListItemIcon>

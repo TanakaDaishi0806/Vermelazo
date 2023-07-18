@@ -50,10 +50,10 @@ func (scmr *SwitchClubMatchReleased) ServeHTTP(w http.ResponseWriter, r *http.Re
 		}, http.StatusInternalServerError)
 		return
 	}
-	rsq := []list{}
+	rsq := entity.ClubMatchs{}
 
 	for _, l := range lists {
-		rsq = append(rsq, list{
+		rsq = append(rsq, &entity.ClubMatch{
 			ID:             l.ID,
 			Year:           l.Year,
 			Month:          l.Month,
@@ -63,9 +63,13 @@ func (scmr *SwitchClubMatchReleased) ServeHTTP(w http.ResponseWriter, r *http.Re
 			VoteDay:        l.VoteDay,
 			Title:          l.Title,
 			IsReleased:     l.IsReleased,
+			IsParticipant:  l.IsParticipant,
 			ParticipantNum: l.ParticipantNum,
 			IsCreateTeam:   l.IsCreateTeam,
+			IsAddMatch:     l.IsAddMatch,
+			IsFinish:       l.IsFinish,
 		})
+
 	}
 
 	RespondJSON(ctx, w, rsq, http.StatusOK)

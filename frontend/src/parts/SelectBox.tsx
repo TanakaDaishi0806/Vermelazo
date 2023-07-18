@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 
 import { FormControl, InputLabel, NativeSelect } from "@mui/material";
 import { TeamSelectBoxInfo } from "../type/velmelazo";

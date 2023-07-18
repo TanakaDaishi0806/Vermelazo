@@ -30,8 +30,11 @@ const ClubMatchData: React.FC<Props> = ({ getUrl }) => {
       })
       .catch((error) => {
         console.log(error);
+        if (error.response.status === 401) {
+          navigate("/");
+        }
       });
-  }, []);
+  }, [accessToken, getUrl.url, navigate]);
 
   return (
     <Box sx={{ height: "100vh", bgcolor: "#eeeeee", overflow: "auto" }}>
@@ -40,9 +43,10 @@ const ClubMatchData: React.FC<Props> = ({ getUrl }) => {
         alignItems="center"
         justifyContent="center"
         direction="column"
+        sx={{ mb: "420px" }}
       >
-        {clubMatchList.map((clubMatch) => (
-          <Grid item xs={12} sm={4} key={clubMatch.club_match_id}>
+        {clubMatchList.map((clubMatch, index) => (
+          <Grid item xs={12} sm={4} key={index}>
             <ClubMatchCard
               clubMatchGetData={{
                 club_match_id: clubMatch.club_match_id,
@@ -58,6 +62,8 @@ const ClubMatchData: React.FC<Props> = ({ getUrl }) => {
                 is_participant: clubMatch.is_participant,
                 participant_num: clubMatch.participant_num,
                 is_create_team: clubMatch.is_create_team,
+                is_add_match: clubMatch.is_add_match,
+                is_finish: clubMatch.is_finish,
                 set: setClubMatchList,
               }}
             />

@@ -30,10 +30,10 @@ func (dp *DeleteParticipant) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	rsq := []list{}
+	rsq := entity.ClubMatchs{}
 
 	for _, l := range lists {
-		rsq = append(rsq, list{
+		rsq = append(rsq, &entity.ClubMatch{
 			ID:             l.ID,
 			Year:           l.Year,
 			Month:          l.Month,
@@ -46,7 +46,10 @@ func (dp *DeleteParticipant) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			IsParticipant:  l.IsParticipant,
 			ParticipantNum: l.ParticipantNum,
 			IsCreateTeam:   l.IsCreateTeam,
+			IsAddMatch:     l.IsAddMatch,
+			IsFinish:       l.IsFinish,
 		})
+
 	}
 
 	RespondJSON(ctx, w, rsq, http.StatusOK)

@@ -57,3 +57,16 @@ type TeamList interface {
 type TeamMemberAdd interface {
 	AddTeamMember(ctx context.Context, p *entity.Paticipant) (entity.ClubMatchs, error)
 }
+
+type MatchAdd interface {
+	GetTeamList(ctx context.Context, cmid entity.ClubMatchID) (entity.TeamIDs, error)
+	AddMatch(ctx context.Context, mlist entity.Matchs) error
+}
+
+type KindVote interface {
+	VoteKind(ctx context.Context, cmid entity.ClubMatchID, uid entity.UserId) (entity.VoteKindNums, error)
+}
+
+type ListMyRank interface {
+	ListMyRank(ctx context.Context, uid entity.UserId) (*entity.MyRank, error)
+}

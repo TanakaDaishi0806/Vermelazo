@@ -1,5 +1,13 @@
 package entity
 
+import (
+	"log"
+	"net/http"
+	"strconv"
+
+	"github.com/go-chi/chi/v5"
+)
+
 type TeamID int64
 
 type TeamIDs []TeamID
@@ -27,4 +35,31 @@ type ChangeTeamMember struct {
 
 type Teams []*Team
 
+type PositionMember []*Team
+
 type EachTeams [][]*Team
+
+type SelectNum struct {
+	TeamID TeamID
+	Num    int
+}
+
+type SelectNums []SelectNum
+
+func Contains(list SelectNums, tid TeamID) bool {
+	for _, l := range list {
+		if l.TeamID == tid {
+			return true
+		}
+	}
+
+	return false
+}
+
+func StrTOTeamID(r *http.Request) (TeamID, error) {
+	param := chi.URLParam(r, "teamId")
+	log.Print("param:"+param, r.URL)
+	intid, err := strconv.Atoi(param)
+	id := TeamID(intid)
+	return id, err
+}

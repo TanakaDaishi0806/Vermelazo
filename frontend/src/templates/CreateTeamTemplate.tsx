@@ -4,6 +4,7 @@ import { Grid, TextField } from "@mui/material";
 import { CreateTeamInfo } from "../type/velmelazo";
 import Header from "../components/Header";
 import BaseButton from "../parts/BaseButton";
+import AdminFooter from "../components/AdminFooter";
 
 type Props = {
   createTeamInfo: CreateTeamInfo;
@@ -47,6 +48,7 @@ const CreateTeamTemplate: React.FC<Props> = ({ createTeamInfo }) => {
           }}
         />
       </Grid>
+      <AdminFooter footerValue={{ vnum: 0 }} />
     </Grid>
   );
 };

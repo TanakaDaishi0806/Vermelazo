@@ -2,6 +2,8 @@ package handler
 
 import (
 	"net/http"
+
+	"github.com/TanakaDaishi0806/Vermelazo.git/backend/entity"
 )
 
 type ListClubMatchUsers struct {
@@ -18,10 +20,10 @@ func (lcmu *ListClubMatchUsers) ServeHTTP(w http.ResponseWriter, r *http.Request
 		}, http.StatusInternalServerError)
 		return
 	}
-	rsq := []list{}
+	rsq := entity.ClubMatchs{}
 
 	for _, l := range lists {
-		rsq = append(rsq, list{
+		rsq = append(rsq, &entity.ClubMatch{
 			ID:             l.ID,
 			Year:           l.Year,
 			Month:          l.Month,
@@ -34,6 +36,8 @@ func (lcmu *ListClubMatchUsers) ServeHTTP(w http.ResponseWriter, r *http.Request
 			IsParticipant:  l.IsParticipant,
 			ParticipantNum: l.ParticipantNum,
 			IsCreateTeam:   l.IsCreateTeam,
+			IsAddMatch:     l.IsAddMatch,
+			IsFinish:       l.IsFinish,
 		})
 
 	}

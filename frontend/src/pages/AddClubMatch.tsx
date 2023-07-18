@@ -86,6 +86,9 @@ const AddClubMatch = () => {
           console.log(error);
           console.log(date);
           setInputError(true);
+          if (error.response.status === 401) {
+            navigate("/adminlogin");
+          }
         });
     }
   };

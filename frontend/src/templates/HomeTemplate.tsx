@@ -1,5 +1,6 @@
 import Header from "../components/Header";
 import ClubMatchList from "../components/ClubMatchList";
+import HomeFooter from "../components/HomeFooter";
 
 const HomeTemplate = () => {
   return (
@@ -8,6 +9,7 @@ const HomeTemplate = () => {
       <ClubMatchList
         getUrl={{ url: "http://localhost:18000/home", isAdmin: false }}
       />
+      <HomeFooter footerValue={{ vnum: 0 }} />
     </div>
   );
 };

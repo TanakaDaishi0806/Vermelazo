@@ -63,6 +63,8 @@ export interface ClubMatchGetData {
   is_participant: boolean;
   participant_num: number;
   is_create_team: boolean;
+  is_add_match: boolean;
+  is_finish: boolean;
   set: React.Dispatch<React.SetStateAction<ClubMatchGetData[]>>;
 }
 
@@ -155,7 +157,9 @@ export interface TeamMember {
 export interface TeamMemberListInfo {
   teamMemberList: TeamMember[][];
   club_match_id: number;
+  vnum: number;
   setTeamMemberList: React.Dispatch<React.SetStateAction<TeamMember[][]>>;
+  handleCreateTeamNaviaget: () => void;
 }
 
 export interface ClubMatchID {
@@ -173,4 +177,227 @@ export interface TeamSelectBoxInfo {
 export interface ChangeMember {
   changeTeamID: number;
   userID: number;
+}
+
+export interface CreateMatchInfo {
+  matchNum: string;
+  matchNumEmpty: boolean;
+  allEmptyError: boolean;
+  handleMatchNumChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleCreateMatchDataSubmit: () => void;
+}
+
+export interface MatchGetData {
+  match_id: number;
+  club_match_id: number;
+  team_id_a: number;
+  team_id_b: number;
+  score_a: number;
+  score_b: number;
+  is_resister: boolean;
+}
+
+export interface MatchListInfo {
+  rightSpace: (b: boolean) => JSX.Element;
+  club_match_id: number;
+}
+
+export interface ChangeMatchListInfo {
+  matchListInfo: MatchListInfo;
+  handleCreateMatchList: () => void;
+  handleHome: () => void;
+}
+
+export interface AddScoreMatchListInfo {
+  club_match_id: number;
+}
+
+export interface AddScoreInfo {
+  club_match_id: number;
+  match_id: number;
+  team_id_a: number;
+  team_id_b: number;
+  team_name_a: number;
+  team_name_b: number;
+  score_a: string;
+  score_b: string;
+  handleScoreAChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleScoreBChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+export interface AddMatchResultInfo {
+  club_match_id: number;
+  match_id: number;
+  team_id_a: number;
+  team_id_b: number;
+  team_name_a: number;
+  team_name_b: number;
+  score_a: string;
+  score_b: string;
+  teamAMember: TeamMember[];
+  teamBMember: TeamMember[];
+  pointGetterA: TeamMember[];
+  pointGetterB: TeamMember[];
+  pointA: number[];
+  pointB: number[];
+  submitError: boolean;
+  handleScoreAChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleScoreBChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handlePlusPointGetterAChange: (value: TeamMember) => () => void;
+  handlePlusPointGetterBChange: (value: TeamMember) => () => void;
+  handleMinusPointGetterAChange: (value: TeamMember) => () => void;
+  handleMinusPointGetterBChange: (value: TeamMember) => () => void;
+  handlesubmit: () => void;
+}
+
+export interface TextItemInfo {
+  itemText: string;
+}
+
+export interface SelectPointGetterInfo {
+  teamAMember: TeamMember[];
+  teamBMember: TeamMember[];
+  pointGetterA: TeamMember[];
+  pointGetterB: TeamMember[];
+  pointA: number[];
+  pointB: number[];
+  handlePlusPointGetterAChange: (value: TeamMember) => () => void;
+  handlePlusPointGetterBChange: (value: TeamMember) => () => void;
+  handleMinusPointGetterAChange: (value: TeamMember) => () => void;
+  handleMinusPointGetterBChange: (value: TeamMember) => () => void;
+}
+
+export interface EachPositionMom {
+  positionText: string;
+  getUrlPositionMember: string;
+  getUrlPositionMom: string;
+  postUrl: string;
+  toUrl: string;
+  club_match_id: number;
+  position: number;
+}
+
+export interface PositionMom {
+  club_match_id: number;
+  user_id: number;
+  name: string;
+  furigana: string;
+  position: number;
+  experience: number;
+}
+
+export interface FooterValue {
+  vnum: number;
+}
+
+export interface MyVoteBool {
+  club_match_id: number;
+  user_id: number;
+  match_id: number;
+  team_id: number;
+  is_vote: boolean;
+}
+
+export interface VoteKind {
+  vote_kind_num: boolean;
+}
+
+export interface MyVoteInfo {
+  club_match_id: number;
+  user_id: number;
+  match_id: number;
+  team_id: number;
+}
+
+export interface MyTeamVoteInfo {
+  text: string;
+  getUrlMyTeam: string;
+  postUrl: string;
+  toUrl: string;
+  club_match_id: number;
+  user_id: number;
+  match_id: number;
+}
+
+export interface ResisterMatchVoteInfo {
+  club_match_id: number;
+  match_id: number;
+  team_id_a: number;
+  team_id_b: number;
+  team_name_a: string;
+  team_name_b: string;
+  user_id: number;
+}
+
+export interface MatchVoteInfo {
+  text: string;
+  getUrlTeamA: string;
+  getUrlTeamB: string;
+  team_name_a: string;
+  team_name_b: string;
+  postUrl: string;
+  toUrl: string;
+  club_match_id: number;
+  user_id: number;
+  match_id: number;
+}
+
+export interface ResultPageInfo {
+  club_match_id: number;
+  is_finish: boolean;
+}
+
+export interface TeamRankListData {
+  team_id: number;
+  club_match_id: number;
+  point: number;
+  match_num: number;
+  win_num: number;
+  draw_num: number;
+  lose_num: number;
+  goal_num: number;
+  is_last_rank: boolean;
+}
+
+export interface EachMatchMomMember {
+  user_id: number;
+  name: string;
+  furigana: string;
+}
+
+export interface ResultDetailInfo {
+  team_name_a: string;
+  team_name_b: string;
+  score_a: number;
+  score_b: number;
+  pointGetterB: TeamMember[];
+  pointGetterA: TeamMember[];
+  mom: EachMatchMomMember[];
+  is_finish: boolean;
+  vnum: number;
+  handleResultListNavigate: () => void;
+}
+
+export interface TopScorerData {
+  name: string;
+  furigana: string;
+  goal_num: number;
+}
+
+export interface MyRankData {
+  rank_all: number;
+  total_all: number;
+  rank_position: number;
+  total_position: number;
+  rank_experience: number;
+  total_experience: number;
+  goal_num: number;
+  rank_goal: number;
+  total_goal: number;
+  is_released: number;
+}
+
+export interface BackDropInfo {
+  open: boolean;
+  handleClose: () => void;
 }

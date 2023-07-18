@@ -1,17 +1,15 @@
 import React from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-import ChangeTeamMemberTemplate from "../templates/ChangeTeamMemberTemplate";
 import { TeamMember } from "../type/velmelazo";
-import TeamMemberList from "../components/TeamMemberList";
 import TeamListTeamplate from "../templates/TeamListTeamplate";
-import ToHomeButton from "../parts/ToHomeButton";
 
 const TeamList = () => {
   const locate = useLocation();
+  const navigate = useNavigate();
   const { state } = locate;
-  const { club_match_id } = state;
+  const { club_match_id, vnum } = state;
   const accessToken = localStorage.getItem("accessToken");
   const [teamMemberList, setTeamMemberList] = React.useState<TeamMember[][]>(
     []
@@ -29,8 +27,19 @@ const TeamList = () => {
       })
       .catch((error) => {
         console.log(error);
+        if (error.response.status === 401) {
+          navigate("/");
+        }
       });
-  }, []);
+  }, [accessToken, club_match_id, navigate]);
+
+  const handleCreateTeamNavigate = () => {
+    navigate("/admin/create/team", {
+      state: {
+        club_match_id: club_match_id,
+      },
+    });
+  };
 
   return (
     <div>
@@ -38,10 +47,11 @@ const TeamList = () => {
         teamMemberListInfo={{
           teamMemberList: teamMemberList,
           club_match_id: club_match_id,
+          vnum: vnum,
           setTeamMemberList: setTeamMemberList,
+          handleCreateTeamNaviaget: handleCreateTeamNavigate,
         }}
       />
-      <ToHomeButton homeUrl="/home" />
     </div>
   );
 };

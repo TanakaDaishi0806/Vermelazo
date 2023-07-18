@@ -1,7 +1,5 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-
 import {
   Grid,
   TableContainer,
@@ -11,11 +9,14 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
 } from "@mui/material";
 
-import { TeamMemberListInfo, TeamMember } from "../type/velmelazo";
+import { TeamMemberListInfo } from "../type/velmelazo";
 import { teamNameData } from "../data/teamNameData";
-import BaseButton from "../parts/BaseButton";
 
 type Props = {
   teamMemberListInfo: TeamMemberListInfo;
@@ -24,7 +25,6 @@ type Props = {
 const TeamMemberList: React.FC<Props> = ({ teamMemberListInfo }) => {
   const [length, setLength] = useState(1);
   const [columnCount, setColumnCount] = useState(1);
-  const navigate = useNavigate();
 
   useEffect(() => {
     setLength(teamMemberListInfo.teamMemberList.length);
@@ -41,8 +41,9 @@ const TeamMemberList: React.FC<Props> = ({ teamMemberListInfo }) => {
             alignItems="center"
             justifyContent="center"
             direction="column"
+            sx={{ mt: "30px" }}
           >
-            <Grid item xs={10} sx={{ mt: "30px" }}>
+            <Grid item xs={10}>
               <TableContainer component={Paper}>
                 <Table aria-label="simple table">
                   <TableHead>
@@ -53,22 +54,70 @@ const TeamMemberList: React.FC<Props> = ({ teamMemberListInfo }) => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {row.map((member, memberIndex) => (
-                      <TableRow
-                        key={memberIndex}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                      >
-                        <TableCell
-                          component="th"
-                          scope="row"
-                          sx={{ fontSize: "13px", py: "10px" }}
+                    {row &&
+                      row.map((member, memberIndex) => (
+                        <TableRow
+                          key={memberIndex}
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
                         >
-                          {member.name}
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                          <Accordion>
+                            <AccordionSummary
+                              aria-controls={member.name}
+                              sx={{ borderBottom: "1px solid #888888" }}
+                            >
+                              <Typography>{member.name}</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails
+                              sx={{
+                                borderBottom: "1px solid #888888",
+                                bgcolor: "#ffffff",
+                                color: "#2196F3",
+                              }}
+                            >
+                              <Typography sx={{ fontsize: "10px" }}>
+                                {member.furigana}
+                              </Typography>
+                              {member.position === 1 && (
+                                <Typography sx={{ fontsize: "10px" }}>
+                                  GK
+                                </Typography>
+                              )}
+                              {member.position === 2 && (
+                                <Typography sx={{ fontsize: "10px" }}>
+                                  DF
+                                </Typography>
+                              )}
+                              {member.position === 3 && (
+                                <Typography sx={{ fontsize: "10px" }}>
+                                  OF
+                                </Typography>
+                              )}
+                              {member.experience === 0 && (
+                                <Typography sx={{ fontsize: "10px" }}>
+                                  未経験
+                                </Typography>
+                              )}
+                              {member.experience === 1 && (
+                                <Typography sx={{ fontsize: "10px" }}>
+                                  小・中まで
+                                </Typography>
+                              )}
+                              {member.experience === 2 && (
+                                <Typography sx={{ fontsize: "10px" }}>
+                                  高校まで
+                                </Typography>
+                              )}
+                              {member.experience === 3 && (
+                                <Typography sx={{ fontsize: "10px" }}>
+                                  大学
+                                </Typography>
+                              )}
+                            </AccordionDetails>
+                          </Accordion>
+                        </TableRow>
+                      ))}
                   </TableBody>
                 </Table>
               </TableContainer>
