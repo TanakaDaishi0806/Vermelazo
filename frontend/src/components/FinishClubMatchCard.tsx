@@ -411,17 +411,6 @@ const FinishClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
                           </Backdrop>
                         </div>
                       )}
-                      {clubMatchGetData.is_finish && (
-                        <ColorButton
-                          colorButton={{
-                            buttonText: "完了",
-                            onClick: handleSwitchFinish,
-                            buttonColor: "info",
-                            mb: "30px",
-                            mt: "",
-                          }}
-                        />
-                      )}
                     </Grid>
                   )}
                 </Grid>
