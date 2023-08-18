@@ -192,11 +192,6 @@ func (tr *TeamRepository) DeleteTeamMember(ctx context.Context, cmid entity.Club
 func (tr *TeamRepository) AddTeamMember(ctx context.Context, p *entity.Paticipant) (entity.ClubMatchs, error) {
 	ap := &AddParticipant{DBExc: tr.DBExc, DBQry: tr.DBQry}
 
-	l, err := ap.AddParticipant(ctx, p)
-	if err != nil {
-		return nil, err
-	}
-
 	sql1 := `select count(*) from team_member where user_id=? and club_match_id=?`
 	sql2 := `update team_member set is_exist=true where user_id=? and club_match_id=?`
 	sql3 := `select team_id 
@@ -223,7 +218,7 @@ func (tr *TeamRepository) AddTeamMember(ctx context.Context, p *entity.Paticipan
 	}
 
 	if existNum[0] == 1 {
-		_, err = tr.DBExc.ExecContext(ctx, sql2, p.UserID, p.ClubMatchID)
+		_, err := tr.DBExc.ExecContext(ctx, sql2, p.UserID, p.ClubMatchID)
 		if err != nil {
 			return nil, err
 		}
@@ -238,6 +233,10 @@ func (tr *TeamRepository) AddTeamMember(ctx context.Context, p *entity.Paticipan
 		if err != nil {
 			return nil, err
 		}
+	}
+	l, err := ap.AddParticipant(ctx, p)
+	if err != nil {
+		return nil, err
 	}
 
 	return l, nil

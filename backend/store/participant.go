@@ -2,6 +2,7 @@ package store
 
 import (
 	"context"
+	"log"
 
 	"github.com/TanakaDaishi0806/Vermelazo.git/backend/entity"
 )
@@ -23,6 +24,10 @@ type ListParticipant struct {
 func (ap *AddParticipant) AddParticipant(ctx context.Context, p *entity.Paticipant) (entity.ClubMatchs, error) {
 	sql1 := `INSERT INTO participant (club_match_id,user_id) VALUES (?,?)`
 	sql2 := `UPDATE club_match SET participant_num = participant_num + 1 WHERE club_match_id = ?`
+	sql3 := `select m.match_id,m.club_match_id,tm.user_id from team_member tm left join matchs m on tm.club_match_id=m.club_match_id where tm.club_match_id=? and tm.user_id=?`
+	sql4 := `insert into match_vote (club_match_id,match_id,user_id) values (?,?,?)`
+	sql5 := `select count(*) from matchs where club_match_id=?`
+	sql6 := `select count(*) from match_vote where club_match_id=? and user_id=?`
 
 	result, err := ap.DBExc.ExecContext(ctx, sql1, p.ClubMatchID, p.UserID)
 
@@ -49,6 +54,33 @@ func (ap *AddParticipant) AddParticipant(ctx context.Context, p *entity.Paticipa
 	l, err := lp.ListParticipant(ctx, p.UserID)
 	if err != nil {
 		return nil, err
+	}
+	mnum := []int{}
+	if err := ap.DBQry.SelectContext(ctx, &mnum, sql5, p.ClubMatchID); err != nil {
+		return nil, err
+	}
+	if len(mnum) == 1 {
+		mvnum := []int{}
+		if err := ap.DBQry.SelectContext(ctx, &mvnum, sql6, p.ClubMatchID, p.UserID); err != nil {
+			return nil, err
+		}
+
+		if mnum[0] != 0 && len(mvnum) == 1 && mvnum[0] == 0 {
+			lists := entity.MatchVotes{}
+			if err := ap.DBQry.SelectContext(ctx, &lists, sql3, p.ClubMatchID, p.UserID); err != nil {
+				return nil, err
+			}
+			log.Print(lists)
+
+			for _, l := range lists {
+				_, err := ap.DBExc.ExecContext(ctx, sql4, l.ClubMatchID, l.MatchID, l.UserID)
+				if err != nil {
+					return nil, err
+				}
+
+			}
+		}
+
 	}
 
 	return l, nil
