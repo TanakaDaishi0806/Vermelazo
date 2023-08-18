@@ -23,6 +23,7 @@ const ListVoteMatchTemplate: React.FC<Props> = ({ MatchListInfo }) => {
         sx={{
           mt: "40px",
           width: "320px",
+          mb: "100px",
         }}
       >
         <VoteMatchList matchListInfo={MatchListInfo} />

@@ -11,6 +11,8 @@ import {
   Button,
   Paper,
 } from "@mui/material";
+import { SelectChangeEvent } from "@mui/material/Select";
+import { ReactNode } from "react";
 
 import {
   TeamMember,
@@ -95,13 +97,15 @@ const ChangeTeamMemberCard: React.FC<Props> = ({ teamMemberListInfo }) => {
   }, [defaultRightErr]);
 
   const handleTeamNumLeftChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
+    event: SelectChangeEvent<string>,
+    child: ReactNode
   ) => {
     setTeamNumLeft(parseInt(event.target.value, 10));
   };
 
   const handleTeamNumRightChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
+    event: SelectChangeEvent<string>,
+    child: ReactNode
   ) => {
     setTeamNumRight(parseInt(event.target.value, 10));
   };

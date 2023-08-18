@@ -156,7 +156,7 @@ const MyRankTemplate: React.FC<Props> = ({ myRankData }) => {
         </Grid>
         <Grid item xs={2}></Grid>
       </Grid>
-      <HomeFooter footerValue={{ vnum: 0 }} />
+      <HomeFooter footerValue={{ vnum: 2 }} />
     </Grid>
   );
 };
