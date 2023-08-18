@@ -9,9 +9,7 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
+  Backdrop,
   Typography,
 } from "@mui/material";
 
@@ -25,15 +23,19 @@ type Props = {
 const HomeTeamMemberList: React.FC<Props> = ({ teamMemberListInfo }) => {
   const [length, setLength] = useState(1);
   const [columnCount, setColumnCount] = useState(1);
+  const [openMemberIndex, setOpenMemberIndex] = useState(-1);
 
   useEffect(() => {
     setLength(teamMemberListInfo.teamMemberList.length);
-    const newColumnCount = Math.max(12 / length, 3);
+    let newColumnCount = 12 / length;
+    if (newColumnCount < 3) {
+      newColumnCount = 4.0;
+    }
     setColumnCount(newColumnCount);
   }, [teamMemberListInfo.teamMemberList]);
 
   return (
-    <Grid container justifyContent="center">
+    <Grid container justifyContent="left" sx={{ mb: "200px" }}>
       {teamMemberListInfo.teamMemberList.map((row, rowIndex) => (
         <Grid item xs={columnCount} key={rowIndex}>
           <Grid
@@ -41,7 +43,7 @@ const HomeTeamMemberList: React.FC<Props> = ({ teamMemberListInfo }) => {
             alignItems="center"
             justifyContent="center"
             direction="column"
-            sx={{ mt: "30px", mb: "400px" }}
+            sx={{ mt: "60px" }}
           >
             <Grid item xs={10}>
               <TableContainer component={Paper}>
@@ -62,60 +64,143 @@ const HomeTeamMemberList: React.FC<Props> = ({ teamMemberListInfo }) => {
                             "&:last-child td, &:last-child th": { border: 0 },
                           }}
                         >
-                          <Accordion>
-                            <AccordionSummary
-                              aria-controls={member.name}
-                              sx={{ borderBottom: "1px solid #888888" }}
-                            >
-                              <Typography>{member.name}</Typography>
-                            </AccordionSummary>
-                            <AccordionDetails
+                          <TableCell
+                            onClick={() => {
+                              const index = memberIndex + 1000 * rowIndex;
+                              if (openMemberIndex === index) {
+                                setOpenMemberIndex(-1); // 既に開いている場合は閉じる
+                              } else {
+                                setOpenMemberIndex(index); // クリックしたメンバーの情報を開く
+                              }
+                            }}
+                          >
+                            {member.name}
+                          </TableCell>
+                          {openMemberIndex ===
+                            memberIndex + 1000 * rowIndex && (
+                            <Backdrop
                               sx={{
-                                borderBottom: "1px solid #888888",
-                                bgcolor: "#ffffff",
-                                color: "#2196F3",
+                                color: "#fff",
+                                zIndex: (theme) => theme.zIndex.drawer + 2,
+                                bgcolor: "rgba(10, 10, 10, 0.1)",
+                              }}
+                              open={true}
+                              onClick={() => {
+                                const index = memberIndex + 1000 * rowIndex;
+                                if (openMemberIndex === index) {
+                                  setOpenMemberIndex(-1); // 既に開いている場合は閉じる
+                                } else {
+                                  setOpenMemberIndex(index); // クリックしたメンバーの情報を開く
+                                }
                               }}
                             >
-                              <Typography sx={{ fontsize: "10px" }}>
-                                {member.furigana}
-                              </Typography>
-                              {member.position === 1 && (
-                                <Typography sx={{ fontsize: "10px" }}>
-                                  GK
-                                </Typography>
-                              )}
-                              {member.position === 2 && (
-                                <Typography sx={{ fontsize: "10px" }}>
-                                  DF
-                                </Typography>
-                              )}
-                              {member.position === 3 && (
-                                <Typography sx={{ fontsize: "10px" }}>
-                                  OF
-                                </Typography>
-                              )}
-                              {member.experience === 0 && (
-                                <Typography sx={{ fontsize: "10px" }}>
-                                  未経験
-                                </Typography>
-                              )}
-                              {member.experience === 1 && (
-                                <Typography sx={{ fontsize: "10px" }}>
-                                  小・中まで
-                                </Typography>
-                              )}
-                              {member.experience === 2 && (
-                                <Typography sx={{ fontsize: "10px" }}>
-                                  高校まで
-                                </Typography>
-                              )}
-                              {member.experience === 3 && (
-                                <Typography sx={{ fontsize: "10px" }}>
-                                  大学
-                                </Typography>
-                              )}
-                            </AccordionDetails>
-                          </Accordion>
+                              <Grid
+                                container
+                                alignItems="center"
+                                justifyContent="center"
+                                direction="column"
+                                sx={{
+                                  bgcolor: "white",
+                                  width: "60%",
+                                  p: "10px",
+                                  color: "black",
+                                }}
+                              >
+                                <Grid item xs={12}>
+                                  <Typography
+                                    sx={{
+                                      fontsize: "10px",
+                                      borderBottom: "1px solid #333",
+                                      px: "20px",
+                                      py: "10px",
+                                    }}
+                                  >
+                                    {member.furigana}
+                                  </Typography>
+                                  {member.position === 1 && (
+                                    <Typography
+                                      sx={{
+                                        fontsize: "10px",
+                                        borderBottom: "1px solid #333",
+                                        px: "20px",
+                                        py: "10px",
+                                      }}
+                                    >
+                                      GK
+                                    </Typography>
+                                  )}
+                                  {member.position === 2 && (
+                                    <Typography
+                                      sx={{
+                                        fontsize: "10px",
+                                        borderBottom: "1px solid #333",
+                                        px: "20px",
+                                        py: "10px",
+                                      }}
+                                    >
+                                      DF
+                                    </Typography>
+                                  )}
+                                  {member.position === 3 && (
+                                    <Typography
+                                      sx={{
+                                        fontsize: "10px",
+                                        borderBottom: "1px solid #333",
+                                        px: "20px",
+                                        py: "10px",
+                                      }}
+                                    >
+                                      OF
+                                    </Typography>
+                                  )}
+                                  {member.experience === 0 && (
+                                    <Typography
+                                      sx={{
+                                        fontsize: "10px",
+                                        px: "20px",
+                                        py: "10px",
+                                      }}
+                                    >
+                                      未経験
+                                    </Typography>
+                                  )}
+                                  {member.experience === 1 && (
+                                    <Typography
+                                      sx={{
+                                        fontsize: "10px",
+                                        px: "20px",
+                                        py: "10px",
+                                      }}
+                                    >
+                                      小・中まで
+                                    </Typography>
+                                  )}
+                                  {member.experience === 2 && (
+                                    <Typography
+                                      sx={{
+                                        fontsize: "10px",
+                                        px: "20px",
+                                        py: "10px",
+                                      }}
+                                    >
+                                      高校まで
+                                    </Typography>
+                                  )}
+                                  {member.experience === 3 && (
+                                    <Typography
+                                      sx={{
+                                        fontsize: "10px",
+                                        px: "20px",
+                                        py: "10px",
+                                      }}
+                                    >
+                                      大学でも
+                                    </Typography>
+                                  )}
+                                </Grid>
+                              </Grid>
+                            </Backdrop>
+                          )}
                         </TableRow>
                       ))}
                   </TableBody>
