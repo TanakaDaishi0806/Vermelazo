@@ -1,6 +1,6 @@
 import React from "react";
 
-import { FormControl, InputLabel, NativeSelect } from "@mui/material";
+import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { TeamSelectBoxInfo } from "../type/velmelazo";
 import { teamNameData } from "../data/teamNameData";
 
@@ -12,25 +12,39 @@ const SelectBox: React.FC<Props> = ({ teamSelectBoxInfo }) => {
   const teamNameList = [...teamNameData.slice(0, teamSelectBoxInfo.teamNum)];
 
   return (
-    <FormControl fullWidth>
+    <FormControl>
       <InputLabel variant="standard" htmlFor="uncontrolled-native">
         Team
       </InputLabel>
-      <NativeSelect
+      <Select
         value={teamSelectBoxInfo.defaultNum}
         onChange={teamSelectBoxInfo.handleTeamNameSideChange}
         inputProps={{
           name: "team",
           id: "uncontrolled-native",
         }}
+        sx={{ width: "95px", fontSize: "13px" }} // セレクトボックス全体の幅を調整
+        MenuProps={{
+          PaperProps: {
+            style: { maxHeight: 200, width: "95px" }, // ドロップダウンのスタイルを調整
+          },
+        }}
       >
-        <option aria-label="None" value="" />
+        <MenuItem
+          aria-label="None"
+          value=""
+          style={{ fontSize: "15px", width: "100%" }} // 選択肢のスタイルを調整
+        />
         {teamNameList.map((teamName, index) => (
-          <option value={index} key={index}>
+          <MenuItem
+            value={index}
+            key={index}
+            style={{ fontSize: "15px", width: "100%" }} // 選択肢のスタイルを調整
+          >
             {teamName}
-          </option>
+          </MenuItem>
         ))}
-      </NativeSelect>
+      </Select>
     </FormControl>
   );
 };

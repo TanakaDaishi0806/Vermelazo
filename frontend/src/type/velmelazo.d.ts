@@ -170,7 +170,8 @@ export interface TeamSelectBoxInfo {
   teamNum: number;
   defaultNum: number;
   handleTeamNameSideChange: (
-    event: React.ChangeEvent<HTMLSelectElement>
+    event: SelectChangeEvent<string>,
+    child: ReactNode
   ) => void;
 }
 
