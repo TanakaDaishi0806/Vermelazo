@@ -3,7 +3,7 @@ import { Grid } from "@mui/material";
 
 import { AddScoreMatchListInfo } from "../type/velmelazo";
 import AddScoreMatchList from "../components/AddScoreMatchList";
-import Header from "../components/Header";
+import AdminHeader from "../components/AdminHeader";
 import AdminFooter from "../components/AdminFooter";
 
 type Props = {
@@ -18,7 +18,7 @@ const ListAddScoreMatchTemplate: React.FC<Props> = ({ MatchListInfo }) => {
       justifyContent="center"
       direction="column"
     >
-      <Header headertext={{ text: "Admin Page" }} />
+      <AdminHeader />
       <Grid
         sx={{
           mt: "40px",

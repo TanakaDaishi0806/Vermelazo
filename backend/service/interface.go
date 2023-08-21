@@ -70,3 +70,15 @@ type KindVote interface {
 type ListMyRank interface {
 	ListMyRank(ctx context.Context, uid entity.UserId) (*entity.MyRank, error)
 }
+
+type UserInfoChange interface {
+	ChangeUserInfo(ctx context.Context, ui *entity.User) error
+}
+
+type UserInfoList interface {
+	ListUserInfo(ctx context.Context, uid entity.UserId) (*entity.User, error)
+}
+
+type UserPasswordChange interface {
+	ChangeUserPassword(ctx context.Context, uid entity.UserId, p string) error
+}

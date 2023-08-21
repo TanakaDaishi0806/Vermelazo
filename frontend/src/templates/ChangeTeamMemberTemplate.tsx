@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid } from "@mui/material";
 
-import Header from "../components/Header";
+import AdminHeader from "../components/AdminHeader";
 import TeamMemberList from "../components/TeamMemberList";
 import { TeamMemberListInfo } from "../type/velmelazo";
 import ChangeTeamMemberCard from "../components/ChangeTeamMemberCard";
@@ -20,7 +20,7 @@ const ChangeTeamMemberTemplate: React.FC<Props> = ({ teamMemberListInfo }) => {
       justifyContent="center"
       direction="column"
     >
-      <Header headertext={{ text: "Admin Page" }} />
+      <AdminHeader />
       <TeamMemberList teamMemberListInfo={teamMemberListInfo} />
       <BaseButton
         baseButton={{

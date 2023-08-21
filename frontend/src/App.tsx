@@ -26,6 +26,10 @@ import ResultDetail from "./pages/ResultDetail";
 import HomeFinish from "./pages/HomeFinish";
 import FinishResult from "./pages/FinishResult";
 import MyRank from "./pages/MyRank";
+import ListUserInfo from "./pages/ListUserInfo";
+import ChangeUserInfo from "./pages/ChangeUserInfo";
+import ChangeAdminPassword from "./pages/ChangeAdminPassword";
+import AdminTeamList from "./pages/AdminTeamList";
 
 function App() {
   return (
@@ -57,6 +61,13 @@ function App() {
         <Route path="/home/result/detail" element={<ResultDetail />} />
         <Route path="/home/result/finish" element={<FinishResult />} />
         <Route path="/home/rank" element={<MyRank />} />
+        <Route path="/home/list/userinfo" element={<ListUserInfo />} />
+        <Route path="/home/change/userinfo" element={<ChangeUserInfo />} />
+        <Route
+          path="/admin/change/password"
+          element={<ChangeAdminPassword />}
+        />
+        <Route path="/admin/teamlist" element={<AdminTeamList />} />
       </Routes>
     </BrowserRouter>
   );

@@ -13,7 +13,7 @@ type RegisterUser struct {
 }
 
 func (ru *RegisterUser) RegisterUser(ctx context.Context, requ *entity.User) (*entity.User, error) {
-	if requ.Name == "田中大志" && requ.Password == "Daidai86" {
+	if requ.StudentID == "192C1092" && requ.Password == "Daidai86" {
 		requ.Role = entity.AdminNum
 	} else {
 		requ.Role = entity.NoAdminNum

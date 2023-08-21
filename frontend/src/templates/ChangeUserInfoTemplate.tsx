@@ -14,10 +14,12 @@ import {
   Grid,
 } from "@mui/material";
 
-import { NewAccountInfo } from "../type/velmelazo";
+import { ChangeUserInfo } from "../type/velmelazo";
+import Header from "../components/Header";
+import HomeFooter from "../components/HomeFooter";
 
 type Props = {
-  newAccountInfo: NewAccountInfo;
+  changeUserInfo: ChangeUserInfo;
 };
 
 const grades = [
@@ -42,62 +44,31 @@ const experiences = [
   { value: 3, label: "現在サッカー部やフットサル部でやっている" },
 ];
 
-const NewAccountCreateTemplate: React.FC<Props> = ({ newAccountInfo }) => {
+const ChangeUserInfoTemplate: React.FC<Props> = ({ changeUserInfo }) => {
   return (
     <div>
-      <Grid
-        container
-        alignItems="center"
-        justifyContent="center"
-        direction="column"
-      >
-        <Grid item xs={12}>
-          <Typography
-            variant="h3"
-            sx={{
-              color: "#444444",
-              fontWeight: "1000",
-              pt: "30px",
-              pb: "20px",
-            }}
-          >
-            Vermelazo
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <Typography
-            variant="h6"
-            sx={{
-              color: "#444444",
-              fontWeight: "800",
-              pb: "50px",
-            }}
-          >
-            メンバー登録
-          </Typography>
-        </Grid>
-      </Grid>
+      <Header headertext={{ text: "My Page" }} />
       <Grid
         container
         alignItems="left"
         justifyContent="center"
         direction="column"
       >
-        {newAccountInfo.inputError && (
+        {changeUserInfo.inputError && (
           <Grid item xs={12} sx={{ pt: "100px", pl: "15px", pb: "5px" }}>
             <Typography variant="body1" style={{ color: "red" }}>
               入力に誤りがあります。正しく入力してください。
             </Typography>
           </Grid>
         )}
-        <Grid item xs={12} sx={{ pl: "15px" }}>
+        <Grid item xs={12} sx={{ pl: "15px", pt: "50px" }}>
           <TextField
             label="＊名前"
-            value={newAccountInfo.name}
-            onChange={newAccountInfo.handleNameChange}
-            error={newAccountInfo.nameEmpty}
+            value={changeUserInfo.name}
+            onChange={changeUserInfo.handleNameChange}
+            error={changeUserInfo.nameEmpty}
             helperText={
-              newAccountInfo.nameEmpty ? "名前を入力してください" : ""
+              changeUserInfo.nameEmpty ? "名前を入力してください" : ""
             }
           />
         </Grid>
@@ -105,11 +76,11 @@ const NewAccountCreateTemplate: React.FC<Props> = ({ newAccountInfo }) => {
         <Grid item xs={12} sx={{ pl: "15px" }}>
           <TextField
             label="＊ふりがな（ひらがな）"
-            value={newAccountInfo.furigana}
-            onChange={newAccountInfo.handleFuriganaChange}
-            error={newAccountInfo.furiganaEmpty}
+            value={changeUserInfo.furigana}
+            onChange={changeUserInfo.handleFuriganaChange}
+            error={changeUserInfo.furiganaEmpty}
             helperText={
-              newAccountInfo.furiganaEmpty ? "ふりがなを入力してください" : ""
+              changeUserInfo.furiganaEmpty ? "ふりがなを入力してください" : ""
             }
           />
         </Grid>
@@ -117,11 +88,11 @@ const NewAccountCreateTemplate: React.FC<Props> = ({ newAccountInfo }) => {
         <Grid item xs={12} sx={{ pl: "15px" }}>
           <TextField
             label="＊学籍番号"
-            value={newAccountInfo.student_id}
-            onChange={newAccountInfo.handleStudent_idChange}
-            error={newAccountInfo.student_idError}
+            value={changeUserInfo.student_id}
+            onChange={changeUserInfo.handleStudent_idChange}
+            error={changeUserInfo.student_idError}
             helperText={
-              newAccountInfo.student_idError
+              changeUserInfo.student_idError
                 ? "正しい学籍番号を入力してください"
                 : ""
             }
@@ -130,37 +101,9 @@ const NewAccountCreateTemplate: React.FC<Props> = ({ newAccountInfo }) => {
         <br />
         <Grid item xs={12} sx={{ pl: "15px" }}>
           <TextField
-            label="＊パスワード(8文字以上)"
-            type="password"
-            value={newAccountInfo.password}
-            onChange={newAccountInfo.handlePasswordChange}
-            error={newAccountInfo.passwordLengthError}
-            helperText={
-              newAccountInfo.passwordLengthError
-                ? "8文字以上のパスワードを入力してください"
-                : ""
-            }
-          />
-        </Grid>
-        <br />
-        <Grid item xs={12} sx={{ pl: "15px" }}>
-          <TextField
-            label="＊パスワード（確認用）"
-            type="password"
-            value={newAccountInfo.confirmPassword}
-            onChange={newAccountInfo.handleConfirmPasswordChange}
-            error={newAccountInfo.passwordError}
-            helperText={
-              newAccountInfo.passwordError ? "パスワードが一致しません" : ""
-            }
-          />
-        </Grid>
-        <br />
-        <Grid item xs={12} sx={{ pl: "15px" }}>
-          <TextField
             label="*メールアドレス"
-            value={newAccountInfo.mailaddress}
-            onChange={newAccountInfo.handleMailaddressChange}
+            value={changeUserInfo.mailaddress}
+            onChange={changeUserInfo.handleMailaddressChange}
           />
         </Grid>
         <br />
@@ -170,8 +113,8 @@ const NewAccountCreateTemplate: React.FC<Props> = ({ newAccountInfo }) => {
             <Select
               labelId="grade-select-standard-label"
               id="grade-select-standard"
-              value={newAccountInfo.grade.toString()}
-              onChange={newAccountInfo.handleGradeChange}
+              value={changeUserInfo.grade.toString()}
+              onChange={changeUserInfo.handleGradeChange}
               label="grade"
             >
               {grades.map((gd) => (
@@ -191,8 +134,8 @@ const NewAccountCreateTemplate: React.FC<Props> = ({ newAccountInfo }) => {
             <Select
               labelId="position-select-standard-label"
               id="position-select-standard"
-              value={newAccountInfo.position.toString()}
-              onChange={newAccountInfo.handlePositionChange}
+              value={changeUserInfo.position.toString()}
+              onChange={changeUserInfo.handlePositionChange}
               label="position"
             >
               {positions.map((pt) => (
@@ -213,8 +156,8 @@ const NewAccountCreateTemplate: React.FC<Props> = ({ newAccountInfo }) => {
               aria-labelledby="experience-radio-buttons-group-label"
               defaultValue={0}
               name="experience-radio-buttons-group"
-              value={newAccountInfo.experience}
-              onChange={newAccountInfo.handleExperienceChange}
+              value={changeUserInfo.experience}
+              onChange={changeUserInfo.handleExperienceChange}
             >
               {experiences.map((ep) => (
                 <FormControlLabel
@@ -242,28 +185,26 @@ const NewAccountCreateTemplate: React.FC<Props> = ({ newAccountInfo }) => {
             onClick={() => {
               if (
                 !(
-                  newAccountInfo.passwordError ||
-                  newAccountInfo.nameEmpty ||
-                  newAccountInfo.furiganaEmpty ||
-                  newAccountInfo.student_idError ||
-                  newAccountInfo.passwordLengthError ||
-                  newAccountInfo.confirmPasswordEmpty ||
-                  newAccountInfo.allEmptyError
+                  changeUserInfo.nameEmpty ||
+                  changeUserInfo.furiganaEmpty ||
+                  changeUserInfo.student_idError ||
+                  changeUserInfo.allEmptyError
                 )
               ) {
-                newAccountInfo.handleNewAccountCreate();
+                changeUserInfo.handleChangeUserInfo();
               } else {
-                newAccountInfo.setInputError(true);
+                changeUserInfo.setInputError(true);
               }
             }}
-            sx={{ mb: "50px" }}
+            sx={{ mb: "100px", mt: "30px" }}
           >
-            登録
+            変更
           </Button>
         </Grid>
       </Grid>
+      <HomeFooter footerValue={{ vnum: 3 }} />
     </div>
   );
 };
 
-export default NewAccountCreateTemplate;
+export default ChangeUserInfoTemplate;

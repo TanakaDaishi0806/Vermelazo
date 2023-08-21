@@ -1,7 +1,8 @@
 import React from "react";
 import { Grid, TextField, Typography } from "@mui/material";
 
-import Header from "../components/Header";
+import AdminHeader from "../components/AdminHeader";
+import AdminFooter from "../components/AdminFooter";
 import Calendar from "../components/Calendar";
 import BaseButton from "../parts/BaseButton";
 import { AddClubMatchInfo } from "../type/velmelazo";
@@ -19,7 +20,7 @@ const AddClubMatchTemplate: React.FC<Props> = ({ addClubMatchInfo }) => {
         justifyContent="center"
         direction="column"
       >
-        <Header headertext={{ text: "Admin Page" }} />
+        <AdminHeader />
         {addClubMatchInfo.inputError && (
           <Grid item xs={12} sx={{ pl: "15px", pb: "5px", pt: "30px" }}>
             <Typography variant="body1" style={{ color: "red" }}>
@@ -80,6 +81,7 @@ const AddClubMatchTemplate: React.FC<Props> = ({ addClubMatchInfo }) => {
             }}
           />
         </Grid>
+        <AdminFooter footerValue={{ vnum: 0 }} />
       </Grid>
     </div>
   );

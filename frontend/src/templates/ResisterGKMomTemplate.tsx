@@ -1,6 +1,6 @@
 import { Grid } from "@mui/material";
 
-import Header from "../components/Header";
+import AdminHeader from "../components/AdminHeader";
 import ResisterPositionMom from "../components/ResisterPositionMom";
 import AdminFooter from "../components/AdminFooter";
 
@@ -18,7 +18,7 @@ const ResisterGKMomTemplate: React.FC<Props> = ({ clubMatchID }) => {
       direction="column"
       sx={{ mb: "100px" }}
     >
-      <Header headertext={{ text: "Admin Page" }} />
+      <AdminHeader />
       <ResisterPositionMom
         eachPositionMom={{
           positionText: "GK",

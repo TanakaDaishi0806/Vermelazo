@@ -61,3 +61,15 @@ type VoteKindService interface {
 type MyRankService interface {
 	MyRank(ctx context.Context) (*entity.MyRank, error)
 }
+
+type ChangeUserInfoService interface {
+	ChangeUserInfo(ctx context.Context, ui *entity.User) error
+}
+
+type ListUserInfoService interface {
+	ListUserInfo(ctx context.Context) (*entity.User, error)
+}
+
+type ChangeUserPasswordService interface {
+	ChangeUserPassword(ctx context.Context, p string) error
+}
