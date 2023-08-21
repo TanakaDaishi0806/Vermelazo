@@ -34,6 +34,10 @@ const Header: React.FC<Props> = ({ headertext }) => {
   const [momOpen, setMomOpen] = React.useState(false);
   const navigate = useNavigate();
 
+  const handleUserInfo = () => {
+    navigate("/home/list/userinfo");
+  };
+
   const handleLogout = () => {
     navigate("/");
   };
@@ -87,6 +91,14 @@ const Header: React.FC<Props> = ({ headertext }) => {
       onKeyDown={toggleDrawer(false)}
     >
       <Divider sx={{ mt: "50px" }} />
+      <List>
+        <ListItem key="userinfo" disablePadding onClick={handleUserInfo}>
+          <ListItemButton>
+            <ListItemText primary="ユーザー情報" />
+          </ListItemButton>
+        </ListItem>
+      </List>
+      <Divider />
       <List>
         <ListItem key="logout" disablePadding onClick={handleLogout}>
           <ListItemButton>
