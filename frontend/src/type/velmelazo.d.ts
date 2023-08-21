@@ -28,6 +28,7 @@ export interface NewAccountInfo {
   student_idError: boolean;
   passwordLengthError: boolean;
   passwordError: boolean;
+  confirmPasswordEmpty: boolean;
   inputError: boolean;
   allEmptyError: boolean;
   setInputError: React.Dispatch<React.SetStateAction<boolean>>;
@@ -401,4 +402,59 @@ export interface MyRankData {
 export interface BackDropInfo {
   open: boolean;
   handleClose: () => void;
+}
+
+export interface UserInfo {
+  name: string;
+  furigana: string;
+  student_id: string;
+  grade: number;
+  mailaddress: string;
+  position: number;
+  experience: number;
+}
+
+export interface UserInfoChange {
+  userInfo: UserInfo;
+  handle: () => void;
+}
+
+export interface ChangeUserInfo {
+  name: string;
+  furigana: string;
+  student_id: string;
+  mailaddress: string;
+  grade: number;
+  position: number;
+  experience: number;
+  nameEmpty: boolean;
+  furiganaEmpty: boolean;
+  student_idError: boolean;
+  inputError: boolean;
+  allEmptyError: boolean;
+  setInputError: React.Dispatch<React.SetStateAction<boolean>>;
+  handleNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleFuriganaChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleStudent_idChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleMailaddressChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleGradeChange: (event: SelectChangeEvent<string>) => void;
+  handlePositionChange: (event: SelectChangeEvent<string>) => void;
+  handleExperienceChange: (event: SelectChangeEvent<string>) => void;
+  handleChangeUserInfo: () => void;
+}
+
+export interface ChangeAdminPassword {
+  password: string;
+  confirmPassword: string;
+  confirmPasswordEmpty: boolean;
+  passwordLengthError: boolean;
+  passwordError: boolean;
+  inputError: boolean;
+  allEmptyError: boolean;
+  setInputError: React.Dispatch<React.SetStateAction<boolean>>;
+  handlePasswordChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleConfirmPasswordChange: (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => void;
+  handleChangeAdminPassword: () => void;
 }
