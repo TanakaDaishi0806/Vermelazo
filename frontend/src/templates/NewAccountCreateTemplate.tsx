@@ -247,6 +247,7 @@ const NewAccountCreateTemplate: React.FC<Props> = ({ newAccountInfo }) => {
                   newAccountInfo.furiganaEmpty ||
                   newAccountInfo.student_idError ||
                   newAccountInfo.passwordLengthError ||
+                  newAccountInfo.confirmPasswordEmpty ||
                   newAccountInfo.allEmptyError
                 )
               ) {

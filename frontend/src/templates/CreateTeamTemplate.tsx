@@ -2,7 +2,7 @@ import React from "react";
 import { Grid, TextField } from "@mui/material";
 
 import { CreateTeamInfo } from "../type/velmelazo";
-import Header from "../components/Header";
+import AdminHeader from "../components/AdminHeader";
 import BaseButton from "../parts/BaseButton";
 import AdminFooter from "../components/AdminFooter";
 
@@ -18,7 +18,7 @@ const CreateTeamTemplate: React.FC<Props> = ({ createTeamInfo }) => {
       justifyContent="center"
       direction="column"
     >
-      <Header headertext={{ text: "Admin Page" }} />
+      <AdminHeader />
       <Grid item xs={12} sx={{ mt: "30px" }}>
         <TextField
           label="＊チーム数（作りたいチーム数を入力してください）"

@@ -2,7 +2,7 @@ import React from "react";
 import { Grid, TextField } from "@mui/material";
 
 import { CreateMatchInfo } from "../type/velmelazo";
-import Header from "../components/Header";
+import AdminHeader from "../components/AdminHeader";
 import BaseButton from "../parts/BaseButton";
 import AdminFooter from "../components/AdminFooter";
 
@@ -18,7 +18,7 @@ const CreateMatchTemplate: React.FC<Props> = ({ createMatchInfo }) => {
       justifyContent="center"
       direction="column"
     >
-      <Header headertext={{ text: "Admin Page" }} />
+      <AdminHeader />
       <Grid item xs={12} sx={{ mt: "30px" }}>
         <TextField
           label="＊試合の総当たりを繰り返す回数"

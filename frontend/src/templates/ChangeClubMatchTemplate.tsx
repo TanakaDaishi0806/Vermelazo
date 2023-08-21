@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, TextField, Typography } from "@mui/material";
 
-import Header from "../components/Header";
+import AdminHeader from "../components/AdminHeader";
 import Calendar from "../components/Calendar";
 import BaseButton from "../parts/BaseButton";
 import { ChangeClubMatchInfo } from "../type/velmelazo";
@@ -20,7 +20,7 @@ const ChangeClubMatchTemplate: React.FC<Props> = ({ changeClubMatchInfo }) => {
         justifyContent="center"
         direction="column"
       >
-        <Header headertext={{ text: "Admin Page" }} />
+        <AdminHeader />
         {changeClubMatchInfo.inputError && (
           <Grid item xs={12} sx={{ pl: "15px", pb: "5px", pt: "30px" }}>
             <Typography variant="body1" style={{ color: "red" }}>

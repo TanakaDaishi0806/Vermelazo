@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, Typography } from "@mui/material";
 
-import Header from "../components/Header";
+import AdminHeader from "../components/AdminHeader";
 import { AddMatchResultInfo } from "../type/velmelazo";
 import AddScore from "../components/AddScore";
 import SelectPointGetter from "../components/SelectPointGetter";
@@ -20,7 +20,7 @@ const AddMatchResultTemplate: React.FC<Props> = ({ addMatchResultInfo }) => {
       justifyContent="center"
       direction="column"
     >
-      <Header headertext={{ text: "Admin Page" }} />
+      <AdminHeader />
       <AddScore
         addScoreInfo={{
           club_match_id: addMatchResultInfo.club_match_id,

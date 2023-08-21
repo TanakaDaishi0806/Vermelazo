@@ -16,6 +16,7 @@ const NewAccountCreate = () => {
   const [passwordLengthError, setPasswordLengthError] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState(false);
+  const [confirmPasswordEmpty, setConfirmPasswordEmpty] = useState(true);
   const [mailaddress, setMailaddress] = useState("");
   const [grade, setGrade] = useState<number>(1);
   const [position, setPosition] = useState<number>(1);
@@ -95,6 +96,11 @@ const NewAccountCreate = () => {
     } else {
       setPasswordError(true);
     }
+    if (confirmPassword.length === 0) {
+      setConfirmPasswordEmpty(true);
+    } else {
+      setConfirmPasswordEmpty(false);
+    }
   };
 
   const handleMailaddressChange = (
@@ -155,6 +161,7 @@ const NewAccountCreate = () => {
         nameEmpty: nameEmpty,
         furiganaEmpty: furiganaEmpty,
         student_idError: student_idError,
+        confirmPasswordEmpty: confirmPasswordEmpty,
         passwordLengthError: passwordLengthError,
         passwordError: passwordError,
         inputError: inputError,

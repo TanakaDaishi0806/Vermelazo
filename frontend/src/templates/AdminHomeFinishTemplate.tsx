@@ -1,11 +1,11 @@
 import FinishClubMatchList from "../components/FinishClubMatchList";
-import Header from "../components/Header";
+import AdminHeader from "../components/AdminHeader";
 import AdminFooter from "../components/AdminFooter";
 
 const AdminHomeFinishTemplate = () => {
   return (
     <div>
-      <Header headertext={{ text: "Admin Page" }} />
+      <AdminHeader />
       <FinishClubMatchList
         getUrl={{ url: "http://localhost:18000/admin", isAdmin: true }}
       />

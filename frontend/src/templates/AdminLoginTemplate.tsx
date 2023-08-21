@@ -1,5 +1,6 @@
 import { Box, Grid, TextField, Typography } from "@mui/material";
 import React from "react";
+import { Link } from "react-router-dom";
 
 import { LoginInfo } from "../type/velmelazo";
 import BaseButton from "../parts/BaseButton";
@@ -13,7 +14,7 @@ const AdminLoginTemplate: React.FC<Props> = ({ loginInfo }) => {
     <Box
       sx={{
         height: "100vh",
-        bgcolor: "rgba(200, 200, 200, 0.4)",
+        bgcolor: "white",
         //backgroundImage: "linear-gradient(30deg, #eeeeff, #9999aa, #eeeeff)",
       }}
     >
@@ -26,9 +27,26 @@ const AdminLoginTemplate: React.FC<Props> = ({ loginInfo }) => {
         <Grid item xs={12}>
           <Typography
             variant="h3"
-            sx={{ color: "white", fontWeight: "1000", pt: "150px", pb: "50px" }}
+            sx={{
+              color: "#333333",
+              fontWeight: "1000",
+              pt: "100px",
+              pb: "10px",
+            }}
           >
             Vermelazo
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography
+            sx={{
+              color: "#444444",
+              fontWeight: "800",
+              pb: "100px",
+              fontsize: "20px",
+            }}
+          >
+            サッカーサークル部内戦管理アプリ
           </Typography>
         </Grid>
 
@@ -99,6 +117,9 @@ const AdminLoginTemplate: React.FC<Props> = ({ loginInfo }) => {
               />
             </Grid>
             <br />
+            <Grid item xs={12} sx={{ mb: "20px" }}>
+              <Link to="/">ユーザーログイン画面へ</Link>
+            </Grid>
           </Grid>
         </Box>
       </Grid>

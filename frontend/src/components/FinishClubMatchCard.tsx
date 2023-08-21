@@ -35,6 +35,14 @@ const FinishClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
       },
     });
   };
+  const handleAdminTeamList = () => {
+    navigate("/admin/teamlist", {
+      state: {
+        club_match_id: clubMatchGetData.club_match_id,
+        vnum: 1,
+      },
+    });
+  };
 
   const handleSwitchFinish = () => {
     axios
@@ -298,17 +306,30 @@ const FinishClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
                         まだ作成されていません
                       </Typography>
                     )}
-                    {clubMatchGetData.is_create_team && (
-                      <ColorButton
-                        colorButton={{
-                          buttonText: "閲覧",
-                          onClick: handleTeamList,
-                          buttonColor: "info",
-                          mb: "",
-                          mt: "",
-                        }}
-                      />
-                    )}
+                    {clubMatchGetData.is_create_team &&
+                      !clubMatchGetData.isAdmin && (
+                        <ColorButton
+                          colorButton={{
+                            buttonText: "閲覧",
+                            onClick: handleTeamList,
+                            buttonColor: "info",
+                            mb: "",
+                            mt: "",
+                          }}
+                        />
+                      )}
+                    {clubMatchGetData.is_create_team &&
+                      clubMatchGetData.isAdmin && (
+                        <ColorButton
+                          colorButton={{
+                            buttonText: "閲覧",
+                            onClick: handleAdminTeamList,
+                            buttonColor: "info",
+                            mb: "",
+                            mt: "",
+                          }}
+                        />
+                      )}
                   </Grid>
 
                   {!clubMatchGetData.isAdmin && (

@@ -3,7 +3,7 @@ import { Grid } from "@mui/material";
 
 import { ChangeMatchListInfo } from "../type/velmelazo";
 import MatchList from "../components/MatchList";
-import Header from "../components/Header";
+import AdminHeader from "../components/AdminHeader";
 import BaseButton from "../parts/BaseButton";
 import AdminFooter from "../components/AdminFooter";
 
@@ -19,7 +19,7 @@ const ListCreateMatchTemplate: React.FC<Props> = ({ changeMatchListInfo }) => {
       justifyContent="center"
       direction="column"
     >
-      <Header headertext={{ text: "Admin Page" }} />
+      <AdminHeader />
       <Grid
         sx={{
           mt: "40px",

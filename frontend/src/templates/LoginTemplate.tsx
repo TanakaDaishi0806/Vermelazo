@@ -13,7 +13,7 @@ const LoginTemplate: React.FC<Props> = ({ loginInfo }) => {
     <Box
       sx={{
         height: "100vh",
-        bgcolor: "rgba(200, 200, 200, 0.4)",
+        bgcolor: "white",
         //backgroundImage: "linear-gradient(30deg, #eeeeff, #9999aa, #eeeeff)",
       }}
     >
@@ -26,14 +26,36 @@ const LoginTemplate: React.FC<Props> = ({ loginInfo }) => {
         <Grid item xs={12}>
           <Typography
             variant="h3"
-            sx={{ color: "white", fontWeight: "1000", pt: "150px", pb: "50px" }}
+            sx={{
+              color: "#333333",
+              fontWeight: "1000",
+              pt: "100px",
+              pb: "10px",
+            }}
           >
             Vermelazo
           </Typography>
         </Grid>
+        <Grid item xs={12}>
+          <Typography
+            sx={{
+              color: "#444444",
+              fontWeight: "800",
+              pb: "100px",
+              fontsize: "20px",
+            }}
+          >
+            サッカーサークル部内戦管理アプリ
+          </Typography>
+        </Grid>
 
         <Box
-          sx={{ bgcolor: "#ffffff", width: "300px", pt: "20px", pb: "20px" }}
+          sx={{
+            bgcolor: "white",
+            width: "300px",
+            pt: "20px",
+            pb: "20px",
+          }}
         >
           <Grid
             container
