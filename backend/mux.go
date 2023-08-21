@@ -223,6 +223,26 @@ func Newmux(ctx context.Context, cfg *config.Config) (http.Handler, func(), erro
 		Repo: &store.TopScorerRepository{DBExc: db, DBQry: db},
 	}
 
+	cui := &handler.ChangeUserInfo{
+		Service: &service.ChangeUserInfo{
+			Repo: &store.ChangeUserInfo{DB: db},
+		},
+		Validator: v,
+	}
+
+	lui := &handler.ListUserInfo{
+		Service: &service.ListUserInfo{
+			Repo: &store.ListUserInfo{DB: db},
+		},
+	}
+
+	cup := &handler.ChangeUserPassword{
+		Service: &service.ChangeUserPassword{
+			Repo: &store.ChangeUserPassword{DB: db},
+		},
+		Validator: v,
+	}
+
 	mux.Route("/home", func(r chi.Router) {
 		r.Use(handler.CROS, handler.AuthMiddleware(jwter))
 		r.Get("/", lcmu.ServeHTTP)
@@ -237,10 +257,12 @@ func Newmux(ctx context.Context, cfg *config.Config) (http.Handler, func(), erro
 		r.Get("/myrank/list", mr.ServeHTTP)
 		r.Get("/teamrank/list/{clubMatchId}", ltr.ServeHTTP)
 		r.Get("/topscorer/list/{clubMatchId}", ts.ServeHTTP)
+		r.Get("/userinfo/list", lui.ServeHTTP)
 		r.Post("/", ap.ServeHTTP)
 		r.Post("/teammember/add", atm.ServeHTTP)
 		r.Post("/vote/myteam/add", amtm.ServeHTTP)
 		r.Post("/vote/match/add", amm.ServeHTTP)
+		r.Put("/userinfo/change", cui.ServeHTTP)
 		r.Delete("/participant/{clubMatchId}", dp.ServeHTTP)
 		r.Delete("/teammember/{clubMatchId}", dtm.ServeHTTP)
 	})
@@ -264,6 +286,7 @@ func Newmux(ctx context.Context, cfg *config.Config) (http.Handler, func(), erro
 		r.Put("/clubmatchs/isfinish/{clubMatchId}", scmf.ServeHTTP)
 		r.Put("/match/score/add/{matchId}/{clubMatchId}", as.ServeHTTP)
 		r.Put("/mom/position/change/{clubMatchId}", cpm.ServeHTTP)
+		r.Put("/password/change", cup.ServeHTTP)
 		r.Delete("/clubmatchs/{clubMatchId}", dcm.ServeHTTP)
 		r.Delete("/pointgetter/{matchId}", dpg.ServeHTTP)
 	})
