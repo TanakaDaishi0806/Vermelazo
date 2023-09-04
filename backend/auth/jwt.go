@@ -4,6 +4,7 @@ import (
 	"context"
 	_ "embed"
 	"fmt"
+	"log"
 	"net/http"
 	"time"
 
@@ -23,16 +24,11 @@ var rawPubKey []byte
 const (
 	RoleKey      = "role"
 	StudentIDKey = "studentID"
+	UserIDKey    = "userID"
 )
 
 type JWTer struct {
 	PrivateKey, PublicKey jwk.Key
-	Store                 Store
-}
-
-type Store interface {
-	Save(ctx context.Context, key string, UserID entity.UserId) error
-	Load(ctx context.Context, key string) (entity.UserId, error)
 }
 
 type CustomClock struct{}
@@ -44,8 +40,8 @@ func Clocker() time.Time {
 	return time.Now()
 }
 
-func NewJWTer(s Store) (*JWTer, error) {
-	j := &JWTer{Store: s}
+func NewJWTer() (*JWTer, error) {
+	j := &JWTer{}
 	privkey, err := parse(rawPrivKey)
 
 	if err != nil {
@@ -78,16 +74,13 @@ func (j *JWTer) GenerateToken(ctx context.Context, u entity.User) ([]byte, error
 		Issuer(`github.com/TanakaDaishi0806/Vermelazo`).
 		Subject("access_token").
 		IssuedAt(time.Now()).
-		Expiration(time.Now().Add(30*time.Minute)).
+		Expiration(time.Now().Add(1*time.Minute)).
 		Claim(RoleKey, int(u.Role)).
 		Claim(StudentIDKey, u.StudentID).
+		Claim(UserIDKey, u.ID).
 		Build()
 	if err != nil {
 		return nil, fmt.Errorf("GenerateToken:failed to build token:%w", err)
-	}
-
-	if err := j.Store.Save(ctx, tok.JwtID(), u.ID); err != nil {
-		return nil, err
 	}
 
 	signed, err := jwt.Sign(tok, jwt.WithKey(jwa.RS256, j.PrivateKey))
@@ -115,26 +108,19 @@ func (j *JWTer) GetToken(ctx context.Context, r *http.Request) (jwt.Token, error
 		return nil, fmt.Errorf("get token: failed to validate token:%w", err)
 	}
 
-	if _, err := j.Store.Load(ctx, token.JwtID()); err != nil {
-		return nil, fmt.Errorf("get token: %s expired :%w", token.JwtID(), err)
-	}
-
 	return token, err
 }
 
-type userIDKey struct{}
+type IDKey struct{}
 type roleKey struct{}
 
 func (j *JWTer) FillContext(r *http.Request) (*http.Request, error) {
 	tok, err := j.GetToken(r.Context(), r)
+	log.Printf("a")
 	if err != nil {
 		return nil, err
 	}
-	uid, err := j.Store.Load(r.Context(), tok.JwtID())
-	if err != nil {
-		return nil, err
-	}
-	ctx := SetUserID(r.Context(), uid)
+	ctx := SetUserID(r.Context(), tok)
 	ctx = SetRole(ctx, tok)
 	clone := r.Clone(ctx)
 
@@ -142,12 +128,25 @@ func (j *JWTer) FillContext(r *http.Request) (*http.Request, error) {
 
 }
 
-func SetUserID(ctx context.Context, uid entity.UserId) context.Context {
-	return context.WithValue(ctx, userIDKey{}, uid)
+func SetUserID(ctx context.Context, token jwt.Token) context.Context {
+	get, ok := token.Get(UserIDKey)
+	if !ok {
+		return context.WithValue(ctx, IDKey{}, entity.UserId(0)) // デフォルトのUserIDを指定
+	}
+	getFloat, isFloat := get.(float64)
+	if !isFloat {
+		return context.WithValue(ctx, IDKey{}, entity.UserId(0)) // float64に変換できない場合はデフォルトのUserIDを指定
+	}
+
+	getUserID := entity.UserId(getFloat)
+	log.Printf("%d", getUserID)
+
+	return context.WithValue(ctx, IDKey{}, getUserID)
 }
 
 func GetUserID(ctx context.Context) (entity.UserId, bool) {
-	id, ok := ctx.Value(userIDKey{}).(entity.UserId)
+	id, ok := ctx.Value(IDKey{}).(entity.UserId)
+	log.Printf("%t", ok)
 	return id, ok
 }
 
