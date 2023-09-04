@@ -35,11 +35,7 @@ func Newmux(ctx context.Context, cfg *config.Config) (http.Handler, func(), erro
 		r.Post("/", ru.ServeHTTP)
 	})
 
-	rcli, err := store.NewKVS(ctx, cfg)
-	if err != nil {
-		return nil, cleanup, err
-	}
-	jwter, err := auth.NewJWTer(rcli)
+	jwter, err := auth.NewJWTer()
 	if err != nil {
 		return nil, cleanup, err
 	}
