@@ -19,11 +19,14 @@ const TeamRankList: React.FC<Props> = ({ clubMatchID }) => {
 
   React.useEffect(() => {
     axios
-      .get(`http://localhost:18000/home/teamrank/list/${clubMatchID}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
+      .get(
+        `${process.env.REACT_APP_API_URL}/home/teamrank/list/${clubMatchID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
       .then((response) => {
         setRankList(response.data);
       })

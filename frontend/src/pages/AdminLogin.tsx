@@ -49,16 +49,16 @@ const AdminLogin = () => {
 
   const handleLogin = () => {
     axios
-      .post("http://localhost:18000/login", {
+      .post(`${process.env.REACT_APP_API_URL}/login`, {
         student_id,
         password,
       })
       .then((response) => {
-        console.log(response.data);
+        console.log(process.env.REACT_APP_API_URL);
         const accessToken = response.data;
         localStorage.setItem("accessToken", accessToken);
         axios
-          .get("http://localhost:18000/admin", {
+          .get(`${process.env.REACT_APP_API_URL}/admin`, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },

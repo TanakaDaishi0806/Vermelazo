@@ -32,7 +32,7 @@ const CreateMatch = () => {
   const handleCreateMatchDataSubmit = () => {
     axios
       .post(
-        "http://localhost:18000/admin/match/combination/create",
+        `${process.env.REACT_APP_API_URL}/admin/match/combination/create`,
         {
           club_match_id,
           match_num: parseInt(matchNum, 10),

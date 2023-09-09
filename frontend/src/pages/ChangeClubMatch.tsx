@@ -97,7 +97,7 @@ const ChangeClubMatch = () => {
       const vote_day = voteDate.getDate();
       axios
         .put(
-          `http://localhost:18000/admin/clubmatchs/${club_match_id}`,
+          `${process.env.REACT_APP_API_URL}/admin/clubmatchs/${club_match_id}`,
           {
             year,
             month,

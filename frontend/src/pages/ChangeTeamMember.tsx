@@ -16,7 +16,7 @@ const ChangeTeamMember = () => {
   );
   React.useEffect(() => {
     axios
-      .get(`http://localhost:18000/home/team/list/${club_match_id}`, {
+      .get(`${process.env.REACT_APP_API_URL}/home/team/list/${club_match_id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

@@ -30,7 +30,7 @@ const ResultDetail = () => {
   React.useEffect(() => {
     axios
       .get(
-        `http://localhost:18000/home/pointgetter/list/${match_id}/${team_id_a}`,
+        `${process.env.REACT_APP_API_URL}/home/pointgetter/list/${match_id}/${team_id_a}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -42,7 +42,7 @@ const ResultDetail = () => {
         setPointGettersA(response.data);
         axios
           .get(
-            `http://localhost:18000/home/pointgetter/list/${match_id}/${team_id_b}`,
+            `${process.env.REACT_APP_API_URL}/home/pointgetter/list/${match_id}/${team_id_b}`,
             {
               headers: {
                 Authorization: `Bearer ${accessToken}`,
@@ -53,11 +53,14 @@ const ResultDetail = () => {
             console.log(response.data);
             setPointGettersB(response.data);
             axios
-              .get(`http://localhost:18000/home/mom/eachmatch/${match_id}`, {
-                headers: {
-                  Authorization: `Bearer ${accessToken}`,
-                },
-              })
+              .get(
+                `${process.env.REACT_APP_API_URL}/home/mom/eachmatch/${match_id}`,
+                {
+                  headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                  },
+                }
+              )
               .then((response) => {
                 console.log(response.data);
                 setMom(response.data);

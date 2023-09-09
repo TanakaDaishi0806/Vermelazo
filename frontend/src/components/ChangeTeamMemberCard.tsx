@@ -169,7 +169,7 @@ const ChangeTeamMemberCard: React.FC<Props> = ({ teamMemberListInfo }) => {
     changeMemberList.map((member, index) => {
       axios
         .put(
-          `http://localhost:18000/admin/team/change/${teamMemberListInfo.club_match_id}`,
+          `${process.env.REACT_APP_API_URL}/admin/team/change/${teamMemberListInfo.club_match_id}`,
           {
             change_team_id: member.changeTeamID,
             user_id: member.userID,

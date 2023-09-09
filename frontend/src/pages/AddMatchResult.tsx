@@ -50,11 +50,14 @@ const AddMatchResult = () => {
 
   React.useEffect(() => {
     axios
-      .get(`http://localhost:18000/admin/team/specify/list/${team_id_a}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
+      .get(
+        `${process.env.REACT_APP_API_URL}/admin/team/specify/list/${team_id_a}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
       .then((response) => {
         setTeamAMember(response.data);
       })
@@ -65,11 +68,14 @@ const AddMatchResult = () => {
         }
       });
     axios
-      .get(`http://localhost:18000/admin/team/specify/list/${team_id_b}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
+      .get(
+        `${process.env.REACT_APP_API_URL}/admin/team/specify/list/${team_id_b}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
       .then((response) => {
         setTeamBMember(response.data);
       })
@@ -83,7 +89,7 @@ const AddMatchResult = () => {
     if (pgReceived === 0) {
       axios
         .get(
-          `http://localhost:18000/admin/pointgetter/list/${match_id}/${team_id_a}`,
+          `${process.env.REACT_APP_API_URL}/admin/pointgetter/list/${match_id}/${team_id_a}`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -96,7 +102,7 @@ const AddMatchResult = () => {
           setPgReceived(1);
           axios
             .get(
-              `http://localhost:18000/admin/pointgetter/list/${match_id}/${team_id_b}`,
+              `${process.env.REACT_APP_API_URL}/admin/pointgetter/list/${match_id}/${team_id_b}`,
               {
                 headers: {
                   Authorization: `Bearer ${accessToken}`,

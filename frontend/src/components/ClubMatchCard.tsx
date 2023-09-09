@@ -32,7 +32,7 @@ const ClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
   const handleSwitchRelesed = () => {
     axios
       .put(
-        `http://localhost:18000/admin/clubmatchs/isreleased/${clubMatchGetData.club_match_id}`,
+        `${process.env.REACT_APP_API_URL}/admin/clubmatchs/isreleased/${clubMatchGetData.club_match_id}`,
         { is_released: clubMatchGetData.is_released },
         {
           headers: {
@@ -55,7 +55,7 @@ const ClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
   const handleClubMatchDelete = () => {
     axios
       .delete(
-        `http://localhost:18000/admin/clubmatchs/${clubMatchGetData.club_match_id}`,
+        `${process.env.REACT_APP_API_URL}/admin/clubmatchs/${clubMatchGetData.club_match_id}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -77,7 +77,7 @@ const ClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
   const handleParticipantAdd = () => {
     axios
       .post(
-        `http://localhost:18000/home`,
+        `${process.env.REACT_APP_API_URL}/home`,
         { club_match_id: clubMatchGetData.club_match_id },
         {
           headers: {
@@ -100,7 +100,7 @@ const ClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
   const handleTeamMemberAdd = () => {
     axios
       .post(
-        `http://localhost:18000/home/teammember/add`,
+        `${process.env.REACT_APP_API_URL}/home/teammember/add`,
         {
           club_match_id: clubMatchGetData.club_match_id,
         },
@@ -125,7 +125,7 @@ const ClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
   const handleParticipantDelete = () => {
     axios
       .delete(
-        `http://localhost:18000/home/participant/${clubMatchGetData.club_match_id}`,
+        `${process.env.REACT_APP_API_URL}/home/participant/${clubMatchGetData.club_match_id}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -147,7 +147,7 @@ const ClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
   const handleTeamMemberDelete = () => {
     axios
       .delete(
-        `http://localhost:18000/home/teammember/${clubMatchGetData.club_match_id}`,
+        `${process.env.REACT_APP_API_URL}/home/teammember/${clubMatchGetData.club_match_id}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -241,7 +241,7 @@ const ClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
   const handleSwitchFinish = () => {
     axios
       .put(
-        `http://localhost:18000/admin/clubmatchs/isfinish/${clubMatchGetData.club_match_id}`,
+        `${process.env.REACT_APP_API_URL}/admin/clubmatchs/isfinish/${clubMatchGetData.club_match_id}`,
         {},
         {
           headers: {

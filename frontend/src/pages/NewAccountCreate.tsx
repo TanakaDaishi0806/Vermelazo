@@ -127,7 +127,7 @@ const NewAccountCreate = () => {
 
   const handleNewAccountCreate = () => {
     axios
-      .post("http://localhost:18000/register", {
+      .post(`${process.env.REACT_APP_API_URL}/register`, {
         name,
         student_id,
         password,

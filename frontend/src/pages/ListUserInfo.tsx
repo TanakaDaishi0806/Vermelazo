@@ -35,7 +35,7 @@ const ListUserInfo = () => {
 
   React.useEffect(() => {
     axios
-      .get(`http://localhost:18000/home/userinfo/list`, {
+      .get(`${process.env.REACT_APP_API_URL}/home/userinfo/list`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

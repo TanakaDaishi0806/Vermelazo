@@ -22,9 +22,9 @@ const ResisterOFMomTemplate: React.FC<Props> = ({ clubMatchID }) => {
       <ResisterPositionMom
         eachPositionMom={{
           positionText: "OF",
-          getUrlPositionMember: `http://localhost:18000/admin/user/position/list/${clubMatchID}/3`,
-          getUrlPositionMom: `http://localhost:18000/admin/mom/position/list/${clubMatchID}`,
-          postUrl: `http://localhost:18000/admin/mom/position/add`,
+          getUrlPositionMember: `${process.env.REACT_APP_API_URL}/admin/user/position/list/${clubMatchID}/3`,
+          getUrlPositionMom: `${process.env.REACT_APP_API_URL}/admin/mom/position/list/${clubMatchID}`,
+          postUrl: `${process.env.REACT_APP_API_URL}/admin/mom/position/add`,
           toUrl: "/admin",
           club_match_id: clubMatchID,
           position: pnum,
