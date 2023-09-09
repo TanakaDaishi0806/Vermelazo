@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"errors"
-	"fmt"
 	"time"
 
 	"github.com/TanakaDaishi0806/Vermelazo.git/backend/config"
@@ -23,9 +22,11 @@ var (
 )
 
 func New(ctx context.Context, cfg *config.Config) (*sqlx.DB, func(), error) {
+	//user := os.Getenv("DB_USER")
+	//password := os.Getenv("DB_PASSWORD")
 	db, err := sql.Open("mysql",
-		fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?parseTime=true",
-			cfg.DBUser, cfg.DBPassword, cfg.DBHost, cfg.DBPort, cfg.DBName),
+		"xgot9mshj33a3fw8owpy:pscale_pw_d4EFvf43LfNm3wMruvVeaOZCWgNRU0dtWkGz4Astkjh@tcp(aws.connect.psdb.cloud)/my-database?tls=true",
+		//fmt.Sprintf("%s:%s@tcp(aws.connect.psdb.cloud)/[DB名]?tls=true", user, password),
 	)
 	if err != nil {
 		return nil, func() {}, err

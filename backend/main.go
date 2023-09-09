@@ -22,11 +22,12 @@ func run(ctx context.Context) error {
 	if err != nil {
 		return err
 	}
+	port := os.Getenv("PORT")
 
-	l, err := net.Listen("tcp", fmt.Sprintf(":%d", cfg.Port))
+	l, err := net.Listen("tcp", fmt.Sprintf(":%s", port))
 
 	if err != nil {
-		log.Fatalf("failed to listen port %d: %v", cfg.Port, err)
+		log.Fatalf("failed to listen port %s: %v", port, err)
 	}
 	url := fmt.Sprintf("http://%s", l.Addr().String())
 	log.Printf("start wih: %v", url)
