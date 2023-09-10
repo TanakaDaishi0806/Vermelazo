@@ -102,7 +102,7 @@ const ChangeUserInfo = () => {
   const handleChangeUserInfo = () => {
     axios
       .put(
-        "http://localhost:18000/home/userinfo/change",
+        `${process.env.REACT_APP_API_URL}/home/userinfo/change`,
         {
           name,
           furigana,

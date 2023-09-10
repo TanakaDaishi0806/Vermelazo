@@ -22,11 +22,11 @@ const ResisterMyTeamVoteTemplate: React.FC<Props> = ({
       <MatchVote
         matchVoteInfo={{
           text: "マッチMOM（3人まで投票可能）",
-          getUrlTeamA: `http://localhost:18000/home/team/specify/list/${resisterMatchVoteInfo.team_id_a}`,
-          getUrlTeamB: `http://localhost:18000/home/team/specify/list/${resisterMatchVoteInfo.team_id_b}`,
+          getUrlTeamA: `${process.env.REACT_APP_API_URL}/home/team/specify/list/${resisterMatchVoteInfo.team_id_a}`,
+          getUrlTeamB: `${process.env.REACT_APP_API_URL}/home/team/specify/list/${resisterMatchVoteInfo.team_id_b}`,
           team_name_a: resisterMatchVoteInfo.team_name_a,
           team_name_b: resisterMatchVoteInfo.team_name_b,
-          postUrl: `http://localhost:18000/home/vote/match/add`,
+          postUrl: `${process.env.REACT_APP_API_URL}/home/vote/match/add`,
           toUrl: "/home/match/vote",
           club_match_id: resisterMatchVoteInfo.club_match_id,
           user_id: resisterMatchVoteInfo.user_id,

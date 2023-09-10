@@ -7,7 +7,10 @@ const HomeFinishTemplate = () => {
     <div>
       <Header headertext={{ text: "My Page" }} />
       <FinishClubMatchList
-        getUrl={{ url: "http://localhost:18000/home", isAdmin: false }}
+        getUrl={{
+          url: `${process.env.REACT_APP_API_URL}/home`,
+          isAdmin: false,
+        }}
       />
       <HomeFooter footerValue={{ vnum: 1 }} />
     </div>

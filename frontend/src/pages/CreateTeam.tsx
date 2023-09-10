@@ -35,7 +35,7 @@ const CreateTeam = () => {
   const handleCreateTeamDataSubmit = () => {
     axios
       .post(
-        "http://localhost:18000/admin/team/create",
+        `${process.env.REACT_APP_API_URL}/admin/team/create`,
         {
           club_match_id,
           team_num: parseInt(teamNum, 10),

@@ -20,7 +20,7 @@ const MatchList: React.FC<Props> = ({ matchListInfo }) => {
   React.useEffect(() => {
     axios
       .get(
-        `http://localhost:18000/admin/match/list/${matchListInfo.club_match_id}`,
+        `${process.env.REACT_APP_API_URL}/admin/match/list/${matchListInfo.club_match_id}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,

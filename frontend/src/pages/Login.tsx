@@ -49,7 +49,7 @@ const Login = () => {
 
   const handleLogin = () => {
     axios
-      .post("http://localhost:18000/login", {
+      .post(`${process.env.REACT_APP_API_URL}/login`, {
         student_id,
         password,
       })
@@ -58,7 +58,7 @@ const Login = () => {
         const accessToken = response.data;
         localStorage.setItem("accessToken", accessToken);
         axios
-          .get("http://localhost:18000/home", {
+          .get(`${process.env.REACT_APP_API_URL}/home`, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },

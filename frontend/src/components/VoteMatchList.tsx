@@ -29,7 +29,7 @@ const VoteMatchList: React.FC<Props> = ({ matchListInfo }) => {
   React.useEffect(() => {
     axios
       .get(
-        `http://localhost:18000/home/match/list/${matchListInfo.club_match_id}`,
+        `${process.env.REACT_APP_API_URL}/home/match/list/${matchListInfo.club_match_id}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -50,7 +50,7 @@ const VoteMatchList: React.FC<Props> = ({ matchListInfo }) => {
   React.useEffect(() => {
     axios
       .get(
-        `http://localhost:18000/home/myisvote/list/${matchListInfo.club_match_id}`,
+        `${process.env.REACT_APP_API_URL}/home/myisvote/list/${matchListInfo.club_match_id}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -62,7 +62,7 @@ const VoteMatchList: React.FC<Props> = ({ matchListInfo }) => {
         console.log(response.data);
         axios
           .get(
-            `http://localhost:18000/home/votekind/list/${matchListInfo.club_match_id}`,
+            `${process.env.REACT_APP_API_URL}/home/votekind/list/${matchListInfo.club_match_id}`,
             {
               headers: {
                 Authorization: `Bearer ${accessToken}`,

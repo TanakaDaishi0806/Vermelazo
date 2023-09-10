@@ -24,7 +24,7 @@ const MyRank = () => {
 
   React.useEffect(() => {
     axios
-      .get(`http://localhost:18000/home/myrank/list`, {
+      .get(`${process.env.REACT_APP_API_URL}/home/myrank/list`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

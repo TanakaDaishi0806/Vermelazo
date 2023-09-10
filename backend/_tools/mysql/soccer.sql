@@ -158,7 +158,7 @@ CREATE TABLE `users` (
   `user_id` int(5) NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL,
   `furigana` varchar(30) NOT NULL,
-  `student_id` char(8) NOT NULL,
+  `student_id` char(8) NOT NULL UNIQUE,
   `password` varchar(60) NOT NULL,
   `grade` int(1) NOT NULL,
   `role` int(1) DEFAULT 0,

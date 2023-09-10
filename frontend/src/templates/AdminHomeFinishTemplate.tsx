@@ -7,7 +7,10 @@ const AdminHomeFinishTemplate = () => {
     <div>
       <AdminHeader />
       <FinishClubMatchList
-        getUrl={{ url: "http://localhost:18000/admin", isAdmin: true }}
+        getUrl={{
+          url: `${process.env.REACT_APP_API_URL}/admin`,
+          isAdmin: true,
+        }}
       />
       <AdminFooter footerValue={{ vnum: 1 }} />
     </div>

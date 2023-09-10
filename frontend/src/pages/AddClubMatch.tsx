@@ -69,7 +69,7 @@ const AddClubMatch = () => {
       const vote_day = voteDate.getDate();
       axios
         .post(
-          "http://localhost:18000/admin",
+          `${process.env.REACT_APP_API_URL}/admin`,
           { year, month, day, vote_year, vote_month, vote_day, title },
           {
             headers: {

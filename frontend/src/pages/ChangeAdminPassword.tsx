@@ -56,7 +56,7 @@ const ChangeAdminPassword = () => {
   const handleChangeAdminPassword = () => {
     axios
       .put(
-        "http://localhost:18000/admin/password/change",
+        `${process.env.REACT_APP_API_URL}/admin/password/change`,
         {
           password,
         },

@@ -47,7 +47,7 @@ const FinishClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
   const handleSwitchFinish = () => {
     axios
       .put(
-        `http://localhost:18000/admin/clubmatchs/isfinish/${clubMatchGetData.club_match_id}`,
+        `${process.env.REACT_APP_API_URL}/admin/clubmatchs/isfinish/${clubMatchGetData.club_match_id}`,
         {},
         {
           headers: {
@@ -78,7 +78,7 @@ const FinishClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
   React.useEffect(() => {
     axios
       .get(
-        `http://localhost:18000/home/mom/position/list/${clubMatchGetData.club_match_id}`,
+        `${process.env.REACT_APP_API_URL}/mom/position/list/${clubMatchGetData.club_match_id}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -90,7 +90,7 @@ const FinishClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
         setPositionMom(response.data);
         axios
           .get(
-            `http://localhost:18000/home/topscorer/list/${clubMatchGetData.club_match_id}`,
+            `${process.env.REACT_APP_API_URL}/home/topscorer/list/${clubMatchGetData.club_match_id}`,
             {
               headers: {
                 Authorization: `Bearer ${accessToken}`,

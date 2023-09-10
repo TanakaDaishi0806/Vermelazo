@@ -16,11 +16,14 @@ const TeamList = () => {
   );
   React.useEffect(() => {
     axios
-      .get(`http://localhost:18000/home/team/list/${club_match_id}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
+      .get(
+        `h${process.env.REACT_APP_API_URL}/home/team/list/${club_match_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
       .then((response) => {
         console.log(response.data);
         setTeamMemberList(response.data);

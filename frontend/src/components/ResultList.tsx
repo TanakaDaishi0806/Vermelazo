@@ -28,7 +28,7 @@ const ResultList: React.FC<Props> = ({ resultPageInfo }) => {
   React.useEffect(() => {
     axios
       .get(
-        `http://localhost:18000/home/match/list/${resultPageInfo.club_match_id}`,
+        `${process.env.REACT_APP_API_URL}/home/match/list/${resultPageInfo.club_match_id}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
