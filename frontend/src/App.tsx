@@ -40,7 +40,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/home/finish" element={<HomeFinish />} />
         <Route path="/adminlogin" element={<AdminLogin />} />
-        <Route path="/admin" element={<AdminHome />} />
+        <Route path="/adminhome" element={<AdminHome />} />
         <Route path="/admin/finish" element={<AdminHomeFinish />} />
         <Route path="/admin/addclubmatch" element={<AddClubMatch />} />
         <Route path="/admin/changeclubmatch" element={<ChangeClubMatch />} />

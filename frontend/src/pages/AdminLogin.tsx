@@ -65,7 +65,7 @@ const AdminLogin = () => {
           })
           .then((response) => {
             console.log(response.data);
-            navigate("/admin");
+            navigate("/adminhome");
           })
           .catch((error) => {
             console.log(error);
