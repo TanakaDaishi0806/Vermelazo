@@ -277,18 +277,21 @@ const AddMatchResult = () => {
       parseInt(scoreB, 10) === pointGettersB.length
     ) {
       axios
-        .delete(`http://localhost:18000/admin/pointgetter/${match_id}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
+        .delete(
+          `${process.env.REACT_APP_API_URL}/admin/pointgetter/${match_id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
         .then((response) => {
           console.log(response.data);
           {
             pointGetters.map((value, index) => {
               axios
                 .post(
-                  `http://localhost:18000/admin/pointgetter/add`,
+                  `${process.env.REACT_APP_API_URL}/admin/pointgetter/add`,
                   {
                     match_id,
                     club_match_id,
@@ -322,7 +325,7 @@ const AddMatchResult = () => {
 
       axios
         .put(
-          `http://localhost:18000/admin/match/score/add/${match_id}/${club_match_id}`,
+          `${process.env.REACT_APP_API_URL}/admin/match/score/add/${match_id}/${club_match_id}`,
           {
             team_id_a,
             team_id_b,
