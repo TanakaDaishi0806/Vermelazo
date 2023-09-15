@@ -78,7 +78,7 @@ const FinishClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
   React.useEffect(() => {
     axios
       .get(
-        `${process.env.REACT_APP_API_URL}/mom/position/list/${clubMatchGetData.club_match_id}`,
+        `${process.env.REACT_APP_API_URL}/admin/mom/position/list/${clubMatchGetData.club_match_id}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
