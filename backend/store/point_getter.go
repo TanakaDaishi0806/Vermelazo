@@ -13,9 +13,9 @@ type PointGetterRepository struct {
 
 func (pgr *PointGetterRepository) AddPointGetter(ctx context.Context, pg *entity.PointGetter) error {
 	sql := `insert into point_getter (match_id,team_id,user_id,club_match_id) values (?,?,?,?)`
-	sql1 := `select user_id from team_member where club_match_id=?`
-	sql2 := `select count(*) from point_getter where user_id=? group by user_id`
-	sql3 := `update users set goal_num=? where user_id=?`
+	// sql1 := `select user_id from team_member where club_match_id=?`
+	// sql2 := `select count(*) from point_getter where user_id=? group by user_id`
+	// sql3 := `update users set goal_num=? where user_id=?`
 
 	result, err := pgr.DBExc.ExecContext(ctx, sql, pg.MatchID, pg.TeamID, pg.UserID, pg.ClubMatchID)
 
@@ -29,30 +29,30 @@ func (pgr *PointGetterRepository) AddPointGetter(ctx context.Context, pg *entity
 	}
 	pg.PointID = entity.PointID(pid)
 
-	uid := []int{}
-	gnum := []int{}
+	// uid := []int{}
+	// gnum := []int{}
 
-	if err := pgr.DBQry.SelectContext(ctx, &uid, sql1, pg.ClubMatchID); err != nil {
-		return err
-	}
+	// if err := pgr.DBQry.SelectContext(ctx, &uid, sql1, pg.ClubMatchID); err != nil {
+	// 	return err
+	// }
 
-	for _, id := range uid {
-		if err := pgr.DBQry.SelectContext(ctx, &gnum, sql2, id); err != nil {
-			return err
-		}
-		if len(gnum) == 1 {
-			_, err := pgr.DBExc.ExecContext(ctx, sql3, gnum[0], id)
-			if err != nil {
-				return err
-			}
-		} else {
-			_, err := pgr.DBExc.ExecContext(ctx, sql3, 0, id)
-			if err != nil {
-				return err
-			}
-		}
+	// for _, id := range uid {
+	// 	if err := pgr.DBQry.SelectContext(ctx, &gnum, sql2, id); err != nil {
+	// 		return err
+	// 	}
+	// 	if len(gnum) == 1 {
+	// 		_, err := pgr.DBExc.ExecContext(ctx, sql3, gnum[0], id)
+	// 		if err != nil {
+	// 			return err
+	// 		}
+	// 	} else {
+	// 		_, err := pgr.DBExc.ExecContext(ctx, sql3, 0, id)
+	// 		if err != nil {
+	// 			return err
+	// 		}
+	// 	}
 
-	}
+	// }
 
 	return nil
 }
