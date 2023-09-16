@@ -28,6 +28,7 @@ func New(ctx context.Context, cfg *config.Config) (*sqlx.DB, func(), error) {
 	password := os.Getenv("DB_PASSWORD")
 	db, err := sql.Open("mysql",
 		fmt.Sprintf("%s:%s@tcp(aws.connect.psdb.cloud)/my-database?tls=true", user, password),
+		//fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?parseTime=true",cfg.DBUser, cfg.DBPassword, cfg.DBHost, cfg.DBPort, cfg.DBName),
 	)
 	if err != nil {
 		return nil, func() {}, err
