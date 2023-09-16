@@ -27,11 +27,7 @@ const MyRankTemplate: React.FC<Props> = ({ myRankData }) => {
             <TextItem textItemInfo={{ itemText: "全体" }} />
           </Grid>
         </Grid>
-        <Grid
-          item
-          xs={5}
-          sx={{ borderBottom: "3px solid #888888", mb: "10px" }}
-        >
+        <Grid item xs={5} sx={{ mb: "10px" }}>
           <Grid container justifyContent="right" alignItems="center">
             <Typography
               variant="h4"
@@ -54,11 +50,7 @@ const MyRankTemplate: React.FC<Props> = ({ myRankData }) => {
             <TextItem textItemInfo={{ itemText: "ポジション" }} />
           </Grid>
         </Grid>
-        <Grid
-          item
-          xs={5}
-          sx={{ borderBottom: "3px solid #888888", mb: "10px" }}
-        >
+        <Grid item xs={5} sx={{ mb: "10px" }}>
           <Grid container justifyContent="right" alignItems="center">
             <Typography
               variant="h4"
@@ -81,11 +73,7 @@ const MyRankTemplate: React.FC<Props> = ({ myRankData }) => {
             <TextItem textItemInfo={{ itemText: "経験者" }} />
           </Grid>
         </Grid>
-        <Grid
-          item
-          xs={5}
-          sx={{ borderBottom: "3px solid #888888", mb: "10px" }}
-        >
+        <Grid item xs={5} sx={{ mb: "10px" }}>
           <Grid container justifyContent="right" alignItems="center">
             <Typography
               variant="h4"
@@ -113,7 +101,7 @@ const MyRankTemplate: React.FC<Props> = ({ myRankData }) => {
             container
             justifyContent="right"
             alignItems="center"
-            sx={{ borderBottom: "3px solid #888888", mb: "10px" }}
+            sx={{ mb: "10px" }}
           >
             <Typography
               variant="h4"
@@ -136,11 +124,7 @@ const MyRankTemplate: React.FC<Props> = ({ myRankData }) => {
             <TextItem textItemInfo={{ itemText: "得点数" }} />
           </Grid>
         </Grid>
-        <Grid
-          item
-          xs={5}
-          sx={{ borderBottom: "3px solid #888888", mb: "10px" }}
-        >
+        <Grid item xs={5} sx={{ mb: "10px" }}>
           <Grid container justifyContent="right" alignItems="center">
             <Typography
               variant="h4"
