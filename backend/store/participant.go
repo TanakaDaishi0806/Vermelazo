@@ -95,6 +95,12 @@ func (dp *DeleteParticipant) DeleteParticipant(ctx context.Context, p *entity.Pa
 	if err != nil {
 		return nil, err
 	}
+	id, err := result.LastInsertId()
+	if err != nil {
+		return nil, err
+	}
+	log.Println("a")
+	log.Println(id)
 
 	_, err = dp.DBExc.ExecContext(ctx, sql2, p.ClubMatchID)
 
@@ -102,7 +108,7 @@ func (dp *DeleteParticipant) DeleteParticipant(ctx context.Context, p *entity.Pa
 		return nil, err
 	}
 
-	id, err := result.LastInsertId()
+	id, err = result.LastInsertId()
 
 	if err != nil {
 		return nil, err
