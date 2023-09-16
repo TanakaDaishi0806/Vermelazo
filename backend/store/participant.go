@@ -88,27 +88,28 @@ func (ap *AddParticipant) AddParticipant(ctx context.Context, p *entity.Paticipa
 
 func (dp *DeleteParticipant) DeleteParticipant(ctx context.Context, p *entity.Paticipant) (entity.ClubMatchs, error) {
 	sql := `delete from participant where club_match_id=? AND user_id=?`
-	sql2 := `UPDATE club_match SET participant_num = participant_num - 1 WHERE club_match_id = ?`
+	sql1 := `select count(*) from participant where club_match_id=?`
+	sql2 := `UPDATE club_match SET participant_num = ? WHERE club_match_id = ?`
 
 	result, err := dp.DBExc.ExecContext(ctx, sql, p.ClubMatchID, p.UserID)
 
 	if err != nil {
 		return nil, err
 	}
+
+	count := []int{}
+
+	if err := dp.DBQry.SelectContext(ctx, &count, sql1, p.ClubMatchID); err != nil {
+		return nil, err
+	}
+
+	_, err = dp.DBExc.ExecContext(ctx, sql2, count[0], p.ClubMatchID)
+
+	if err != nil {
+		return nil, err
+	}
+
 	id, err := result.LastInsertId()
-	if err != nil {
-		return nil, err
-	}
-	log.Println("a")
-	log.Println(id)
-
-	_, err = dp.DBExc.ExecContext(ctx, sql2, p.ClubMatchID)
-
-	if err != nil {
-		return nil, err
-	}
-
-	id, err = result.LastInsertId()
 
 	if err != nil {
 		return nil, err
