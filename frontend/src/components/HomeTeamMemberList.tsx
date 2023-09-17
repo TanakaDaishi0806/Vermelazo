@@ -35,7 +35,7 @@ const HomeTeamMemberList: React.FC<Props> = ({ teamMemberListInfo }) => {
   }, [teamMemberListInfo.teamMemberList]);
 
   return (
-    <Grid container justifyContent="left" sx={{ mb: "200px" }}>
+    <Grid container justifyContent="center" sx={{ mb: "200px" }}>
       {teamMemberListInfo.teamMemberList.map((row, rowIndex) => (
         <Grid item xs={columnCount} key={rowIndex}>
           <Grid
@@ -65,6 +65,7 @@ const HomeTeamMemberList: React.FC<Props> = ({ teamMemberListInfo }) => {
                           }}
                         >
                           <TableCell
+                            sx={{ fontSize: "10px" }}
                             onClick={() => {
                               const index = memberIndex + 1000 * rowIndex;
                               if (openMemberIndex === index) {
