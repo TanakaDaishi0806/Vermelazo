@@ -73,6 +73,7 @@ func (ccm *ChangeClubMatch) ChangeClubMatch(ctx context.Context, reqcm *entity.C
 func (dcm *DeleteClubMatch) DeleteClubMatch(ctx context.Context, id entity.ClubMatchID) (entity.ClubMatchs, error) {
 	sql1 := `delete from participant where club_match_id=?`
 	sql2 := `delete from team_member where team_id in (select team_id from team where club_match_id=?)`
+	sql4 := `delete from team_rank where club_match_id=?`
 	sql3 := `delete from team where club_match_id=?`
 	sql := `delete from club_match where club_match_id=?`
 
@@ -81,6 +82,10 @@ func (dcm *DeleteClubMatch) DeleteClubMatch(ctx context.Context, id entity.ClubM
 		return nil, err
 	}
 	_, err = dcm.DBExc.ExecContext(ctx, sql2, id)
+	if err != nil {
+		return nil, err
+	}
+	_, err = dcm.DBExc.ExecContext(ctx, sql4, id)
 	if err != nil {
 		return nil, err
 	}
