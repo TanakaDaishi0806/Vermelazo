@@ -2,7 +2,7 @@ import React from "react";
 import { Grid } from "@mui/material";
 
 import AdminHeader from "../components/AdminHeader";
-import TeamMemberList from "../components/TeamMemberList";
+import HomeTeamMemberList from "../components/HomeTeamMemberList";
 import { TeamMemberListInfo } from "../type/velmelazo";
 import ChangeTeamMemberCard from "../components/ChangeTeamMemberCard";
 import BaseButton from "../parts/BaseButton";
@@ -21,7 +21,7 @@ const ChangeTeamMemberTemplate: React.FC<Props> = ({ teamMemberListInfo }) => {
       direction="column"
     >
       <AdminHeader />
-      <TeamMemberList teamMemberListInfo={teamMemberListInfo} />
+      <HomeTeamMemberList teamMemberListInfo={teamMemberListInfo} />
       <BaseButton
         baseButton={{
           buttonText: "チーム数を変更",
