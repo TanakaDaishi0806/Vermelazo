@@ -41,6 +41,13 @@ const ResisterPositionMom: React.FC<Props> = ({ eachPositionMom }) => {
       })
       .then((response) => {
         console.log(response.data);
+        if (response.data.length === 0) {
+          navigate(eachPositionMom.toUrl, {
+            state: {
+              club_match_id: eachPositionMom.club_match_id,
+            },
+          });
+        }
         setPositionMember(response.data);
         axios
           .get(eachPositionMom.getUrlPositionMom, {
@@ -201,7 +208,7 @@ const ResisterPositionMom: React.FC<Props> = ({ eachPositionMom }) => {
         <Grid container justifyContent="center" alignItems="center">
           {submitError && (
             <Typography variant="body1" style={{ color: "red" }}>
-              OFのMOMを1人選択してください
+              {eachPositionMom.positionText}のMOMを1人選択してください
             </Typography>
           )}
         </Grid>
