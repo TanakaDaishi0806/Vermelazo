@@ -99,7 +99,7 @@ func (mr *MatchRepository) AddMatch(ctx context.Context, mlist entity.Matchs) er
 	}
 
 	for i, l := range mlist {
-		l.MatchID = entity.MatchID(lastId - int64((len(mlist) - i + 1)))
+		l.MatchID = entity.MatchID(lastId + int64(i))
 	}
 
 	_, err = mr.DBExc.ExecContext(ctx, sql1, mlist[0].ClubMatchID)
