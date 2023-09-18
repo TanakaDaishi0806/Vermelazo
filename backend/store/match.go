@@ -31,7 +31,7 @@ func (mr *MatchRepository) AddMatch(ctx context.Context, mlist entity.Matchs) er
 	sql6 := `delete from position_mom where club_match_id=?`
 	sql7 := `delete from match_vote where club_match_id=?`
 	sql8 := `delete from matchs where club_match_id=?`
-	sql := `insert into matchs (team_id_a,team_id_b,score_a,score_b,club_match_id) values (?,?,?,?,?)`
+	sql := `insert into matchs (team_id_a,team_id_b,score_a,score_b,club_match_id) values `
 	sql1 := `update club_match set is_add_match=true where club_match_id=?`
 	sql9 := `select m.match_id,m.club_match_id,tm.user_id from team_member tm left join matchs m on tm.club_match_id=m.club_match_id where tm.club_match_id=?`
 	sql10 := `insert into match_vote (club_match_id,match_id,user_id) values (?,?,?)`
@@ -81,16 +81,25 @@ func (mr *MatchRepository) AddMatch(ctx context.Context, mlist entity.Matchs) er
 		return err
 	}
 
+	var values []interface{}
+
 	for _, l := range mlist {
-		result, err := mr.DBExc.ExecContext(ctx, sql, l.TeamIDA, l.TeamIDB, -1, -1, l.ClubMatchID)
-		if err != nil {
-			return err
-		}
-		id, err := result.LastInsertId()
-		if err != nil {
-			return err
-		}
-		l.MatchID = entity.MatchID(id)
+		sql += "(?,?,?,?,?), "
+		values = append(values, l.TeamIDA, l.TeamIDB, -1, -1, l.ClubMatchID)
+	}
+	sql = sql[:len(sql)-2]
+	result, err := mr.DBExc.ExecContext(ctx, sql, values...)
+	if err != nil {
+		return err
+	}
+
+	lastId, err := result.LastInsertId()
+	if err != nil {
+		return err
+	}
+
+	for i, l := range mlist {
+		l.MatchID = entity.MatchID(lastId - int64((len(mlist) - i + 1)))
 	}
 
 	_, err = mr.DBExc.ExecContext(ctx, sql1, mlist[0].ClubMatchID)
