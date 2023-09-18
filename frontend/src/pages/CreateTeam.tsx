@@ -7,7 +7,6 @@ import CreateTeamTemplate from "../templates/CreateTeamTemplate";
 
 const CreateTeam = () => {
   const navigate = useNavigate();
-  const accessToken = localStorage.getItem("accessToken");
   const locate = useLocation();
   const { state } = locate;
   const { club_match_id, participant_num } = state;
@@ -41,33 +40,12 @@ const CreateTeam = () => {
   };
 
   const handleCreateTeamDataSubmit = () => {
-    axios
-      .post(
-        `${process.env.REACT_APP_API_URL}/admin/team/create`,
-        {
-          club_match_id,
-          team_num: parseInt(teamNum, 10),
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      )
-      .then((response) => {
-        console.log(response.data);
-        navigate("/admin/team/change", {
-          state: {
-            club_match_id,
-          },
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        if (error.response.status === 401) {
-          navigate("/adminlogin");
-        }
-      });
+    navigate("/admin/team/create/loading", {
+      state: {
+        club_match_id: club_match_id,
+        team_num: teamNum,
+      },
+    });
   };
 
   return (
