@@ -31,6 +31,7 @@ import ChangeUserInfo from "./pages/ChangeUserInfo";
 import ChangeAdminPassword from "./pages/ChangeAdminPassword";
 import AdminTeamList from "./pages/AdminTeamList";
 import LoadingCreateTeam from "./pages/LoadingCreateTeam";
+import LoadingCreateMatch from "./pages/LoadingCreateMatch";
 
 function App() {
   return (
@@ -53,6 +54,10 @@ function App() {
         <Route path="/admin/team/change" element={<ChangeTeamMember />} />
         <Route path="/home/teamlist" element={<TeamList />} />
         <Route path="/admin/match/create" element={<CreateMatch />} />
+        <Route
+          path="/admin/match/create/loading"
+          element={<LoadingCreateMatch />}
+        />
         <Route path="/admin/match/list" element={<ListCreateMatch />} />
         <Route path="/admin/match/score" element={<ListAddScoreMatch />} />
         <Route path="/admin/match/result/add" element={<AddMatchResult />} />

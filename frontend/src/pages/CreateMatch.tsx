@@ -30,33 +30,12 @@ const CreateMatch = () => {
   };
 
   const handleCreateMatchDataSubmit = () => {
-    axios
-      .post(
-        `${process.env.REACT_APP_API_URL}/admin/match/combination/create`,
-        {
-          club_match_id,
-          match_num: parseInt(matchNum, 10),
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      )
-      .then((response) => {
-        console.log(response.data);
-        navigate("/admin/match/list", {
-          state: {
-            club_match_id,
-          },
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        if (error.response.status === 401) {
-          navigate("/adminlogin");
-        }
-      });
+    navigate("/admin/match/create/loading", {
+      state: {
+        club_match_id: club_match_id,
+        match_num: matchNum,
+      },
+    });
   };
 
   return (
