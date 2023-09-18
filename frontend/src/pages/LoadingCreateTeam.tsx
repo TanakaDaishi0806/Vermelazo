@@ -10,7 +10,7 @@ const LoadingCreateTeam = () => {
   const accessToken = localStorage.getItem("accessToken");
   const locate = useLocation();
   const { state } = locate;
-  const { club_match_id, team_num } = state;
+  const { club_match_id, team_num, participant_num } = state;
 
   React.useEffect(() => {
     axios
@@ -40,7 +40,12 @@ const LoadingCreateTeam = () => {
           navigate("/adminlogin");
         }
         if (error.response.status === 400) {
-          navigate("/admin/team/create");
+          navigate("/admin/team/create", {
+            state: {
+              club_match_id: club_match_id,
+              participant_num: participant_num,
+            },
+          });
         }
       });
   }, []);

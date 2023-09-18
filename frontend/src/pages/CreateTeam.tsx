@@ -44,6 +44,7 @@ const CreateTeam = () => {
       state: {
         club_match_id: club_match_id,
         team_num: teamNum,
+        participant_num: participant_num,
       },
     });
   };

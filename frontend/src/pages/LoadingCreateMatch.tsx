@@ -40,7 +40,11 @@ const LoadingCreateMatch = () => {
           navigate("/adminlogin");
         }
         if (error.response.status === 400) {
-          navigate("/admin/match/create");
+          navigate("/admin/match/create", {
+            state: {
+              club_match_id,
+            },
+          });
         }
       });
   }, []);
