@@ -101,18 +101,20 @@ func (tr *TeamRepository) OrderParticipant(ctx context.Context, cmid entity.Club
 
 func (tr *TeamRepository) ResisterTeamMember(ctx context.Context, lists entity.Teams) error {
 
-	sql := `insert into team_member (team_id,user_id,club_match_id) values(?,?,?)`
+	sql := `insert into team_member (team_id,user_id,club_match_id) values `
 	sql1 := `update club_match set is_create_team=true where club_match_id=?`
-
-	for i := 0; i < len(lists); i++ {
-		_, err := tr.DBExc.ExecContext(ctx, sql, lists[i].ID, lists[i].UserID, lists[i].ClubMatchID)
-		if err != nil {
-			return errors.New("k")
-		}
-
+	var values []interface{}
+	for _, l := range lists {
+		sql += "(?,?,?), "
+		values = append(values, l.ID, l.UserID, l.ClubMatchID)
+	}
+	sql = sql[:len(sql)-2]
+	_, err := tr.DBExc.ExecContext(ctx, sql, values...)
+	if err != nil {
+		return errors.New("k")
 	}
 
-	_, err := tr.DBExc.ExecContext(ctx, sql1, lists[0].ClubMatchID)
+	_, err = tr.DBExc.ExecContext(ctx, sql1, lists[0].ClubMatchID)
 	if err != nil {
 		return errors.New("l")
 	}
