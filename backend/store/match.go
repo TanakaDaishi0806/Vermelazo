@@ -34,7 +34,7 @@ func (mr *MatchRepository) AddMatch(ctx context.Context, mlist entity.Matchs) er
 	sql := `insert into matchs (team_id_a,team_id_b,score_a,score_b,club_match_id) values `
 	sql1 := `update club_match set is_add_match=true where club_match_id=?`
 	sql9 := `select m.match_id,m.club_match_id,tm.user_id from team_member tm left join matchs m on tm.club_match_id=m.club_match_id where tm.club_match_id=?`
-	sql10 := `insert into match_vote (club_match_id,match_id,user_id) values (?,?,?)`
+	sql10 := `insert into match_vote (club_match_id,match_id,user_id) values `
 	sql11 := `select user_id,count(*) as count from point_getter pg where club_match_id=? group by user_id`
 	sql12 := `update users set goal_num=goal_num-? where user_id=?`
 	sql13 := `update team_rank set point=0,match_num=0,win_num=0,draw_num=0,lose_num=0,goal_num=0,is_last_rank=false where club_match_id=?`
@@ -116,13 +116,16 @@ func (mr *MatchRepository) AddMatch(ctx context.Context, mlist entity.Matchs) er
 	if err := mr.DBQry.SelectContext(ctx, &lists, sql9, mlist[0].ClubMatchID); err != nil {
 		return err
 	}
+	var values2 []interface{}
 
 	for _, l := range lists {
-		_, err := mr.DBExc.ExecContext(ctx, sql10, l.ClubMatchID, l.MatchID, l.UserID)
-		if err != nil {
-			return err
-		}
-
+		sql10 += "(?,?,?), "
+		values2 = append(values2, l.ClubMatchID, l.MatchID, l.UserID)
+	}
+	sql10 = sql10[:len(sql10)-2]
+	_, err = mr.DBExc.ExecContext(ctx, sql10, values2...)
+	if err != nil {
+		return err
 	}
 
 	return nil
