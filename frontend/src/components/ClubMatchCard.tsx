@@ -16,6 +16,33 @@ const ClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
   const navigate = useNavigate();
   const [openDelete, setOpenDelete] = React.useState(false);
   const [openFinish, setOpenFinish] = React.useState(false);
+  const [currentTime, setCurrentTime] = React.useState<Date>(new Date());
+  const partiipantDeadlineDate = new Date(
+    clubMatchGetData.year,
+    clubMatchGetData.month - 1,
+    clubMatchGetData.day,
+    12,
+    0,
+    0
+  );
+
+  React.useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000); // 1秒ごとに更新
+    console.log(currentTime);
+    console.log(partiipantDeadlineDate);
+    console.log(
+      clubMatchGetData.is_participant && currentTime < partiipantDeadlineDate
+    );
+    console.log(
+      clubMatchGetData.is_participant && currentTime > partiipantDeadlineDate
+    );
+
+    return () => {
+      clearInterval(intervalId); // コンポーネントがアンマウントされたときにクリア
+    };
+  }, []);
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
@@ -185,6 +212,7 @@ const ClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
     navigate("/admin/team/create", {
       state: {
         club_match_id: clubMatchGetData.club_match_id,
+        participant_num: clubMatchGetData.participant_num,
       },
     });
   };
@@ -193,6 +221,7 @@ const ClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
     navigate("/admin/team/change", {
       state: {
         club_match_id: clubMatchGetData.club_match_id,
+        participant_num: clubMatchGetData.participant_num,
       },
     });
   };
@@ -799,40 +828,62 @@ const ClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
                     !clubMatchGetData.is_create_team && (
                       <Grid item xs={8}>
                         <Grid container>
-                          {clubMatchGetData.is_participant && (
-                            <Grid item xs={12}>
-                              <Grid container>
-                                <Grid item xs={12}>
-                                  <ColorButton
-                                    colorButton={{
-                                      buttonText: "参加",
-                                      onClick: handleParticipantDelete,
-                                      buttonColor: "info",
-                                      mb: "",
-                                      mt: "",
-                                    }}
-                                  />
+                          {clubMatchGetData.is_participant &&
+                            currentTime < partiipantDeadlineDate && (
+                              <Grid item xs={12}>
+                                <Grid container>
+                                  <Grid item xs={12}>
+                                    <ColorButton
+                                      colorButton={{
+                                        buttonText: "参加",
+                                        onClick: handleParticipantDelete,
+                                        buttonColor: "info",
+                                        mb: "",
+                                        mt: "",
+                                      }}
+                                    />
+                                  </Grid>
                                 </Grid>
                               </Grid>
-                            </Grid>
-                          )}
-                          {!clubMatchGetData.is_participant && (
-                            <Grid item xs={12}>
-                              <Grid container>
-                                <Grid item xs={12}>
-                                  <ColorButton
-                                    colorButton={{
-                                      buttonText: "不参加",
-                                      onClick: handleParticipantAdd,
-                                      buttonColor: "info",
-                                      mb: "",
-                                      mt: "",
-                                    }}
-                                  />
+                            )}
+                          {clubMatchGetData.is_participant &&
+                            currentTime > partiipantDeadlineDate && (
+                              <Grid item xs={12}>
+                                <Grid container>
+                                  <Grid item xs={12}>
+                                    <Typography>参加（変更不可）</Typography>
+                                  </Grid>
                                 </Grid>
                               </Grid>
-                            </Grid>
-                          )}
+                            )}
+                          {!clubMatchGetData.is_participant &&
+                            currentTime < partiipantDeadlineDate && (
+                              <Grid item xs={12}>
+                                <Grid container>
+                                  <Grid item xs={12}>
+                                    <ColorButton
+                                      colorButton={{
+                                        buttonText: "不参加",
+                                        onClick: handleParticipantAdd,
+                                        buttonColor: "info",
+                                        mb: "",
+                                        mt: "",
+                                      }}
+                                    />
+                                  </Grid>
+                                </Grid>
+                              </Grid>
+                            )}
+                          {!clubMatchGetData.is_participant &&
+                            currentTime > partiipantDeadlineDate && (
+                              <Grid item xs={12}>
+                                <Grid container>
+                                  <Grid item xs={12}>
+                                    <Typography>不参加（変更不可）</Typography>
+                                  </Grid>
+                                </Grid>
+                              </Grid>
+                            )}
                         </Grid>
                       </Grid>
                     )}
@@ -841,40 +892,62 @@ const ClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
                     clubMatchGetData.is_create_team && (
                       <Grid item xs={8}>
                         <Grid container>
-                          {clubMatchGetData.is_participant && (
-                            <Grid item xs={12}>
-                              <Grid container>
-                                <Grid item xs={12}>
-                                  <ColorButton
-                                    colorButton={{
-                                      buttonText: "参加",
-                                      onClick: handleTeamMemberDelete,
-                                      buttonColor: "info",
-                                      mb: "",
-                                      mt: "",
-                                    }}
-                                  />
+                          {clubMatchGetData.is_participant &&
+                            currentTime < partiipantDeadlineDate && (
+                              <Grid item xs={12}>
+                                <Grid container>
+                                  <Grid item xs={12}>
+                                    <ColorButton
+                                      colorButton={{
+                                        buttonText: "参加",
+                                        onClick: handleTeamMemberDelete,
+                                        buttonColor: "info",
+                                        mb: "",
+                                        mt: "",
+                                      }}
+                                    />
+                                  </Grid>
                                 </Grid>
                               </Grid>
-                            </Grid>
-                          )}
-                          {!clubMatchGetData.is_participant && (
-                            <Grid item xs={12}>
-                              <Grid container>
-                                <Grid item xs={12}>
-                                  <ColorButton
-                                    colorButton={{
-                                      buttonText: "不参加",
-                                      onClick: handleTeamMemberAdd,
-                                      buttonColor: "info",
-                                      mb: "",
-                                      mt: "",
-                                    }}
-                                  />
+                            )}
+                          {clubMatchGetData.is_participant &&
+                            currentTime > partiipantDeadlineDate && (
+                              <Grid item xs={12}>
+                                <Grid container>
+                                  <Grid item xs={12}>
+                                    <Typography>参加（変更不可）</Typography>
+                                  </Grid>
                                 </Grid>
                               </Grid>
-                            </Grid>
-                          )}
+                            )}
+                          {!clubMatchGetData.is_participant &&
+                            currentTime < partiipantDeadlineDate && (
+                              <Grid item xs={12}>
+                                <Grid container>
+                                  <Grid item xs={12}>
+                                    <ColorButton
+                                      colorButton={{
+                                        buttonText: "不参加",
+                                        onClick: handleTeamMemberAdd,
+                                        buttonColor: "info",
+                                        mb: "",
+                                        mt: "",
+                                      }}
+                                    />
+                                  </Grid>
+                                </Grid>
+                              </Grid>
+                            )}
+                          {!clubMatchGetData.is_participant &&
+                            currentTime > partiipantDeadlineDate && (
+                              <Grid item xs={12}>
+                                <Grid container>
+                                  <Grid item xs={12}>
+                                    <Typography>不参加（変更不可）</Typography>
+                                  </Grid>
+                                </Grid>
+                              </Grid>
+                            )}
                         </Grid>
                       </Grid>
                     )}
