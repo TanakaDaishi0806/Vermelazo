@@ -26,7 +26,9 @@ const CreateTeamTemplate: React.FC<Props> = ({ createTeamInfo }) => {
           onChange={createTeamInfo.handleTeamNumChange}
           error={createTeamInfo.teamNumEmpty}
           helperText={
-            createTeamInfo.teamNumEmpty ? "数字を入力してください" : ""
+            createTeamInfo.teamNumEmpty
+              ? "数字を入力してください。また、人数以下のチーム数にしてください。"
+              : ""
           }
         />
       </Grid>

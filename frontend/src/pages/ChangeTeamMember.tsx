@@ -9,7 +9,7 @@ const ChangeTeamMember = () => {
   const locate = useLocation();
   const navigate = useNavigate();
   const { state } = locate;
-  const { club_match_id } = state;
+  const { club_match_id, participant_num } = state;
   const accessToken = localStorage.getItem("accessToken");
   const [teamMemberList, setTeamMemberList] = React.useState<TeamMember[][]>(
     []
@@ -37,6 +37,7 @@ const ChangeTeamMember = () => {
     navigate("/admin/team/create", {
       state: {
         club_match_id: club_match_id,
+        participant_num: participant_num,
       },
     });
   };

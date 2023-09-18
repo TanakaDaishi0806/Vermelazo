@@ -10,7 +10,7 @@ const CreateTeam = () => {
   const accessToken = localStorage.getItem("accessToken");
   const locate = useLocation();
   const { state } = locate;
-  const { club_match_id } = state;
+  const { club_match_id, participant_num } = state;
   const [teamNum, setTeamNum] = useState("");
   const [teamNumEmpty, setTeamNumEmpty] = useState(false);
   const [allEmptyError, setAllEmptyError] = useState(true);
@@ -22,10 +22,18 @@ const CreateTeam = () => {
   };
 
   const handleTeamNumEmptyChange = (teamNumValue: string) => {
-    if (teamNumValue === "") {
+    if (
+      teamNumValue === "" ||
+      parseInt(teamNumValue) > participant_num ||
+      parseInt(teamNumValue, 10) <= 1
+    ) {
       setTeamNumEmpty(true);
+      console.log(parseInt(teamNumValue) > participant_num);
+      console.log(participant_num);
     } else {
       setTeamNumEmpty(false);
+      console.log(parseInt(teamNumValue) > participant_num);
+      console.log(participant_num);
     }
   };
   const handleAllEmptyError = () => {
