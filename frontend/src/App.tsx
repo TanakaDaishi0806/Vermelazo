@@ -32,6 +32,7 @@ import ChangeAdminPassword from "./pages/ChangeAdminPassword";
 import AdminTeamList from "./pages/AdminTeamList";
 import LoadingCreateTeam from "./pages/LoadingCreateTeam";
 import LoadingCreateMatch from "./pages/LoadingCreateMatch";
+import LoadingClubMatchFinish from "./pages/LoadingClubMatchFinish";
 
 function App() {
   return (
@@ -78,6 +79,10 @@ function App() {
           element={<ChangeAdminPassword />}
         />
         <Route path="/admin/teamlist" element={<AdminTeamList />} />
+        <Route
+          path="/admin/clubmatch/finish/loading"
+          element={<LoadingClubMatchFinish />}
+        />
       </Routes>
     </BrowserRouter>
   );

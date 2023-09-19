@@ -268,26 +268,11 @@ const ClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
   };
 
   const handleSwitchFinish = () => {
-    axios
-      .put(
-        `${process.env.REACT_APP_API_URL}/admin/clubmatchs/isfinish/${clubMatchGetData.club_match_id}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      )
-      .then((response) => {
-        console.log(response.data);
-        clubMatchGetData.set(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-        if (error.response.status === 401) {
-          navigate("/");
-        }
-      });
+    navigate("/admin/clubmatch/finish/loading", {
+      state: {
+        club_match_id: clubMatchGetData.club_match_id,
+      },
+    });
   };
 
   const handleVoteMatchList = () => {
