@@ -25,7 +25,7 @@ const LoadingClubMatchFinish = () => {
       )
       .then((response) => {
         console.log(response.data);
-        navigate("admin/finish");
+        navigate("/admin/finish");
       })
       .catch((error) => {
         console.log(error);
