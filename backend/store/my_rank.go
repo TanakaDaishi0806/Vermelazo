@@ -12,7 +12,7 @@ type MyRankRepository struct {
 }
 
 func (mrr *MyRankRepository) ListMyRank(ctx context.Context, uid entity.UserId) (*entity.MyRank, error) {
-	sql := `select count(*) from participant where user_id=?`
+	sql := `select count(*) from participant p left join club_match cm on p.club_match_id=cm.club_match_id where p.user_id=? and cm.is_finish=true`
 	sql1 := `select count(*)+1 as rank_all from users where point>(select point from users where user_id=?)`
 	sql2 := `select count(*) as total_all from users`
 	sql3 := `select count(*)+1 as rank_position from users where position=(select position from users where user_id=?) and point>(select point from users where user_id=?)`
