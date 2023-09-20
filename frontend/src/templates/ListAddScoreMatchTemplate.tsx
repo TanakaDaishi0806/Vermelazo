@@ -23,6 +23,7 @@ const ListAddScoreMatchTemplate: React.FC<Props> = ({ MatchListInfo }) => {
         sx={{
           mt: "40px",
           width: "320px",
+          mb: "60px",
         }}
       >
         <AddScoreMatchList matchListInfo={MatchListInfo} />
