@@ -2,7 +2,6 @@ package auth
 
 import (
 	"context"
-	_ "embed"
 	"fmt"
 	"log"
 	"net/http"
@@ -37,7 +36,7 @@ func Clocker() time.Time {
 
 func NewJWTer() (*JWTer, error) {
 	j := &JWTer{}
-	rawPrivKey, err := os.ReadFile("cert/private.pem")
+	rawPrivKey, err := os.ReadFile("auth/cert/private.pem")
 	if err != nil {
 		return nil, err
 	}
@@ -46,7 +45,7 @@ func NewJWTer() (*JWTer, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed in NewJWTer: private key:%w", err)
 	}
-	rawPubKey, err := os.ReadFile("cert/public.pem")
+	rawPubKey, err := os.ReadFile("auth/cert/public.pem")
 	if err != nil {
 		return nil, err
 	}
