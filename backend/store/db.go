@@ -26,11 +26,11 @@ var (
 func New(ctx context.Context, cfg *config.Config) (*sqlx.DB, func(), error) {
 	user := os.Getenv("DB_USER")
 	password := os.Getenv("DB_PASSWORD")
-	host_staging := os.Getenv("127.0.0.1:3309")
+	//host_staging := os.Getenv("127.0.0.1:3309")
 	//host_staging := os.Getenv("DB_HOST_STAGING")
-	//host_product := "aws.connect.psdb.cloud"
+	host_product := "aws.connect.psdb.cloud"
 	db, err := sql.Open("mysql",
-		fmt.Sprintf("%s:%s@tcp(%s)/my-database?tls=true", user, password, host_staging),
+		fmt.Sprintf("%s:%s@tcp(%s)/my-database?tls=true", user, password, host_product),
 		//fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?parseTime=true",cfg.DBUser, cfg.DBPassword, cfg.DBHost, cfg.DBPort, cfg.DBName),
 	)
 	if err != nil {
