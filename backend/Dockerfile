@@ -15,7 +15,7 @@ WORKDIR /app
 COPY ./ ./
 RUN go mod download
 
-RUN GOOS=linux GOARCH=amd64 go build -mod=readonly -v -o server
+RUN GOOS=linux GOARCH=amd64 go build -mod=readonly -v -o server --private-key=auth/cert/PRIVATE_KEY
 
 EXPOSE 8080
 
