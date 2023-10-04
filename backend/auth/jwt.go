@@ -48,7 +48,7 @@ func NewJWTer() (*JWTer, error) {
 		return nil, fmt.Errorf("failed in NewJWTer: pubric key:%w", err)
 	}
 
-	rawPrivKey, err := os.ReadFile("cert/PRIVATE_KEY")
+	rawPrivKey, err := os.ReadFile("auth/cert/PRIVATE_KEY")
 	if err != nil {
 		log.Println("priverr")
 		return nil, err
