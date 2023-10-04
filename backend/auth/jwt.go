@@ -2,10 +2,10 @@ package auth
 
 import (
 	"context"
+	_ "embed"
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/TanakaDaishi0806/Vermelazo.git/backend/entity"
@@ -14,6 +14,12 @@ import (
 	"github.com/lestrrat-go/jwx/v2/jwk"
 	"github.com/lestrrat-go/jwx/v2/jwt"
 )
+
+//go:embed cert/private.pem
+var rawPrivKey []byte
+
+//go:embed cert/public.pem
+var rawPubKey []byte
 
 const (
 	RoleKey      = "role"
@@ -36,19 +42,19 @@ func Clocker() time.Time {
 
 func NewJWTer() (*JWTer, error) {
 	j := &JWTer{}
-	rawPrivKey, err := os.ReadFile("auth/cert/private.pem")
-	if err != nil {
-		return nil, err
-	}
+	// rawPrivKey, err := os.ReadFile("auth/cert/private.pem")
+	// if err != nil {
+	// 	return nil, err
+	// }
 	privkey, err := parse(rawPrivKey)
 
 	if err != nil {
 		return nil, fmt.Errorf("failed in NewJWTer: private key:%w", err)
 	}
-	rawPubKey, err := os.ReadFile("auth/cert/public.pem")
-	if err != nil {
-		return nil, err
-	}
+	// rawPubKey, err := os.ReadFile("auth/cert/public.pem")
+	// if err != nil {
+	// 	return nil, err
+	// }
 	pubkey, err := parse(rawPubKey)
 
 	if err != nil {
