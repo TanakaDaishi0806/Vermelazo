@@ -37,7 +37,7 @@ func Clocker() time.Time {
 func NewJWTer() (*JWTer, error) {
 	j := &JWTer{}
 
-	rawPubKey, err := os.ReadFile("cert/public.pem")
+	rawPubKey, err := os.ReadFile("auth/cert/public.pem")
 	if err != nil {
 		log.Println("puberr")
 		return nil, err
