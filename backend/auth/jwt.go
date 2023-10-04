@@ -38,6 +38,7 @@ func NewJWTer() (*JWTer, error) {
 	j := &JWTer{}
 	rawPrivKey, err := os.ReadFile("/app/auth/cert/PRIVATE_KEY")
 	if err != nil {
+		log.Println("priverr")
 		return nil, err
 	}
 	privkey, err := parse(rawPrivKey)
@@ -47,6 +48,7 @@ func NewJWTer() (*JWTer, error) {
 	}
 	rawPubKey, err := os.ReadFile("/app/auth/cert/public.pem")
 	if err != nil {
+		log.Println("puberr")
 		return nil, err
 	}
 	pubkey, err := parse(rawPubKey)
