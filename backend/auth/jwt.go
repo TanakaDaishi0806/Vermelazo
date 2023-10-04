@@ -36,7 +36,7 @@ func Clocker() time.Time {
 
 func NewJWTer() (*JWTer, error) {
 	j := &JWTer{}
-	rawPrivKey, err := os.ReadFile("auth/cert/PRIVATE_KEY")
+	rawPrivKey, err := os.ReadFile("/app/auth/cert/PRIVATE_KEY")
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +45,7 @@ func NewJWTer() (*JWTer, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed in NewJWTer: private key:%w", err)
 	}
-	rawPubKey, err := os.ReadFile("auth/cert/public.pem")
+	rawPubKey, err := os.ReadFile("/app/auth/cert/public.pem")
 	if err != nil {
 		return nil, err
 	}
