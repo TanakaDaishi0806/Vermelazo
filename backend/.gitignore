@@ -16,4 +16,4 @@
 tmp/
 _tools/mysql/data/
 .env
-//auth/cert/private.pem
+/auth/cert/private.pem
