@@ -29,7 +29,6 @@ func New(ctx context.Context, cfg *config.Config) (*sqlx.DB, func(), error) {
 	//host_staging := os.Getenv("127.0.0.1:3309")
 	//host := os.Getenv("HOST_STAGING")
 	host := os.Getenv("HOST_PRODUCT")
-
 	db, err := sql.Open("mysql",
 		fmt.Sprintf("%s:%s@tcp(%s)/my-database?tls=true", user, password, host),
 		//fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?parseTime=true",cfg.DBUser, cfg.DBPassword, cfg.DBHost, cfg.DBPort, cfg.DBName),
