@@ -27,9 +27,9 @@ var (
 func New(ctx context.Context, cfg *config.Config) (*sqlx.DB, func(), error) {
 	user := os.Getenv("DB_USER")
 	password := os.Getenv("DB_PASSWORD")
-	//host_staging := os.Getenv("127.0.0.1:3309")
+	host := "127.0.0.1:3309"
 	//host := os.Getenv("HOST_STAGING")
-	host := os.Getenv("HOST_PRODUCT")
+	//host := os.Getenv("HOST_PRODUCT")
 	log.Println(host)
 	db, err := sql.Open("mysql",
 		fmt.Sprintf("%s:%s@tcp(%s)/my-database?tls=true", user, password, host),
