@@ -20,3 +20,4 @@ auth/cert/private.pem
 auth/cert/public.pem
 config/config.go
 docker-compose.yml
+.air.toml
