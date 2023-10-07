@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/TanakaDaishi0806/Vermelazo.git/backend/auth"
-	"github.com/TanakaDaishi0806/Vermelazo.git/backend/config"
 	"github.com/TanakaDaishi0806/Vermelazo.git/backend/handler"
 	"github.com/TanakaDaishi0806/Vermelazo.git/backend/service"
 	"github.com/TanakaDaishi0806/Vermelazo.git/backend/store"
@@ -13,7 +12,7 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-func Newmux(ctx context.Context, cfg *config.Config) (http.Handler, func(), error) {
+func Newmux(ctx context.Context) (http.Handler, func(), error) {
 	mux := chi.NewRouter()
 
 	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
@@ -21,7 +20,7 @@ func Newmux(ctx context.Context, cfg *config.Config) (http.Handler, func(), erro
 		_, _ = w.Write([]byte(`{"status": "ok"}`))
 	})
 	v := validator.New()
-	db, cleanup, err := store.New(ctx, cfg)
+	db, cleanup, err := store.New(ctx)
 	if err != nil {
 		return nil, cleanup, err
 	}

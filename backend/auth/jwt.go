@@ -36,24 +36,22 @@ func Clocker() time.Time {
 
 func NewJWTer() (*JWTer, error) {
 	j := &JWTer{}
-	rawPrivKey, err := os.ReadFile("auth/cert/private.pem")
-	if err != nil {
-		return nil, err
-	}
-	privkey, err := parse(rawPrivKey)
-
-	if err != nil {
-		return nil, fmt.Errorf("failed in NewJWTer: private key:%w", err)
-	}
-	rawPubKey, err := os.ReadFile("auth/cert/public.pem")
-	if err != nil {
-		return nil, err
-	}
+	rawPubKeyString := os.Getenv("PUBLIC_KEY")
+	rawPubKey := []byte(rawPubKeyString)
 	pubkey, err := parse(rawPubKey)
 
 	if err != nil {
 		return nil, fmt.Errorf("failed in NewJWTer: pubric key:%w", err)
 	}
+
+	rawPrivKeyString := os.Getenv("PRIVATE_KEY2")
+	rawPrivKey := []byte(rawPrivKeyString)
+	privkey, err := parse(rawPrivKey)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed in NewJWTer: private key:%w", err)
+	}
+
 	j.PrivateKey = privkey
 	j.PublicKey = pubkey
 
@@ -76,7 +74,7 @@ func (j *JWTer) GenerateToken(ctx context.Context, u entity.User) ([]byte, error
 		Issuer(`github.com/TanakaDaishi0806/Vermelazo`).
 		Subject("access_token").
 		IssuedAt(time.Now()).
-		Expiration(time.Now().Add(30*time.Minute)).
+		Expiration(time.Now().Add(360*time.Minute)).
 		Claim(RoleKey, int(u.Role)).
 		Claim(StudentIDKey, u.StudentID).
 		Claim(UserIDKey, u.ID).

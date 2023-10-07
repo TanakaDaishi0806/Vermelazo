@@ -17,3 +17,7 @@ tmp/
 _tools/mysql/data/
 .env
 auth/cert/private.pem
+auth/cert/public.pem
+config/config.go
+docker-compose.yml
+.air.toml
