@@ -3,6 +3,7 @@ package handler
 import (
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/TanakaDaishi0806/Vermelazo.git/backend/auth"
 )
@@ -38,8 +39,9 @@ func AdminMiddleware(next http.Handler) http.Handler {
 
 func CROS(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		frontUrl := os.Getenv("FRONT_URL")
 		//w.Header().Set("Access-Control-Allow-Origin", "https://vermelazo.vercel.app")
-		w.Header().Set("Access-Control-Allow-Origin", "https://vermelazo-97ku.vercel.app")
+		w.Header().Set("Access-Control-Allow-Origin", frontUrl)
 		//w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 		w.Header().Set("Access-Control-Allow-Headers", "Authorization,Content-Type")
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
