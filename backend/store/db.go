@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"log"
 	"os"
 	"time"
 
@@ -28,10 +29,13 @@ func New(ctx context.Context) (*sqlx.DB, func(), error) {
 	password := os.Getenv("DB_PASSWORD")
 	host := os.Getenv("HOST_PRODUCT")
 	dbName := os.Getenv("DB_NAME")
+	option := os.Getenv("OPTION")
 	db, err := sql.Open("mysql",
-		fmt.Sprintf("%s:%s@tcp(%s)/%s?tls=true", user, password, host, dbName),
+		fmt.Sprintf("%s:%s@tcp(%s)/%s?%s", user, password, host, dbName, option),
+		//fmt.Sprintf("%s:%s@tcp(%s)/%s?tls=true", user, password, host, dbName),
 		//fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?parseTime=true", cfg.DBUser, cfg.DBPassword, cfg.DBHost, cfg.DBPort, cfg.DBName),
 	)
+	log.Printf("%s:%s@tcp(%s)/%s?%s", user, password, host, dbName, option)
 	if err != nil {
 		return nil, func() {}, err
 	}
