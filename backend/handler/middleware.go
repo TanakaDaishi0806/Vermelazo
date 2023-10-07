@@ -40,9 +40,7 @@ func AdminMiddleware(next http.Handler) http.Handler {
 func CROS(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		frontUrl := os.Getenv("FRONT_URL")
-		//w.Header().Set("Access-Control-Allow-Origin", "https://vermelazo.vercel.app")
 		w.Header().Set("Access-Control-Allow-Origin", frontUrl)
-		//w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 		w.Header().Set("Access-Control-Allow-Headers", "Authorization,Content-Type")
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
 		w.Header().Set("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,UPDATE,OPTIONS")

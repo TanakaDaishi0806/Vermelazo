@@ -8,8 +8,7 @@ services:
     environment:
       ENV: dev
       PORT: 8080
-      DB_HOST: todo-db
-      DB_PORT: 3306
+      HOST_PRODUCT: "todo-db:3306"
       DB_USER: todo
       DB_PASSWORD: todo
       DB_NAME: todo

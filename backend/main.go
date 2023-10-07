@@ -6,8 +6,6 @@ import (
 	"log"
 	"net"
 	"os"
-
-	"github.com/TanakaDaishi0806/Vermelazo.git/backend/config"
 )
 
 func main() {
@@ -18,10 +16,10 @@ func main() {
 }
 
 func run(ctx context.Context) error {
-	cfg, err := config.New()
-	if err != nil {
-		return err
-	}
+	// cfg, err := config.New()
+	// if err != nil {
+	// 	return err
+	// }
 	port := os.Getenv("PORT")
 
 	l, err := net.Listen("tcp", fmt.Sprintf(":%s", port))
@@ -34,7 +32,7 @@ func run(ctx context.Context) error {
 	url := fmt.Sprintf("http://%s", l.Addr().String())
 	log.Printf("start wih: %v", url)
 
-	mux, cleanup, err := Newmux(ctx, cfg)
+	mux, cleanup, err := Newmux(ctx)
 	defer cleanup()
 	if err != nil {
 		return err
