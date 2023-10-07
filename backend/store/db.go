@@ -32,8 +32,6 @@ func New(ctx context.Context) (*sqlx.DB, func(), error) {
 	option := os.Getenv("OPTION")
 	db, err := sql.Open("mysql",
 		fmt.Sprintf("%s:%s@tcp(%s)/%s?%s", user, password, host, dbName, option),
-		//fmt.Sprintf("%s:%s@tcp(%s)/%s?tls=true", user, password, host, dbName),
-		//fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?parseTime=true", cfg.DBUser, cfg.DBPassword, cfg.DBHost, cfg.DBPort, cfg.DBName),
 	)
 	log.Printf("%s:%s@tcp(%s)/%s?%s", user, password, host, dbName, option)
 	if err != nil {
