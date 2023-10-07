@@ -4,8 +4,7 @@ services:
   app:
     image: gotodo
     build:
-      args:
-        - target=dev
+      target: dev
     environment:
       ENV: dev
       PORT: 8080
