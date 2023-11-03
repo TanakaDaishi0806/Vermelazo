@@ -5,6 +5,7 @@ import axios from "axios";
 import AdminLoginTemplate from "../templates/AdminLoginTemplate";
 
 const AdminLogin = () => {
+  const accessToken = localStorage.getItem("accessToken");
   const [student_id, setStudent_id] = useState("");
   const [student_idEmpty, setStudent_idEmpty] = useState(false);
   const [password, setPassword] = useState("");
@@ -12,6 +13,25 @@ const AdminLogin = () => {
   const [inputError, setInputError] = useState(false);
   const [allEmptyError, setAllEmptyError] = useState(true);
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/admin`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        navigate("/admin");
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.response.status === 401) {
+          navigate("/adminlogin");
+        }
+      });
+  }, []);
 
   const handleStudent_idChange = (
     event: React.ChangeEvent<HTMLInputElement>
