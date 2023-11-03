@@ -5,6 +5,7 @@ import axios from "axios";
 import LoginTemplate from "../templates/LoginTemplate";
 
 const Login = () => {
+  const accessToken = localStorage.getItem("accessToken");
   const [student_id, setStudent_id] = useState("");
   const [student_idEmpty, setStudent_idEmpty] = useState(false);
   const [password, setPassword] = useState("");
@@ -12,6 +13,25 @@ const Login = () => {
   const [inputError, setInputError] = useState(false);
   const [allEmptyError, setAllEmptyError] = useState(true);
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/home`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        navigate("/home");
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.response.status === 401) {
+          navigate("/");
+        }
+      });
+  }, []);
 
   const handleStudent_idChange = (
     event: React.ChangeEvent<HTMLInputElement>
