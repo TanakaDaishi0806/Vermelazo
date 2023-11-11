@@ -17,6 +17,7 @@ const ChangeClubMatch = () => {
     preVoteMonth,
     preVoteDay,
     preTitle,
+    prePointTimes,
   } = state;
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("accessToken");
@@ -50,6 +51,23 @@ const ChangeClubMatch = () => {
   const [title, setTitle] = useState<string>(preTitle || "");
   const [titleEmpty, setTitleEmpty] = useState(false);
   const [inputError, setInputError] = useState(false);
+  const [pointTimes, setPointTimes] = useState<string>(prePointTimes || "");
+  const [pointTimesEmpty, setPointTimesEmpty] = useState(false);
+
+  const handlePointTimesChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setPointTimes(event.target.value);
+    handlePointTimesEmptyChange(event.target.value);
+  };
+
+  const handlePointTimesEmptyChange = (pointTimesValue: string) => {
+    if (pointTimesValue === "" || parseInt(pointTimesValue) < 1) {
+      setPointTimesEmpty(true);
+    } else {
+      setPointTimesEmpty(false);
+    }
+  };
 
   const handleDateChange = (dateValue: Date | null) => {
     setDate(dateValue);
@@ -106,6 +124,7 @@ const ChangeClubMatch = () => {
             vote_month,
             vote_day,
             title,
+            point_times: parseInt(pointTimes, 10),
           },
           {
             headers: {
@@ -134,14 +153,17 @@ const ChangeClubMatch = () => {
         date: date,
         voteDate: voteDate,
         title: title,
+        pointTimes: pointTimes,
         dateEmpty: dateEmpty,
         voteDateEmpty: voteDateEmpty,
         titleEmpty: titleEmpty,
+        pointTimesEmpty: pointTimesEmpty,
         inputError: inputError,
         setInputError: setInputError,
         handleDateChange: handleDateChange,
         handleVoteDateChange: handleVoteDateChange,
         handleTitleChange: handleTitleChange,
+        handlePointTimesChange: handlePointTimesChange,
         handleChangeDateSubmit: handleChangeDateSubmit,
       }}
     />

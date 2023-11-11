@@ -15,6 +15,24 @@ const AddClubMatch = () => {
   const [titleEmpty, setTitleEmpty] = useState(false);
   const [inputError, setInputError] = useState(false);
   const [allEmptyError, setAllEmptyError] = useState(true);
+  const [pointTimes, setPointTimes] = useState<string>("1");
+  const [pointTimesEmpty, setPointTimesEmpty] = useState(false);
+
+  const handlePointTimesChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setPointTimes(event.target.value);
+    handlePointTimesEmptyChange(event.target.value);
+    handleAllEmptyError();
+  };
+
+  const handlePointTimesEmptyChange = (pointTimesValue: string) => {
+    if (pointTimesValue === "" || parseInt(pointTimesValue) < 1) {
+      setPointTimesEmpty(true);
+    } else {
+      setPointTimesEmpty(false);
+    }
+  };
 
   const handleDateChange = (dateValue: Date | null) => {
     setDate(dateValue);
@@ -70,7 +88,16 @@ const AddClubMatch = () => {
       axios
         .post(
           `${process.env.REACT_APP_API_URL}/admin`,
-          { year, month, day, vote_year, vote_month, vote_day, title },
+          {
+            year,
+            month,
+            day,
+            vote_year,
+            vote_month,
+            vote_day,
+            title,
+            point_times: parseInt(pointTimes, 10),
+          },
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -98,15 +125,18 @@ const AddClubMatch = () => {
         date: date,
         voteDate: voteDate,
         title: title,
+        pointTimes: pointTimes,
         dateEmpty: dateEmpty,
         voteDateEmpty: voteDateEmpty,
         titleEmpty: titleEmpty,
+        pointTimesEmpty: pointTimesEmpty,
         inputError: inputError,
         allEmptyError: allEmptyError,
         setInputError: setInputError,
         handleDateChange: handleDateChange,
         handleVoteDateChange: handleVoteDateChange,
         handleTitleChange: handleTitleChange,
+        handlePointTimesChange: handlePointTimesChange,
         handleDateSubmit: handleDateSubmit,
       }}
     />

@@ -90,7 +90,7 @@ const ResultDetail = () => {
   const handleResultListNavigate = () => {
     if (!is_finish) {
       navigate("/home/result/interim", {
-        state: { club_match_id: club_match_id },
+        state: { club_match_id: club_match_id, vnum },
       });
     } else {
       navigate("/home/result/finish", {

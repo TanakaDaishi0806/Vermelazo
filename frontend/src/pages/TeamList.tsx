@@ -22,6 +22,7 @@ const TeamList = () => {
         },
       })
       .then((response) => {
+        console.log("aaaaaaa");
         console.log(response.data);
         setTeamMemberList(response.data);
       })
