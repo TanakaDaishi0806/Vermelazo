@@ -88,3 +88,7 @@ type TeamRankList interface {
 type TopScorerList interface {
 	ListTopScorer(ctx context.Context, cmid entity.ClubMatchID) (entity.TopScorers, error)
 }
+
+type ParticipantNameList interface {
+	ListParticipantName(ctx context.Context, cmid entity.ClubMatchID) (entity.ParticipantInfos, error)
+}
