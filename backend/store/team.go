@@ -135,7 +135,7 @@ func (tr *TeamRepository) ChangeTeamMember(ctx context.Context, ctm *entity.Chan
 }
 
 func (tr *TeamRepository) OrderTeams(ctx context.Context, cmid entity.ClubMatchID) (entity.Teams, error) {
-	sql := `select t.team_id,t.club_match_id, u.user_id, u.name,u.furigana,u.position, u.experience from users u, team_member t where t.club_match_id=? AND u.user_id=t.user_id AND t.is_exist=true order by t.team_id`
+	sql := `select t.team_id,t.club_match_id, u.user_id, u.name,u.furigana,u.position, u.experience,u.grade from users u, team_member t where t.club_match_id=? AND u.user_id=t.user_id AND t.is_exist=true order by t.team_id`
 
 	lists := entity.Teams{}
 	if err := tr.DBQry.SelectContext(ctx, &lists, sql, cmid); err != nil {
