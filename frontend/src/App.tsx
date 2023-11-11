@@ -33,6 +33,7 @@ import AdminTeamList from "./pages/AdminTeamList";
 import LoadingCreateTeam from "./pages/LoadingCreateTeam";
 import LoadingCreateMatch from "./pages/LoadingCreateMatch";
 import LoadingClubMatchFinish from "./pages/LoadingClubMatchFinish";
+import ListVoteMatchProgress from "./pages/ListVoteMatchProgress";
 
 function App() {
   return (
@@ -82,6 +83,10 @@ function App() {
         <Route
           path="/admin/clubmatch/finish/loading"
           element={<LoadingClubMatchFinish />}
+        />
+        <Route
+          path="/home/match/vote/progress"
+          element={<ListVoteMatchProgress />}
         />
       </Routes>
     </BrowserRouter>
