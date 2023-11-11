@@ -34,8 +34,8 @@ type SwitchClubMatchFinish struct {
 }
 
 func (acm *AddClubMatch) AddClubMatch(ctx context.Context, reqcm *entity.ClubMatch) error {
-	sql := `INSERT INTO club_match (year,month,day,vote_year,vote_month,vote_day,title) VALUES (?,?,?,?,?,?,?)`
-	result, err := acm.DB.ExecContext(ctx, sql, reqcm.Year, reqcm.Month, reqcm.Day, reqcm.VoteYear, reqcm.VoteMonth, reqcm.VoteDay, reqcm.Title)
+	sql := `INSERT INTO club_match (year,month,day,vote_year,vote_month,vote_day,title,point_times) VALUES (?,?,?,?,?,?,?,?)`
+	result, err := acm.DB.ExecContext(ctx, sql, reqcm.Year, reqcm.Month, reqcm.Day, reqcm.VoteYear, reqcm.VoteMonth, reqcm.VoteDay, reqcm.Title, reqcm.PointTimes)
 	if err != nil {
 		return err
 	}
@@ -61,8 +61,8 @@ func (lcm *ListClubMatch) ListClubMatch(ctx context.Context) (entity.ClubMatchs,
 }
 
 func (ccm *ChangeClubMatch) ChangeClubMatch(ctx context.Context, reqcm *entity.ClubMatch) error {
-	sql := `update club_match set year=?,month=?,day=?,vote_year=?,vote_month=?,vote_day=?,title=? where club_match_id=?`
-	_, err := ccm.DB.ExecContext(ctx, sql, reqcm.Year, reqcm.Month, reqcm.Day, reqcm.VoteYear, reqcm.VoteMonth, reqcm.VoteDay, reqcm.Title, reqcm.ID)
+	sql := `update club_match set year=?,month=?,day=?,vote_year=?,vote_month=?,vote_day=?,title=?,point_times=? where club_match_id=?`
+	_, err := ccm.DB.ExecContext(ctx, sql, reqcm.Year, reqcm.Month, reqcm.Day, reqcm.VoteYear, reqcm.VoteMonth, reqcm.VoteDay, reqcm.Title, reqcm.PointTimes, reqcm.ID)
 	if err != nil {
 		return err
 	}
@@ -142,6 +142,7 @@ func (scmr *SwitchClubMatchFinish) SwitchClubMatchFinish(ctx context.Context, cm
 	sql7 := `select coalesce(count(*)*10,0) as count from position_mom where user_id=? and club_match_id=?`
 	sql8 := `update users set goal_num=goal_num+?,point=point+? where user_id=?`
 	sql9 := `select is_finish from club_match where club_match_id=?`
+	sql10 := `select point_times from club_match where club_match_id=?`
 
 	_, err := scmr.DBExc.ExecContext(ctx, sql, cmid)
 	if err != nil {
@@ -168,6 +169,11 @@ func (scmr *SwitchClubMatchFinish) SwitchClubMatchFinish(ctx context.Context, cm
 
 	b := []bool{}
 	if err := scmr.DBQry.SelectContext(ctx, &b, sql9, cmid); err != nil {
+		return nil, err
+	}
+
+	pt := []int{}
+	if err := scmr.DBQry.SelectContext(ctx, &pt, sql10, cmid); err != nil {
 		return nil, err
 	}
 
@@ -208,10 +214,10 @@ func (scmr *SwitchClubMatchFinish) SwitchClubMatchFinish(ctx context.Context, cm
 		var addgoalnum int
 
 		if b[0] {
-			addpoint = teampoint[0] + votepoint[0] + mompoint[0]
+			addpoint = (teampoint[0] + votepoint[0] + mompoint[0]) * pt[0]
 			addgoalnum = goalnum[0]
 		} else {
-			addpoint = -teampoint[0] - votepoint[0] - mompoint[0]
+			addpoint = (-teampoint[0] - votepoint[0] - mompoint[0]) * pt[0]
 			addgoalnum = -goalnum[0]
 		}
 

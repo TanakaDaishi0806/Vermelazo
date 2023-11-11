@@ -30,6 +30,7 @@ const TeamMemberList: React.FC<Props> = ({ teamMemberListInfo }) => {
     setLength(teamMemberListInfo.teamMemberList.length);
     const newColumnCount = Math.max(12 / length, 3);
     setColumnCount(newColumnCount);
+    console.log("aaa");
   }, [teamMemberListInfo.teamMemberList]);
 
   return (
@@ -79,6 +80,36 @@ const TeamMemberList: React.FC<Props> = ({ teamMemberListInfo }) => {
                               <Typography sx={{ fontsize: "10px" }}>
                                 {member.furigana}
                               </Typography>
+                              {member.grade === 1 && (
+                                <Typography sx={{ fontsize: "10px" }}>
+                                  1年
+                                </Typography>
+                              )}
+                              {member.grade === 2 && (
+                                <Typography sx={{ fontsize: "10px" }}>
+                                  2年
+                                </Typography>
+                              )}
+                              {member.grade === 3 && (
+                                <Typography sx={{ fontsize: "10px" }}>
+                                  3年
+                                </Typography>
+                              )}
+                              {member.grade === 4 && (
+                                <Typography sx={{ fontsize: "10px" }}>
+                                  4年
+                                </Typography>
+                              )}
+                              {member.grade === 5 && (
+                                <Typography sx={{ fontsize: "10px" }}>
+                                  M1
+                                </Typography>
+                              )}
+                              {member.grade === 6 && (
+                                <Typography sx={{ fontsize: "10px" }}>
+                                  M2
+                                </Typography>
+                              )}
                               {member.position === 1 && (
                                 <Typography sx={{ fontsize: "10px" }}>
                                   GK

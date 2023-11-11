@@ -57,6 +57,19 @@ const AddClubMatchTemplate: React.FC<Props> = ({ addClubMatchInfo }) => {
             }
           />
         </Grid>
+        <Grid item xs={12} sx={{ mt: "25px" }}>
+          <TextField
+            label="＊獲得ポイントの倍数"
+            value={addClubMatchInfo.pointTimes}
+            onChange={addClubMatchInfo.handlePointTimesChange}
+            error={addClubMatchInfo.pointTimesEmpty}
+            helperText={
+              addClubMatchInfo.pointTimesEmpty
+                ? "1以上の自然数を入力してください"
+                : ""
+            }
+          />
+        </Grid>
         <Grid item xs={12}>
           <BaseButton
             baseButton={{
@@ -66,7 +79,8 @@ const AddClubMatchTemplate: React.FC<Props> = ({ addClubMatchInfo }) => {
                   !(
                     addClubMatchInfo.dateEmpty ||
                     addClubMatchInfo.titleEmpty ||
-                    addClubMatchInfo.allEmptyError
+                    addClubMatchInfo.allEmptyError ||
+                    addClubMatchInfo.pointTimesEmpty
                   )
                 ) {
                   addClubMatchInfo.handleDateSubmit();

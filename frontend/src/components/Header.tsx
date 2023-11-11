@@ -15,27 +15,111 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { useNavigate } from "react-router-dom";
+import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
+import axios from "axios";
 
 import { HeaderText } from "../type/velmelazo";
 import ExplainParticipant from "../parts/ExplainParticipant";
 import ExplainPoint from "../parts/ExplainPoint";
 import ExplainVote from "../parts/ExplainVote";
 import ExplainMom from "../parts/ExplainMom";
+import { ClubMatchGetData } from "../type/velmelazo";
 
 type Props = {
   headertext: HeaderText;
 };
 
 const Header: React.FC<Props> = ({ headertext }) => {
+  const accessToken = localStorage.getItem("accessToken");
   const [drawer, setDrawer] = React.useState(false);
   const [participantOpen, setParticipantOpen] = React.useState(false);
   const [voteOpen, setVoteOpen] = React.useState(false);
   const [pointOpen, setPointOpen] = React.useState(false);
   const [momOpen, setMomOpen] = React.useState(false);
   const navigate = useNavigate();
+  const [clubMatchList, setClubMatchList] = React.useState<ClubMatchGetData[]>(
+    []
+  );
+  const [progressCLubMatchID, setProgressClubMatchID] =
+    React.useState<number>(0);
+
+  React.useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/home`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        setClubMatchList(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.response.status === 401) {
+          navigate("/");
+        }
+      });
+  }, [accessToken, navigate]);
+
+  React.useEffect(() => {
+    if (clubMatchList.length !== 0) {
+      const currentTime = new Date();
+      {
+        clubMatchList.map((clubMatch, index) => {
+          const clubMacthStartTime = new Date(
+            clubMatch.year,
+            clubMatch.month - 1,
+            clubMatch.day,
+            12,
+            0,
+            0
+          );
+          const clubMacthEndTime = new Date(
+            clubMatch.year,
+            clubMatch.month - 1,
+            clubMatch.day,
+            18,
+            0,
+            0
+          );
+          if (
+            clubMacthStartTime <= currentTime &&
+            currentTime <= clubMacthEndTime &&
+            !clubMatch.is_finish
+          ) {
+            setProgressClubMatchID(clubMatch.club_match_id);
+            localStorage.setItem(
+              "progressClubMatchID",
+              clubMatch.club_match_id.toString()
+            );
+          }
+        });
+      }
+    }
+  }, [clubMatchList]);
 
   const handleUserInfo = () => {
     navigate("/home/list/userinfo");
+  };
+
+  const handleChangePage = () => {
+    if (progressCLubMatchID !== 0) {
+      let num = localStorage.getItem("pageNum");
+      if (num === "0") {
+        num = "1";
+        localStorage.setItem("pageNum", num);
+        navigate("/home/match/vote/progress", {
+          state: {
+            club_match_id: progressCLubMatchID,
+          },
+        });
+      } else {
+        num = "0";
+        localStorage.setItem("pageNum", num);
+        navigate("/home");
+      }
+    }
   };
 
   const handleLogout = () => {
@@ -197,7 +281,18 @@ const Header: React.FC<Props> = ({ headertext }) => {
             </Typography>
           </Grid>
         </Grid>
-        <Grid item xs={2}></Grid>
+        <Grid item xs={2}>
+          {progressCLubMatchID !== 0 && (
+            <IconButton onClick={handleChangePage}>
+              <CompareArrowsIcon sx={{ color: "#2196F3" }} />
+            </IconButton>
+          )}
+          {progressCLubMatchID === 0 && (
+            <IconButton onClick={handleChangePage}>
+              <CompareArrowsIcon />
+            </IconButton>
+          )}
+        </Grid>
       </Grid>
       <ExplainParticipant
         backDropInfo={{

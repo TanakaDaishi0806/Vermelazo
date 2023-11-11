@@ -25,6 +25,7 @@ type ClubMatch struct {
 	IsCreateTeam   bool        `json:"is_create_team" db:"is_create_team"`
 	IsAddMatch     bool        `json:"is_add_match" db:"is_add_match"`
 	IsFinish       bool        `json:"is_finish" db:"is_finish"`
+	PointTimes     int         `json:"point_times" db:"point_times"`
 }
 
 type ClubMatchs []*ClubMatch

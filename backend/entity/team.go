@@ -25,6 +25,7 @@ type Team struct {
 	Furigana    string        `json:"furigana" db:"furigana"`
 	Position    PositionNum   `json:"position" db:"position"`
 	Experience  ExperienceNum `json:"experience" db:"experience"`
+	Grade       GradeNum      `json:"grade" db:"grade"`
 }
 
 type ChangeTeamMember struct {

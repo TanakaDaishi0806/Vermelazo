@@ -12,11 +12,11 @@ type Props = {
 const MyRankTemplate: React.FC<Props> = ({ myRankData }) => {
   return (
     <Grid container sx={{ mb: "80px" }}>
-      <Header headertext={{ text: "Home Page" }} />
+      <Header headertext={{ text: "My Page" }} />
       <Grid item xs={12} sx={{ mt: "50px", mb: "40px" }}>
         <Grid container alignItems="flex-end" justifyContent="center">
           <Typography variant="h4" sx={{ fontWeight: "600" }}>
-            My Rank
+            Your Rank
           </Typography>
         </Grid>
       </Grid>

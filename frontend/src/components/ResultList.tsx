@@ -14,13 +14,14 @@ type Props = {
 
 const ResultList: React.FC<Props> = ({ resultPageInfo }) => {
   const accessToken = localStorage.getItem("accessToken");
+  const pageNum = localStorage.getItem("pageNum");
   const navigate = useNavigate();
   const [matchList, setMatchList] = React.useState<MatchGetData[]>([]);
   const [minTeamID, setMinTeamID] = React.useState(0);
   const [vnum, setVnum] = React.useState(0);
 
   React.useEffect(() => {
-    if (resultPageInfo.is_finish) {
+    if (resultPageInfo.is_finish || pageNum === "1") {
       setVnum(1);
     }
   }, [resultPageInfo.is_finish]);

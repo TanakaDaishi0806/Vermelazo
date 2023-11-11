@@ -36,6 +36,7 @@ CREATE TABLE `club_match` (
   `is_create_team` boolean DEFAULT false,
   `is_add_match` boolean DEFAULT false,
   `is_finish` boolean DEFAULT false,
+  `point_times` int(1) DEFAULT 1,
   PRIMARY KEY (`club_match_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;

@@ -137,7 +137,7 @@ const FinishClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
             >
               <Grid item xs={12}>
                 <Grid container>
-                  <Grid item xs={12}>
+                  <Grid item xs={10}>
                     <Typography
                       variant="h5"
                       sx={{
@@ -149,6 +149,40 @@ const FinishClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
                       {clubMatchGetData.title}
                     </Typography>
                   </Grid>
+                  {clubMatchGetData.point_times === 1 && (
+                    <Grid
+                      item
+                      xs={1}
+                      sx={{
+                        borderBottom: "2px solid #eeeeee",
+                        fontWeight: "700",
+                        color: "#2196F3",
+                      }}
+                    ></Grid>
+                  )}
+                  {clubMatchGetData.point_times !== 1 && (
+                    <Grid item xs={1}>
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          borderBottom: "2px solid #eeeeee",
+                          fontWeight: "700",
+                          color: "#2196F3",
+                        }}
+                      >
+                        ×{clubMatchGetData.point_times}
+                      </Typography>
+                    </Grid>
+                  )}
+                  <Grid
+                    item
+                    xs={1}
+                    sx={{
+                      borderBottom: "2px solid #eeeeee",
+                      fontWeight: "700",
+                      color: "#2196F3",
+                    }}
+                  ></Grid>
                 </Grid>
               </Grid>
               <Grid item xs={12}>

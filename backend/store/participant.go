@@ -21,6 +21,10 @@ type ListParticipant struct {
 	DB Queryer
 }
 
+type ListParticipantName struct {
+	DB Queryer
+}
+
 func (ap *AddParticipant) AddParticipant(ctx context.Context, p *entity.Paticipant) (entity.ClubMatchs, error) {
 	sql1 := `INSERT INTO participant (club_match_id,user_id) VALUES (?,?)`
 	sql2 := `UPDATE club_match SET participant_num = participant_num + 1 WHERE club_match_id = ?`
@@ -142,6 +146,7 @@ func (lp *ListParticipant) ListParticipant(ctx context.Context, uid entity.UserI
 	cm.is_finish,
 	cm.is_add_match,
 	cm.is_create_team,
+	cm.point_times,
     CASE
         WHEN p.club_match_id IS NOT NULL THEN true
         ELSE false
@@ -155,6 +160,19 @@ LEFT JOIN
 	l := entity.ClubMatchs{}
 
 	if err := lp.DB.SelectContext(ctx, &l, sql, uid); err != nil {
+		return nil, err
+	}
+
+	return l, nil
+
+}
+
+func (lpn *ListParticipantName) ListParticipantName(ctx context.Context, cmid entity.ClubMatchID) (entity.ParticipantInfos, error) {
+	sql := `select u.name,u.furigana from participant p left join users u on p.user_id=u.user_id where p.club_match_id=?`
+
+	l := entity.ParticipantInfos{}
+
+	if err := lpn.DB.SelectContext(ctx, &l, sql, cmid); err != nil {
 		return nil, err
 	}
 

@@ -85,6 +85,7 @@ const ResisterPositionMom: React.FC<Props> = ({ eachPositionMom }) => {
         furigana: defaultMom[eachPositionMom.position - 1].furigana,
         position: defaultMom[eachPositionMom.position - 1].position,
         experience: defaultMom[eachPositionMom.position - 1].experience,
+        grade: defaultMom[eachPositionMom.position - 1].grade,
       };
       const newMom = [...mom];
       newMom.push(dmom);

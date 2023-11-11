@@ -50,30 +50,34 @@ const FinishClubMatchList: React.FC<Props> = ({ getUrl }) => {
         direction="column"
         sx={{ mb: "420px" }}
       >
-        {clubMatchList.map((clubMatch, index) => (
-          <Grid item xs={12} sm={4} key={index}>
-            <FinishClubMatchCard
-              clubMatchGetData={{
-                club_match_id: clubMatch.club_match_id,
-                year: clubMatch.year,
-                month: clubMatch.month,
-                day: clubMatch.day,
-                vote_year: clubMatch.vote_year,
-                vote_month: clubMatch.vote_month,
-                vote_day: clubMatch.vote_day,
-                title: clubMatch.title,
-                is_released: clubMatch.is_released,
-                isAdmin: getUrl.isAdmin,
-                is_participant: clubMatch.is_participant,
-                participant_num: clubMatch.participant_num,
-                is_create_team: clubMatch.is_create_team,
-                is_add_match: clubMatch.is_add_match,
-                is_finish: clubMatch.is_finish,
-                set: setClubMatchList,
-              }}
-            />
-          </Grid>
-        ))}
+        {clubMatchList
+          .slice()
+          .reverse()
+          .map((clubMatch, index) => (
+            <Grid item xs={12} sm={4} key={index}>
+              <FinishClubMatchCard
+                clubMatchGetData={{
+                  club_match_id: clubMatch.club_match_id,
+                  year: clubMatch.year,
+                  month: clubMatch.month,
+                  day: clubMatch.day,
+                  vote_year: clubMatch.vote_year,
+                  vote_month: clubMatch.vote_month,
+                  vote_day: clubMatch.vote_day,
+                  title: clubMatch.title,
+                  is_released: clubMatch.is_released,
+                  isAdmin: getUrl.isAdmin,
+                  is_participant: clubMatch.is_participant,
+                  participant_num: clubMatch.participant_num,
+                  is_create_team: clubMatch.is_create_team,
+                  is_add_match: clubMatch.is_add_match,
+                  is_finish: clubMatch.is_finish,
+                  point_times: clubMatch.point_times,
+                  set: setClubMatchList,
+                }}
+              />
+            </Grid>
+          ))}
       </Grid>
     </Box>
   );

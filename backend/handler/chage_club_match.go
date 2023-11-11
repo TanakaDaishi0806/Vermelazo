@@ -24,13 +24,14 @@ func (ccm *ChangeClubMatch) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var clubMatchInfo struct {
-		Year      int    `json:"year" validate:"required"`
-		Month     int    `json:"month" validate:"required"`
-		Day       int    `json:"day" validate:"required"`
-		VoteYear  int    `json:"vote_year" validate:"required"`
-		VoteMonth int    `json:"vote_month" validate:"required"`
-		VoteDay   int    `json:"vote_day" validate:"required"`
-		Title     string `json:"title" validate:"required"`
+		Year       int    `json:"year" validate:"required"`
+		Month      int    `json:"month" validate:"required"`
+		Day        int    `json:"day" validate:"required"`
+		VoteYear   int    `json:"vote_year" validate:"required"`
+		VoteMonth  int    `json:"vote_month" validate:"required"`
+		VoteDay    int    `json:"vote_day" validate:"required"`
+		Title      string `json:"title" validate:"required"`
+		PointTimes int    `json:"point_times" validate:"required"`
 	}
 
 	if err := json.NewDecoder(r.Body).Decode(&clubMatchInfo); err != nil {
@@ -48,14 +49,15 @@ func (ccm *ChangeClubMatch) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	reqcm := &entity.ClubMatch{
-		ID:        entity.ClubMatchID(id),
-		Year:      clubMatchInfo.Year,
-		Month:     clubMatchInfo.Month,
-		Day:       clubMatchInfo.Day,
-		VoteYear:  clubMatchInfo.VoteYear,
-		VoteMonth: clubMatchInfo.VoteMonth,
-		VoteDay:   clubMatchInfo.VoteDay,
-		Title:     clubMatchInfo.Title,
+		ID:         entity.ClubMatchID(id),
+		Year:       clubMatchInfo.Year,
+		Month:      clubMatchInfo.Month,
+		Day:        clubMatchInfo.Day,
+		VoteYear:   clubMatchInfo.VoteYear,
+		VoteMonth:  clubMatchInfo.VoteMonth,
+		VoteDay:    clubMatchInfo.VoteDay,
+		Title:      clubMatchInfo.Title,
+		PointTimes: clubMatchInfo.PointTimes,
 	}
 
 	if err := ccm.Repo.ChangeClubMatch(ctx, reqcm); err != nil {

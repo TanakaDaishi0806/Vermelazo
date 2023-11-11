@@ -6,6 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 import ColorButton from "../parts/ColorButton";
 import { ClubMatchGetData } from "../type/velmelazo";
+import ParticipantNameList from "../parts/ParticipantNameList";
 
 type Props = {
   clubMatchGetData: ClubMatchGetData;
@@ -16,6 +17,7 @@ const ClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
   const navigate = useNavigate();
   const [openDelete, setOpenDelete] = React.useState(false);
   const [openFinish, setOpenFinish] = React.useState(false);
+  const [openParticipantList, setOpenParticipantList] = React.useState(false);
   const [currentTime, setCurrentTime] = React.useState<Date>(new Date());
   const partiipantDeadlineDate = new Date(
     clubMatchGetData.year,
@@ -54,6 +56,12 @@ const ClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
   };
   const handleOpenFinish = () => {
     setOpenFinish(true);
+  };
+  const handleCloseParticipantList = () => {
+    setOpenParticipantList(false);
+  };
+  const handleOpenParticipantList = () => {
+    setOpenParticipantList(true);
   };
 
   const handleSwitchRelesed = () => {
@@ -204,6 +212,7 @@ const ClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
         preVoteMonth: clubMatchGetData.vote_month,
         preVoteDay: clubMatchGetData.vote_day,
         preTitle: clubMatchGetData.title,
+        prePointTimes: clubMatchGetData.point_times,
       },
     });
   };
@@ -287,6 +296,7 @@ const ClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
     navigate("/home/result/interim", {
       state: {
         club_match_id: clubMatchGetData.club_match_id,
+        vnum: 0,
       },
     });
   };
@@ -312,7 +322,7 @@ const ClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
             >
               <Grid item xs={12}>
                 <Grid container>
-                  <Grid item xs={11}>
+                  <Grid item xs={10}>
                     <Typography
                       variant="h5"
                       sx={{
@@ -324,6 +334,32 @@ const ClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
                       {clubMatchGetData.title}
                     </Typography>
                   </Grid>
+                  {clubMatchGetData.point_times === 1 && (
+                    <Grid
+                      item
+                      xs={1}
+                      sx={{
+                        borderBottom: "2px solid #eeeeee",
+                        fontWeight: "700",
+                        color: "#2196F3",
+                      }}
+                    ></Grid>
+                  )}
+                  {clubMatchGetData.point_times !== 1 && (
+                    <Grid item xs={1}>
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          borderBottom: "2px solid #eeeeee",
+                          fontWeight: "700",
+                          color: "#2196F3",
+                        }}
+                      >
+                        ×{clubMatchGetData.point_times}
+                      </Typography>
+                    </Grid>
+                  )}
+
                   {clubMatchGetData.isAdmin && (
                     <Grid
                       item
@@ -936,6 +972,53 @@ const ClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
                         </Grid>
                       </Grid>
                     )}
+                  {!clubMatchGetData.isAdmin && (
+                    <Grid item xs={4}>
+                      <Typography
+                        sx={{
+                          mx: "15px",
+                          fontWeight: "600",
+                          fontsize: "15px",
+                          py: "5px",
+                          textAlign: "center",
+                        }}
+                      >
+                        参加者:
+                      </Typography>
+                    </Grid>
+                  )}
+                  {!clubMatchGetData.isAdmin && (
+                    <Grid item xs={8}>
+                      {clubMatchGetData.participant_num === 0 && (
+                        <Typography
+                          sx={{
+                            fontsize: "15px",
+                            py: "5px",
+                          }}
+                        >
+                          まだ参加者がいません
+                        </Typography>
+                      )}
+                      {clubMatchGetData.participant_num !== 0 && (
+                        <ColorButton
+                          colorButton={{
+                            buttonText: "閲覧",
+                            onClick: handleOpenParticipantList,
+                            buttonColor: "info",
+                            mb: "",
+                            mt: "",
+                          }}
+                        />
+                      )}
+                    </Grid>
+                  )}
+                  <ParticipantNameList
+                    backDropInfo={{
+                      open: openParticipantList,
+                      handleClose: handleCloseParticipantList,
+                      club_match_id: clubMatchGetData.club_match_id,
+                    }}
+                  />
 
                   {!clubMatchGetData.isAdmin && (
                     <Grid item xs={4}>

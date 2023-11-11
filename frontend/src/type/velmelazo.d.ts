@@ -66,6 +66,7 @@ export interface ClubMatchGetData {
   is_create_team: boolean;
   is_add_match: boolean;
   is_finish: boolean;
+  point_times: number;
   set: React.Dispatch<React.SetStateAction<ClubMatchGetData[]>>;
 }
 
@@ -105,15 +106,18 @@ export interface AddClubMatchInfo {
   date: Date | null;
   voteDate: Date | null;
   title: string;
+  pointTimes: string;
   dateEmpty: boolean;
   voteDateEmpty: boolean;
   titleEmpty: boolean;
+  pointTimesEmpty: boolean;
   inputError: boolean;
   allEmptyError: boolean;
   setInputError: React.Dispatch<React.SetStateAction<boolean>>;
   handleDateChange: (dateValue: Date | null) => void;
   handleVoteDateChange: (dateValue: Date | null) => void;
   handleTitleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handlePointTimesChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleDateSubmit: () => void;
 }
 
@@ -121,14 +125,17 @@ export interface ChangeClubMatchInfo {
   date: Date | null;
   voteDate: Date | null;
   title: string;
+  pointTimes: string;
   dateEmpty: boolean;
   voteDateEmpty: boolean;
   titleEmpty: boolean;
+  pointTimesEmpty: boolean;
   inputError: boolean;
   setInputError: React.Dispatch<React.SetStateAction<boolean>>;
   handleDateChange: (dateValue: Date | null) => void;
   handleVoteDateChange: (dateValue: Date | null) => void;
   handleTitleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handlePointTimesChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleChangeDateSubmit: () => void;
 }
 
@@ -153,6 +160,7 @@ export interface TeamMember {
   furigana: string;
   position: number;
   experience: number;
+  grade: number;
 }
 
 export interface TeamMemberListInfo {
@@ -163,8 +171,9 @@ export interface TeamMemberListInfo {
   handleCreateTeamNaviaget: () => void;
 }
 
-export interface ClubMatchID {
+export interface InterimResultInfo {
   club_match_id: number;
+  vnum: number;
 }
 
 export interface TeamSelectBoxInfo {
@@ -286,6 +295,7 @@ export interface PositionMom {
   furigana: string;
   position: number;
   experience: number;
+  grade: number;
 }
 
 export interface FooterValue {
@@ -457,4 +467,15 @@ export interface ChangeAdminPassword {
     event: React.ChangeEvent<HTMLInputElement>
   ) => void;
   handleChangeAdminPassword: () => void;
+}
+
+export interface BackDropParticipantInfo {
+  open: boolean;
+  handleClose: () => void;
+  club_match_id: number;
+}
+
+export interface ParticipantNameInfo {
+  name: string;
+  furigana: string;
 }

@@ -118,6 +118,78 @@ const HomeTeamMemberList: React.FC<Props> = ({ teamMemberListInfo }) => {
                                   >
                                     {member.furigana}
                                   </Typography>
+                                  {member.grade === 1 && (
+                                    <Typography
+                                      sx={{
+                                        fontsize: "10px",
+                                        borderBottom: "1px solid #333",
+                                        px: "20px",
+                                        py: "10px",
+                                      }}
+                                    >
+                                      学年：1年
+                                    </Typography>
+                                  )}
+                                  {member.grade === 2 && (
+                                    <Typography
+                                      sx={{
+                                        fontsize: "10px",
+                                        borderBottom: "1px solid #333",
+                                        px: "20px",
+                                        py: "10px",
+                                      }}
+                                    >
+                                      学年：2年
+                                    </Typography>
+                                  )}
+                                  {member.grade === 3 && (
+                                    <Typography
+                                      sx={{
+                                        fontsize: "10px",
+                                        borderBottom: "1px solid #333",
+                                        px: "20px",
+                                        py: "10px",
+                                      }}
+                                    >
+                                      学年：3年
+                                    </Typography>
+                                  )}
+                                  {member.grade === 4 && (
+                                    <Typography
+                                      sx={{
+                                        fontsize: "10px",
+                                        borderBottom: "1px solid #333",
+                                        px: "20px",
+                                        py: "10px",
+                                      }}
+                                    >
+                                      学年：4年
+                                    </Typography>
+                                  )}
+                                  {member.grade === 5 && (
+                                    <Typography
+                                      sx={{
+                                        fontsize: "10px",
+                                        borderBottom: "1px solid #333",
+                                        px: "20px",
+                                        py: "10px",
+                                      }}
+                                    >
+                                      学年：修士1年
+                                    </Typography>
+                                  )}
+                                  {member.grade === 6 && (
+                                    <Typography
+                                      sx={{
+                                        fontsize: "10px",
+                                        borderBottom: "1px solid #333",
+                                        px: "20px",
+                                        py: "10px",
+                                      }}
+                                    >
+                                      学年：修士2年
+                                    </Typography>
+                                  )}
                                   {member.position === 1 && (
                                     <Typography
                                       sx={{
@@ -127,7 +199,7 @@ const HomeTeamMemberList: React.FC<Props> = ({ teamMemberListInfo }) => {
                                         py: "10px",
                                       }}
                                     >
-                                      GK
+                                      ポジション：GK
                                     </Typography>
                                   )}
                                   {member.position === 2 && (
@@ -139,7 +211,7 @@ const HomeTeamMemberList: React.FC<Props> = ({ teamMemberListInfo }) => {
                                         py: "10px",
                                       }}
                                     >
-                                      DF
+                                      ポジション：DF
                                     </Typography>
                                   )}
                                   {member.position === 3 && (
@@ -151,7 +223,7 @@ const HomeTeamMemberList: React.FC<Props> = ({ teamMemberListInfo }) => {
                                         py: "10px",
                                       }}
                                     >
-                                      OF
+                                      ポジション：OF
                                     </Typography>
                                   )}
                                   {member.experience === 0 && (
@@ -162,7 +234,7 @@ const HomeTeamMemberList: React.FC<Props> = ({ teamMemberListInfo }) => {
                                         py: "10px",
                                       }}
                                     >
-                                      未経験
+                                      経験歴：未経験
                                     </Typography>
                                   )}
                                   {member.experience === 1 && (
@@ -173,7 +245,7 @@ const HomeTeamMemberList: React.FC<Props> = ({ teamMemberListInfo }) => {
                                         py: "10px",
                                       }}
                                     >
-                                      小・中まで
+                                      経験歴：小・中まで
                                     </Typography>
                                   )}
                                   {member.experience === 2 && (
@@ -184,7 +256,7 @@ const HomeTeamMemberList: React.FC<Props> = ({ teamMemberListInfo }) => {
                                         py: "10px",
                                       }}
                                     >
-                                      高校まで
+                                      経験歴：高校まで
                                     </Typography>
                                   )}
                                   {member.experience === 3 && (
@@ -195,7 +267,7 @@ const HomeTeamMemberList: React.FC<Props> = ({ teamMemberListInfo }) => {
                                         py: "10px",
                                       }}
                                     >
-                                      大学でも
+                                      経験歴：大学でも
                                     </Typography>
                                   )}
                                 </Grid>
