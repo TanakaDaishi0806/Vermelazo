@@ -48,6 +48,7 @@ func (dtm *DeleteTeamMember) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			IsCreateTeam:   l.IsCreateTeam,
 			IsAddMatch:     l.IsAddMatch,
 			IsFinish:       l.IsFinish,
+			PointTimes:     l.PointTimes,
 		})
 
 	}
