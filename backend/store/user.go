@@ -188,7 +188,7 @@ func (rp *ResetPassword) GetTokenData(ctx context.Context, token string) (*entit
 		}
 		errMsg := err.Error()
 		if errMsg == "sql: Scan error on column index 3, name \"token_expiration\": unsupported Scan, storing driver.Value type []uint8 into type *time.Time" {
-			if err := rp.DBQry.GetContext(ctx, r, sql1, token); err != nil {
+			if err := rp.DBQry.GetContext(ctx, &r, sql1, token); err != nil {
 				if err == sql.ErrNoRows {
 					return nil, nil
 				}
