@@ -195,7 +195,8 @@ func (rp *ResetPassword) GetTokenData(ctx context.Context, token string) (*entit
 
 				return nil, err
 			}
-			tokenExpiration, err := time.Parse(time.RFC3339, r.TokenExpiration)
+			layout := "2006-01-02 15:04:05"
+			tokenExpiration, err := time.Parse(layout, r.TokenExpiration)
 			if err != nil {
 				return nil, err
 			}
