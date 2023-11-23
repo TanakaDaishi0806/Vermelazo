@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"time"
 
 	"github.com/TanakaDaishi0806/Vermelazo.git/backend/entity"
 	"github.com/go-sql-driver/mysql"
@@ -172,11 +173,37 @@ func (rp *ResetPassword) ResetPassword(ctx context.Context, sid string, p string
 func (rp *ResetPassword) GetTokenData(ctx context.Context, token string) (*entity.PasswordReset, error) {
 	sql1 := `select * from password_reset where reset_token=?`
 
+	var r struct {
+		ID              entity.ResetID `json:"reset_id" db:"reset_id"`
+		StudentID       string         `json:"student_id" db:"student_id"`
+		ResetToken      string         `json:"reset_token" db:"reset_token"`
+		TokenExpiration string         `json:"token_expiration" db:"token_expiration"`
+	}
+
 	pr := &entity.PasswordReset{}
 
 	if err := rp.DBQry.GetContext(ctx, pr, sql1, token); err != nil {
 		if err == sql.ErrNoRows {
 			return nil, nil
+		}
+		errMsg := err.Error()
+		if errMsg == "sql: Scan error on column index 3, name \"token_expiration\": unsupported Scan, storing driver.Value type []uint8 into type *time.Time" {
+			if err := rp.DBQry.GetContext(ctx, r, sql1, token); err != nil {
+				if err == sql.ErrNoRows {
+					return nil, nil
+				}
+
+				return nil, err
+			}
+			tokenExpiration, err := time.Parse(time.RFC3339, r.TokenExpiration)
+			if err != nil {
+				return nil, err
+			}
+			pr.ID = r.ID
+			pr.StudentID = r.StudentID
+			pr.ResetToken = r.ResetToken
+			pr.TokenExpiration = tokenExpiration
+			return pr, nil
 		}
 
 		return nil, err
