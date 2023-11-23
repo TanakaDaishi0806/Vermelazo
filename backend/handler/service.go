@@ -73,3 +73,11 @@ type ListUserInfoService interface {
 type ChangeUserPasswordService interface {
 	ChangeUserPassword(ctx context.Context, p string) error
 }
+
+type SendMailPasswordResetService interface {
+	SendMailPasswordReset(ctx context.Context, sid string, ma string) error
+}
+
+type ResetPasswordService interface {
+	ResetPassword(ctx context.Context, token string, password string) error
+}

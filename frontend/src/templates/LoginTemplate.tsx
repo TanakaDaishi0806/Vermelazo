@@ -99,6 +99,12 @@ const LoginTemplate: React.FC<Props> = ({ loginInfo }) => {
             </Grid>
             <br />
             <Grid item xs={12}>
+              <Link to="/forgetpassword/sendmail">
+                パスワードを忘れた方はこちら
+              </Link>
+            </Grid>
+            <br />
+            <Grid item xs={12}>
               <Button
                 sx={{ width: "250px", height: "60px", fontSize: "15px" }}
                 variant="contained"

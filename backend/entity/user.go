@@ -2,14 +2,17 @@ package entity
 
 import (
 	"log"
+	"math/rand"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/go-chi/chi/v5"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type UserId int64
+type ResetID int64
 type GradeNum int
 type RoleNum int
 type PositionNum int
@@ -57,6 +60,18 @@ type User struct {
 	GoalNum     int           `json:"goal_num" db:"goal_num"`
 }
 
+type AuthenticationInfo struct {
+	StudentID   string `json:"student_id" db:"student_id"`
+	MailAddress string `json:"mailaddress" db:"mailaddress"`
+}
+
+type PasswordReset struct {
+	ID              ResetID   `json:"reset_id" db:"reset_id"`
+	StudentID       string    `json:"student_id" db:"student_id"`
+	ResetToken      string    `json:"reset_token" db:"reset_token"`
+	TokenExpiration time.Time `json:"token_expiration" db:"token_expiration"`
+}
+
 func (u *User) ComparePassword(pw string) error {
 	return bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(pw))
 }
@@ -67,4 +82,15 @@ func StrTOPosition(r *http.Request) (PositionNum, error) {
 	intid, err := strconv.Atoi(param)
 	id := PositionNum(intid)
 	return id, err
+}
+
+func CreateToken(n int) string {
+	var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letterRunes[r.Intn(len(letterRunes))]
+	}
+	return string(b)
 }

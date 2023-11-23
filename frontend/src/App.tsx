@@ -34,6 +34,10 @@ import LoadingCreateTeam from "./pages/LoadingCreateTeam";
 import LoadingCreateMatch from "./pages/LoadingCreateMatch";
 import LoadingClubMatchFinish from "./pages/LoadingClubMatchFinish";
 import ListVoteMatchProgress from "./pages/ListVoteMatchProgress";
+import SendMailForgetPassword from "./pages/SendMailForgetPassword";
+import SendMailMessageTemplate from "./templates/SendMailMessageTemplate";
+import PasswordReset from "./pages/PasswordReset";
+import NotPasswordResetMessageTemplate from "./templates/NotPasswordResetMessageTemplate";
 
 function App() {
   return (
@@ -87,6 +91,19 @@ function App() {
         <Route
           path="/home/match/vote/progress"
           element={<ListVoteMatchProgress />}
+        />
+        <Route
+          path="/forgetpassword/sendmail"
+          element={<SendMailForgetPassword />}
+        />
+        <Route
+          path="/forgetpassword/sendmail/message"
+          element={<SendMailMessageTemplate />}
+        />
+        <Route path="/passwordreset" element={<PasswordReset />} />
+        <Route
+          path="/passwordreset/message"
+          element={<NotPasswordResetMessageTemplate />}
         />
       </Routes>
     </BrowserRouter>

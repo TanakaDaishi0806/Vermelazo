@@ -479,3 +479,16 @@ export interface ParticipantNameInfo {
   name: string;
   furigana: string;
 }
+
+export interface SendMailInfo {
+  student_id: string;
+  mailaddress: string;
+  student_idError: boolean;
+  mailaddressEmpty: boolean;
+  inputError: boolean;
+  allEmptyError: boolean;
+  setInputError: React.Dispatch<React.SetStateAction<boolean>>;
+  handleStudent_idChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleMailaddressChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSendMail: () => void;
+}
