@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/TanakaDaishi0806/Vermelazo.git/backend/entity"
@@ -195,6 +196,7 @@ func (rp *ResetPassword) GetTokenData(ctx context.Context, token string) (*entit
 
 				return nil, err
 			}
+			log.Println(r.TokenExpiration)
 			layout := "2006-01-02 15:04:05"
 			tokenExpiration, err := time.Parse(layout, r.TokenExpiration)
 			if err != nil {
