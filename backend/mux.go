@@ -52,6 +52,24 @@ func Newmux(ctx context.Context) (http.Handler, func(), error) {
 		r.Post("/", l.ServeHTTP)
 	})
 
+	smpr := &handler.SendMailPasswordReset{
+		Service: &service.SendMailPasswordReset{
+			Repo: &store.SendMailPasswordReset{DBQry: db, DBExc: db},
+		},
+		Validate: v,
+	}
+	rp := &handler.ResetPassword{
+		Service: &service.ResetPassword{
+			Repo: &store.ResetPassword{DBQry: db, DBExc: db},
+		},
+		Validate: v,
+	}
+	mux.Route("/forgetpassword", func(r chi.Router) {
+		r.Use(handler.CROS)
+		r.Post("/sendmail", smpr.ServeHTTP)
+		r.Post("/resetpassword", rp.ServeHTTP)
+	})
+
 	acm := &handler.AddClubMatch{
 		Repo:      &store.AddClubMatch{DB: db},
 		Validator: v,

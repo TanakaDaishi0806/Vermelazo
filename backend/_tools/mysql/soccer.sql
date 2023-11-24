@@ -393,7 +393,39 @@ LOCK TABLES `match_vote` WRITE;
 /*!40000 ALTER TABLE `match_vote` ENABLE KEYS */;
 UNLOCK TABLES;
 
+--
+-- Table structure for table `password_reset`
+--
 
+DROP TABLE IF EXISTS `password_reset`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `password_reset` (
+  `reset_id` int(5) NOT NULL AUTO_INCREMENT,
+  `student_id` char(8) NOT NULL,
+  `reset_token` char(8) NOT NULL UNIQUE,
+  `token_expiration` DATETIME NOT NULL,
+  PRIMARY KEY (`reset_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DELIMITER //
+CREATE EVENT expire_tokens
+ON SCHEDULE EVERY 12 HOUR
+DO
+  DELETE FROM password_reset WHERE token_expiration < NOW();
+//
+DELIMITER ;
+
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `password_reset`
+--
+
+LOCK TABLES `password_reset` WRITE;
+/*!40000 ALTER TABLE `password_reset` DISABLE KEYS */;
+/*!40000 ALTER TABLE `password_reset` ENABLE KEYS */;
+UNLOCK TABLES;
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

@@ -82,3 +82,14 @@ type UserInfoList interface {
 type UserPasswordChange interface {
 	ChangeUserPassword(ctx context.Context, uid entity.UserId, p string) error
 }
+
+type PasswordResetSendMail interface {
+	GetMailAddress(ctx context.Context, sid string) (string, error)
+	AddPasswordResetData(ctx context.Context, pr *entity.PasswordReset) error
+	ExistToken(ctx context.Context, token string) (bool, error)
+}
+
+type PasswordReset interface {
+	GetTokenData(ctx context.Context, token string) (*entity.PasswordReset, error)
+	ResetPassword(ctx context.Context, sid string, p string) error
+}
