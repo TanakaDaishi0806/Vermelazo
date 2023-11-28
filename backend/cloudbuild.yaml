@@ -7,20 +7,16 @@ steps:
         "asia-northeast1-docker.pkg.dev/ace-study-396811/go-api/api-image",
         "./backend",
       ]
-
-options:
-  logging: CLOUD_LOGGING_ONLY
-
+    options:
+      logging: CLOUD_LOGGING_ONLY
   - name: "gcr.io/cloud-builders/docker"
     args:
       [
         "push",
         "asia-northeast1-docker.pkg.dev/ace-study-396811/go-api/api-image",
       ]
-
-options:
-  logging: CLOUD_LOGGING_ONLY
-
+    options:
+      logging: CLOUD_LOGGING_ONLY
   - name: "gcr.io/cloud-builders/gcloud"
     args:
       - "run"
