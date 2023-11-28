@@ -20,7 +20,7 @@ steps:
     args:
       - "run"
       - "deploy"
-      - "${SERVICE_NAME}"
+      - "${_SERVICE_NAME}"
       - "--image"
       - "asia-northeast1-docker.pkg.dev/ace-study-396811/go-api/api-image"
       - "--region"
