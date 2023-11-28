@@ -123,7 +123,7 @@ const LoginTemplate: React.FC<Props> = ({ loginInfo }) => {
                   }
                 }}
               >
-                ログイン
+                login
               </Button>
             </Grid>
             <br />
