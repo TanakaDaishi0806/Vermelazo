@@ -20,7 +20,7 @@ steps:
     args:
       - "run"
       - "deploy"
-      - "「Cloud Runサービス名」"
+      - "staging"
       - "--image"
       - "asia-northeast1-docker.pkg.dev/ace-study-396811/go-api/api-image"
       - "--region"
