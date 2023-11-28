@@ -6,7 +6,7 @@ steps:
         "build",
         "-t",
         "asia-northeast1-docker.pkg.dev/ace-study-396811/go-api/api-image",
-        "/backend",
+        "./backend",
       ]
   # (2)ビルドしたコンテナイメージをArtifact Registryにプッシュ
   - name: "gcr.io/cloud-builders/docker"
