@@ -1,0 +1,27 @@
+steps:
+  # (1)コンテナイメージのビルドを実行
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "-t",
+        "asia-northeast1-docker.pkg.dev/ace-study-396811/go-api/api-image",
+        "./backend",
+      ]
+  # (2)ビルドしたコンテナイメージをArtifact Registryにプッシュ
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "push",
+        "asia-northeast1-docker.pkg.dev/ace-study-396811/go-api/api-image",
+      ]
+  # (3)Artifact RegistryのコンテナイメージをCloud Runにデプロイ
+  - name: "gcr.io/cloud-builders/gcloud"
+    args:
+      - "run"
+      - "deploy"
+      - "${_SERVICE_NAME}"
+      - "--image"
+      - "asia-northeast1-docker.pkg.dev/ace-study-396811/go-api/api-image"
+      - "--region"
+      - "asia-northeast1"

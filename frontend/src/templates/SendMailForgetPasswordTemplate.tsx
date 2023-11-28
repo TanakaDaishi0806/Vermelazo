@@ -36,6 +36,18 @@ const SendMailForgetPasswordTemplate: React.FC<Props> = ({ sendMailInfo }) => {
         justifyContent="center"
         direction="column"
       >
+        <Grid item xs={12}>
+          <Typography
+            sx={{
+              color: "#444444",
+              fontWeight: "700",
+              pt: "30px",
+              px: "50px",
+            }}
+          >
+            登録している学籍番号とメールアドレスを入力してください。
+          </Typography>
+        </Grid>
         {sendMailInfo.inputError && (
           <Grid item xs={12} sx={{ pt: "100px", pl: "15px", pb: "5px" }}>
             <Typography variant="body1" style={{ color: "red" }}>
