@@ -74,7 +74,7 @@ func (j *JWTer) GenerateToken(ctx context.Context, u entity.User) ([]byte, error
 		Issuer(`github.com/TanakaDaishi0806/Vermelazo`).
 		Subject("access_token").
 		IssuedAt(time.Now()).
-		Expiration(time.Now().Add(20160*time.Minute)).
+		Expiration(time.Now().Add(2080*time.Minute)).
 		Claim(RoleKey, int(u.Role)).
 		Claim(StudentIDKey, u.StudentID).
 		Claim(UserIDKey, u.ID).
