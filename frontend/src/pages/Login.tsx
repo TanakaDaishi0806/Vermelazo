@@ -16,6 +16,7 @@ const Login = () => {
   const [clubMatchList, setClubMatchList] = React.useState<ClubMatchGetData[]>(
     []
   );
+  const [clubMatchSetLength, setClubMatchSetLength] = useState(-1);
   const [processOrder, setProcessOrder] = useState(0);
   const navigate = useNavigate();
   const [progressCLubMatchID, setProgressClubMatchID] =
@@ -31,6 +32,7 @@ const Login = () => {
       .then((response) => {
         console.log(response.data);
         setClubMatchList(response.data);
+        setClubMatchSetLength(response.data.length);
       })
       .catch((error) => {
         console.log(error);
@@ -41,7 +43,7 @@ const Login = () => {
   }, [accessToken, navigate]);
 
   React.useEffect(() => {
-    if (clubMatchList.length !== 0) {
+    if (clubMatchList.length === clubMatchSetLength) {
       const currentTime = new Date();
       {
         clubMatchList.map((clubMatch, index) => {
@@ -84,18 +86,32 @@ const Login = () => {
         })
         .then((response) => {
           console.log(response.data);
-          if (progressCLubMatchID !== 0) {
-            localStorage.setItem("pageNum", "1");
-            navigate("/home/match/vote/progress", {
-              state: {
-                club_match_id: progressCLubMatchID,
+          axios
+            .get(`${process.env.REACT_APP_API_URL}/admin`, {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
               },
+            })
+            .then((response) => {
+              console.log(response.data);
+              localStorage.setItem("pageNum", "0");
+              navigate("/admin");
+            })
+            .catch((error) => {
+              console.log(error);
+              if (progressCLubMatchID !== 0) {
+                localStorage.setItem("pageNum", "1");
+                navigate("/home/match/vote/progress", {
+                  state: {
+                    club_match_id: progressCLubMatchID,
+                  },
+                });
+              }
+              if (progressCLubMatchID === 0) {
+                localStorage.setItem("pageNum", "0");
+                navigate("/home");
+              }
             });
-          }
-          if (progressCLubMatchID === 0) {
-            localStorage.setItem("pageNum", "0");
-            navigate("/home");
-          }
         })
         .catch((error) => {
           console.log(error);
