@@ -168,9 +168,13 @@ CREATE TABLE `users` (
   `position` int(1) NOT NULL,
   `experience` int(1) DEFAULT 0,
   `goal_num` int(3) DEFAULT 0,
+  `pre_point` int(5) DEFAULT 0,
+  `accu_goal_num` int(3) DEFAULT 0,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
+--alter table users add column `accu_goal_num` int(3) DEFAULT 0;
+--alter table users add column `pre_point` int(5) DEFAULT 0;
 
 --
 -- Dumping data for table `users`
