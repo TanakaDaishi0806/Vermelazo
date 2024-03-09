@@ -47,7 +47,13 @@ const ResisterAwardTemplate: React.FC<Props> = ({ resisterAwardInfo }) => {
             アワード登録
           </Typography>
         </Grid>
-        <Grid item xs={12} sx={{ width: "250px" }}>
+        <Grid
+          item
+          xs={12}
+          container
+          alignItems="center"
+          justifyContent="center"
+        >
           <TextField
             label="＊受賞名"
             value={resisterAwardInfo.awardName}
@@ -56,6 +62,7 @@ const ResisterAwardTemplate: React.FC<Props> = ({ resisterAwardInfo }) => {
             helperText={
               resisterAwardInfo.awardNameEmpty ? "受賞名を入力してください" : ""
             }
+            sx={{ width: "280px" }}
           />
         </Grid>
 
