@@ -32,6 +32,7 @@ const ResisterAwardTemplate: React.FC<Props> = ({ resisterAwardInfo }) => {
         alignItems="center"
         justifyContent="center"
         direction="column"
+        sx={{ mb: "100px" }}
       >
         <Grid item xs={12}>
           <Typography
@@ -46,7 +47,7 @@ const ResisterAwardTemplate: React.FC<Props> = ({ resisterAwardInfo }) => {
             アワード登録
           </Typography>
         </Grid>
-        <Grid item xs={12} sx={{}}>
+        <Grid item xs={12} sx={{ width: "250px" }}>
           <TextField
             label="＊受賞名"
             value={resisterAwardInfo.awardName}
@@ -80,7 +81,7 @@ const ResisterAwardTemplate: React.FC<Props> = ({ resisterAwardInfo }) => {
                 resisterAwardInfo.setInputError(true);
               }
             }}
-            sx={{ mb: "50px", mt: "40px" }}
+            sx={{ mb: "20px", mt: "40px" }}
           >
             登録
           </Button>
