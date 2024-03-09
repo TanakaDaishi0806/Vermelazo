@@ -46,6 +46,10 @@ type ResetPassword struct {
 	DBExc Execer
 }
 
+type EveryYearUpdateData struct {
+	DBExc Execer
+}
+
 func (ru *RegisterUser) RegisterUser(ctx context.Context, requ *entity.User) error {
 	sql := `INSERT INTO users (name,furigana,student_id,password,grade,role,mailaddress,
 		position,experience) VALUES (?,?,?,?,?,?,?,?,?)`
@@ -251,4 +255,47 @@ func (lau *ListAllUsers) ListAllUsers(ctx context.Context) (entity.PositionUserN
 	position_users = append(position_users, &of_users)
 
 	return position_users, nil
+}
+
+func (eyud *EveryYearUpdateData) EveryYearUpdateData(ctx context.Context) error {
+	sql_grade := `UPDATE users SET grade = grade + 1`
+	sql_pre_point := `UPDATE users SET pre_point = point`
+	sql_point := `UPDATE users SET point = 0`
+	sql_accu_goal_num := `UPDATE users SET accu_goal_num = accu_goal_num + goal_num`
+	sql_goal_num := `UPDATE users SET goal_num = 0`
+
+	// SQLクエリの実行
+	_, err := eyud.DBExc.ExecContext(ctx, sql_grade)
+	if err != nil {
+		// エラー処理。エラーが発生した場合には適切なエラー処理を行う。
+		return err
+	}
+	// SQLクエリの実行
+	_, err = eyud.DBExc.ExecContext(ctx, sql_pre_point)
+	if err != nil {
+		// エラー処理。エラーが発生した場合には適切なエラー処理を行う。
+		return err
+	}
+	// SQLクエリの実行
+	_, err = eyud.DBExc.ExecContext(ctx, sql_point)
+	if err != nil {
+		// エラー処理。エラーが発生した場合には適切なエラー処理を行う。
+		return err
+	}
+	// SQLクエリの実行
+	_, err = eyud.DBExc.ExecContext(ctx, sql_accu_goal_num)
+	if err != nil {
+		// エラー処理。エラーが発生した場合には適切なエラー処理を行う。
+		return err
+	}
+	// SQLクエリの実行
+	_, err = eyud.DBExc.ExecContext(ctx, sql_goal_num)
+	if err != nil {
+		// エラー処理。エラーが発生した場合には適切なエラー処理を行う。
+		return err
+	}
+
+	// 成功した場合、nilを返して正常終了。
+	return nil
+
 }
