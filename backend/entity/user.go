@@ -60,6 +60,17 @@ type User struct {
 	GoalNum     int           `json:"goal_num" db:"goal_num"`
 }
 
+type Users []*User
+
+type UserName struct {
+	ID   UserId `json:"user_id" db:"user_id"`
+	Name string `json:"name" db:"name"`
+}
+
+type UserNames []*UserName
+
+type PositionUserNames []*UserNames
+
 type AuthenticationInfo struct {
 	StudentID   string `json:"student_id" db:"student_id"`
 	MailAddress string `json:"mailaddress" db:"mailaddress"`

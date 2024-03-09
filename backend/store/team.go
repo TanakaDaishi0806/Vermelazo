@@ -146,6 +146,18 @@ func (tr *TeamRepository) OrderTeams(ctx context.Context, cmid entity.ClubMatchI
 
 }
 
+func (tr *TeamRepository) OrderTeamsWithAward(ctx context.Context, cmid entity.ClubMatchID) (entity.TeamsWithAward, error) {
+	sql := `select t.team_id,t.club_match_id, u.user_id, u.name,u.furigana,u.position, u.experience,u.grade,count(a.user_id) as award_num from users u left join team_member t on u.user_id=t.user_id left join award a on u.user_id=a.user_id where t.club_match_id=? AND t.is_exist=true group by t.team_id,t.club_match_id, u.user_id, u.name,u.furigana,u.position, u.experience,u.grade order by t.team_id`
+
+	lists := entity.TeamsWithAward{}
+	if err := tr.DBQry.SelectContext(ctx, &lists, sql, cmid); err != nil {
+		return nil, err
+	}
+
+	return lists, nil
+
+}
+
 func (tr *TeamRepository) GetTeamNum(ctx context.Context, cmid entity.ClubMatchID) (int, error) {
 	sql := `select count(*) from team where club_match_id=?`
 

@@ -50,7 +50,7 @@ type TeamMemberDelete interface {
 }
 
 type TeamList interface {
-	OrderTeams(ctx context.Context, cmid entity.ClubMatchID) (entity.Teams, error)
+	OrderTeamsWithAward(ctx context.Context, cmid entity.ClubMatchID) (entity.TeamsWithAward, error)
 	GetTeamNum(ctx context.Context, cmid entity.ClubMatchID) (int, error)
 }
 
