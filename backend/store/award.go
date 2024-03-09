@@ -119,7 +119,7 @@ func (la *ListAward) ListAward(ctx context.Context) (entity.Awards, error) {
 	if err := la.DB.SelectContext(ctx, &award_list, sql); err != nil {
 
 		errMsg := err.Error()
-		if errMsg == "sql: Scan error on column index 3, name \"token_expiration\": unsupported Scan, storing driver.Value type []uint8 into type *time.Time" {
+		if errMsg == "sql: Scan error on column index 3, name \"datetime\": unsupported Scan, storing driver.Value type []uint8 into type *time.Time" {
 			if err := la.DB.SelectContext(ctx, &as, sql); err != nil {
 				return nil, err
 			}
