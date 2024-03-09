@@ -87,11 +87,35 @@ func (tr *TeamRepository) ResisterTeamName(ctx context.Context, cti *entity.Crea
 }
 
 func (tr *TeamRepository) OrderParticipant(ctx context.Context, cmid entity.ClubMatchID) (entity.Teams, error) {
-	sql := `select p.club_match_id, u.user_id, u.name ,u.furigana,u.position, u.experience from users u, participant p where p.club_match_id=? AND u.user_id=p.user_id order by u.position asc, (u.point+u.experience*10) desc`
+	sql_point := `select p.club_match_id, u.user_id, u.name ,u.furigana,u.position, u.experience from users u, participant p where p.club_match_id=? AND u.user_id=p.user_id order by u.position asc, (u.point+u.experience*100) desc`
+	sql_pre_point := `select p.club_match_id, u.user_id, u.name ,u.furigana,u.position, u.experience from users u, participant p where p.club_match_id=? AND u.user_id=p.user_id order by u.position asc, (u.pre_point+u.experience*100) desc`
+	sql_users_count := `select count(*) from users`
+	sql_users0_count := `select count(*) from users where point=0`
+
+	var c []int
+	var c0 []int
+
+	if err := tr.DBQry.SelectContext(ctx, &c, sql_users_count); err != nil {
+		return nil, err
+	}
+
+	if err := tr.DBQry.SelectContext(ctx, &c0, sql_users0_count); err != nil {
+		return nil, err
+	}
 
 	lists := entity.Teams{}
-	if err := tr.DBQry.SelectContext(ctx, &lists, sql, cmid); err != nil {
-		return nil, err
+
+	if c[0] == c0[0] {
+		log.Println("pre_point")
+		if err := tr.DBQry.SelectContext(ctx, &lists, sql_pre_point, cmid); err != nil {
+			return nil, err
+		}
+
+	} else {
+		log.Println("point")
+		if err := tr.DBQry.SelectContext(ctx, &lists, sql_point, cmid); err != nil {
+			return nil, err
+		}
 	}
 
 	return lists, nil
