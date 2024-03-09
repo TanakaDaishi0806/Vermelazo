@@ -28,6 +28,10 @@ type ListUserInfo struct {
 	DB Queryer
 }
 
+type ListAllUsers struct {
+	DB Queryer
+}
+
 type ChangeUserPassword struct {
 	DB Execer
 }
@@ -213,4 +217,38 @@ func (rp *ResetPassword) GetTokenData(ctx context.Context, token string) (*entit
 	}
 
 	return pr, nil
+}
+
+func (lau *ListAllUsers) ListAllUsers(ctx context.Context) (entity.PositionUserNames, error) {
+	sqlgk := `select name,user_id from users where position=1`
+
+	var gk_users entity.UserNames
+
+	if err := lau.DB.SelectContext(ctx, &gk_users, sqlgk); err != nil {
+		return nil, err
+	}
+
+	sqldf := `select name,user_id from users where position=2`
+
+	var df_users entity.UserNames
+
+	if err := lau.DB.SelectContext(ctx, &df_users, sqldf); err != nil {
+		return nil, err
+	}
+
+	sqlof := `select name,user_id from users where position=3`
+
+	var of_users entity.UserNames
+
+	if err := lau.DB.SelectContext(ctx, &of_users, sqlof); err != nil {
+		return nil, err
+	}
+
+	var position_users entity.PositionUserNames
+
+	position_users = append(position_users, &gk_users)
+	position_users = append(position_users, &df_users)
+	position_users = append(position_users, &of_users)
+
+	return position_users, nil
 }
