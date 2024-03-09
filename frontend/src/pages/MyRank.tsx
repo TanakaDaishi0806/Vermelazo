@@ -3,10 +3,10 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import MyRankTemplate from "../templates/MyRankTemplate";
-import { MyRankData } from "../type/velmelazo";
+import { YourRankInfo } from "../type/velmelazo";
 
 const MyRank = () => {
-  const defaultMyRankData: MyRankData = {
+  const defaultMyRankData: YourRankInfo = {
     rank_all: 0,
     total_all: 0,
     rank_position: 0,
@@ -20,7 +20,8 @@ const MyRank = () => {
   };
   const accessToken = localStorage.getItem("accessToken");
   const navigate = useNavigate();
-  const [myRank, setMyRank] = React.useState<MyRankData>(defaultMyRankData);
+  const [yourRankInfo, setYourRankInfo] =
+    React.useState<YourRankInfo>(defaultMyRankData);
 
   React.useEffect(() => {
     axios
@@ -31,7 +32,7 @@ const MyRank = () => {
       })
       .then((response) => {
         console.log(response.status);
-        setMyRank(response.data);
+        setYourRankInfo(response.data);
       })
       .catch((error) => {
         console.log(error.response.status);
@@ -40,7 +41,7 @@ const MyRank = () => {
         }
       });
   }, []);
-  return <MyRankTemplate myRankData={myRank} />;
+  return <MyRankTemplate rankInfo={{ yourRankInfo: yourRankInfo }} />;
 };
 
 export default MyRank;

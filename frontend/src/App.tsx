@@ -38,6 +38,9 @@ import SendMailForgetPassword from "./pages/SendMailForgetPassword";
 import SendMailMessageTemplate from "./templates/SendMailMessageTemplate";
 import PasswordReset from "./pages/PasswordReset";
 import NotPasswordResetMessageTemplate from "./templates/NotPasswordResetMessageTemplate";
+import AdminAward from "./pages/AdminAward";
+import ResisterAward from "./pages/ResisterAward";
+import DeleteAward from "./pages/DeleteAward";
 
 function App() {
   return (
@@ -105,6 +108,9 @@ function App() {
           path="/passwordreset/message"
           element={<NotPasswordResetMessageTemplate />}
         />
+        <Route path="/admin/award" element={<AdminAward />} />
+        <Route path="/admin/award/resister" element={<ResisterAward />} />
+        <Route path="/admin/award/delete" element={<DeleteAward />} />
       </Routes>
     </BrowserRouter>
   );

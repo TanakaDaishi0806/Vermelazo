@@ -163,11 +163,25 @@ export interface TeamMember {
   grade: number;
 }
 
+export interface TeamMemberWithAward {
+  team_id: number;
+  club_match_id: number;
+  user_id: number;
+  name: string;
+  furigana: string;
+  position: number;
+  experience: number;
+  grade: number;
+  award_num: number;
+}
+
 export interface TeamMemberListInfo {
-  teamMemberList: TeamMember[][];
+  teamMemberList: TeamMemberWithAward[][];
   club_match_id: number;
   vnum: number;
-  setTeamMemberList: React.Dispatch<React.SetStateAction<TeamMember[][]>>;
+  setTeamMemberList: React.Dispatch<
+    React.SetStateAction<TeamMemberWithAward[][]>
+  >;
   handleCreateTeamNaviaget: () => void;
 }
 
@@ -396,7 +410,11 @@ export interface TopScorerData {
   goal_num: number;
 }
 
-export interface MyRankData {
+export interface RankInfo {
+  yourRankInfo: YourRankInfo;
+}
+
+export interface YourRankInfo {
   rank_all: number;
   total_all: number;
   rank_position: number;
@@ -491,4 +509,54 @@ export interface SendMailInfo {
   handleStudent_idChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleMailaddressChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleSendMail: () => void;
+}
+
+export interface CategoryTopUser {
+  all_top_user_name: string;
+  all_top_user_id: number;
+  gk_top_user_name: string;
+  gk_top_user_id: number;
+  df_top_user_name: string;
+  df_top_user_id: number;
+  of_top_user_name: string;
+  of_top_user_id: number;
+  goal_top_user_name: string;
+  goal_top_user_id: number;
+}
+
+export interface ResisterAwardInfo {
+  handleSelectAwardUser: (value: number) => () => void;
+  resisterAwardUser: number[];
+  awardName: string;
+  awardNameEmpty: boolean;
+  handleAwardNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  inputError: boolean;
+  setInputError: React.Dispatch<React.SetStateAction<boolean>>;
+  handleAwardResister: () => void;
+}
+
+export interface SelectInAllUsersInfo {
+  handleSelectAwardUser: (value: number) => () => void;
+  resisterAwardUser: number[];
+}
+
+export interface UsersNameInfo {
+  name: string;
+  user_id: number;
+}
+
+export interface AwardInfo {
+  award_id: number;
+  award_name: string;
+  user_id: number;
+  datetime: Date;
+  user_name: string;
+}
+
+export interface DeleteAwardInfo {
+  awardList: AwardInfo[];
+  handleSelectDeleteAward: (value: number) => () => void;
+  deleteAward: number[];
+  handleDeleteAward: () => void;
+  selectEmpty: boolean;
 }

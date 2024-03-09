@@ -4,6 +4,7 @@ import { Grid } from "@mui/material";
 import AdminHeader from "../components/AdminHeader";
 import HomeTeamMemberList from "../components/HomeTeamMemberList";
 import { TeamMemberListInfo } from "../type/velmelazo";
+import { TeamMember } from "../type/velmelazo";
 import ChangeTeamMemberCard from "../components/ChangeTeamMemberCard";
 import BaseButton from "../parts/BaseButton";
 import AdminFooter from "../components/AdminFooter";
