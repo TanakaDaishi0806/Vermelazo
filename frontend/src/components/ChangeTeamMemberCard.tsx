@@ -18,6 +18,7 @@ import {
   TeamMember,
   ChangeMember,
   TeamMemberListInfo,
+  TeamMemberWithAward,
 } from "../type/velmelazo";
 import SelectBox from "../parts/SelectBox";
 import BaseButton from "../parts/BaseButton";
@@ -33,6 +34,34 @@ function not(a: readonly TeamMember[], b: TeamMember[]) {
 function intersection(a: TeamMember[], b: TeamMember[]) {
   return a.filter((value) => b.indexOf(value) !== -1);
 }
+
+// TeamMemberからTeamMemberWithAwardに変換する関数
+const convertToTeamMemberWithAward = (
+  teamMember: TeamMember
+): TeamMemberWithAward => {
+  // ここでaward_numを適切に設定してTeamMemberWithAwardに変換
+  // 例: award_numの計算が必要な場合は、その処理を追加
+  return {
+    team_id: teamMember.team_id,
+    club_match_id: teamMember.club_match_id,
+    user_id: teamMember.user_id,
+    name: teamMember.name,
+    furigana: teamMember.furigana,
+    position: teamMember.position,
+    experience: teamMember.experience,
+    grade: teamMember.grade,
+    award_num: 0,
+  };
+};
+
+// TeamMember[]からTeamMemberWithAward[]に変換
+const convertToTeamMemberWithAwardArray = (
+  teamMemberArray: TeamMember[]
+): TeamMemberWithAward[] => {
+  return teamMemberArray.map((teamMember) =>
+    convertToTeamMemberWithAward(teamMember)
+  );
+};
 
 const ChangeTeamMemberCard: React.FC<Props> = ({ teamMemberListInfo }) => {
   const defaultTeamLeft = 0;
@@ -69,7 +98,9 @@ const ChangeTeamMemberCard: React.FC<Props> = ({ teamMemberListInfo }) => {
     if (left !== undefined && left.length !== 0) {
       console.log(left);
       setDefaultLeftErr(false);
-      teamMemberListInfo.teamMemberList[teamNumLeft] = left;
+
+      teamMemberListInfo.teamMemberList[teamNumLeft] =
+        convertToTeamMemberWithAwardArray(left);
       teamMemberListInfo.setTeamMemberList(teamMemberListInfo.teamMemberList);
       console.log(teamIdList);
     }
@@ -78,7 +109,8 @@ const ChangeTeamMemberCard: React.FC<Props> = ({ teamMemberListInfo }) => {
   React.useEffect(() => {
     if (right !== undefined && right.length !== 0) {
       setDefaultRightErr(false);
-      teamMemberListInfo.teamMemberList[teamNumRight] = right;
+      teamMemberListInfo.teamMemberList[teamNumRight] =
+        convertToTeamMemberWithAwardArray(right);
       teamMemberListInfo.setTeamMemberList(teamMemberListInfo.teamMemberList);
     }
   }, [right]);

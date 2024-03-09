@@ -92,3 +92,23 @@ type TopScorerList interface {
 type ParticipantNameList interface {
 	ListParticipantName(ctx context.Context, cmid entity.ClubMatchID) (entity.ParticipantInfos, error)
 }
+
+type CategoryTopList interface {
+	ListCategoryTop(ctx context.Context) (*entity.CategoryTop, error)
+}
+
+type AllUsersList interface {
+	ListAllUsers(ctx context.Context) (entity.PositionUserNames, error)
+}
+
+type AwardAdd interface {
+	AddAward(ctx context.Context, an string, uid entity.UserID) (entity.AwardID, error)
+}
+
+type AwardList interface {
+	ListAward(ctx context.Context) (entity.Awards, error)
+}
+
+type AwardDelete interface {
+	DeleteAward(ctx context.Context, aid entity.AwardID) (entity.Awards, error)
+}

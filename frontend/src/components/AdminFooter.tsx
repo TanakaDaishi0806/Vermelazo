@@ -4,6 +4,7 @@ import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import HistoryIcon from "@mui/icons-material/History";
 import EventIcon from "@mui/icons-material/Event";
+import { MilitaryTech } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 import { FooterValue } from "../type/velmelazo";
@@ -28,6 +29,10 @@ const AdminFooter: React.FC<Props> = ({ footerValue }) => {
     navigate("/admin/finish");
   };
 
+  const handleAdminAwardNavigate = () => {
+    navigate("/admin/award");
+  };
+
   return (
     <Box sx={{ width: "100%", position: "fixed", bottom: 0 }}>
       <BottomNavigation
@@ -36,14 +41,17 @@ const AdminFooter: React.FC<Props> = ({ footerValue }) => {
         onChange={(event, newValue) => {
           if (newValue === 0) {
             handleAdminNavigate();
-          } else {
+          } else if (newValue === 1) {
             handleAdminFinishNavigate();
+          } else if (newValue === 2) {
+            handleAdminAwardNavigate();
           }
           setValue(newValue);
         }}
       >
         <BottomNavigationAction label="進行中" icon={<EventIcon />} />
         <BottomNavigationAction label="過去" icon={<HistoryIcon />} />
+        <BottomNavigationAction label="アワード" icon={<MilitaryTech />} />
       </BottomNavigation>
     </Box>
   );

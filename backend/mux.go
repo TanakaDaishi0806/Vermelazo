@@ -260,6 +260,27 @@ func Newmux(ctx context.Context) (http.Handler, func(), error) {
 		Repo: &store.ListParticipantName{DB: db},
 	}
 
+	lct := &handler.ListCategoryTop{
+		Repo: &store.ListCategoryTop{DB: db},
+	}
+
+	lau := &handler.ListAllUsers{
+		Repo: &store.ListAllUsers{DB: db},
+	}
+
+	aa := &handler.AddAward{
+		Repo:      &store.AddAward{DB: db},
+		Validator: v,
+	}
+
+	la := &handler.ListAward{
+		Repo: &store.ListAward{DB: db},
+	}
+
+	da := &handler.DeleteAward{
+		Repo: &store.DeleteAward{DBExc: db, DBQry: db},
+	}
+
 	mux.Route("/home", func(r chi.Router) {
 		r.Use(handler.CROS, handler.AuthMiddleware(jwter))
 		r.Get("/", lcmu.ServeHTTP)
@@ -276,6 +297,7 @@ func Newmux(ctx context.Context) (http.Handler, func(), error) {
 		r.Get("/topscorer/list/{clubMatchId}", ts.ServeHTTP)
 		r.Get("/userinfo/list", lui.ServeHTTP)
 		r.Get("/participantname/list/{clubMatchId}", lpn.ServeHTTP)
+		r.Get("/award", la.ServeHTTP)
 		r.Post("/", ap.ServeHTTP)
 		r.Post("/teammember/add", atm.ServeHTTP)
 		r.Post("/vote/myteam/add", amtm.ServeHTTP)
@@ -293,11 +315,15 @@ func Newmux(ctx context.Context) (http.Handler, func(), error) {
 		r.Get("/team/specify/list/{teamId}", lst.ServeHTTP)
 		r.Get("/user/position/list/{clubMatchId}/{position}", lpm.ServeHTTP)
 		r.Get("/mom/position/list/{clubMatchId}", lptm.ServeHTTP)
+		r.Get("/award/categorytop", lct.ServeHTTP)
+		r.Get("/award/allusers", lau.ServeHTTP)
+		r.Get("/award", la.ServeHTTP)
 		r.Post("/", acm.ServeHTTP)
 		r.Post("/team/create", ct.ServeHTTP)
 		r.Post("/pointgetter/add", apg.ServeHTTP)
 		r.Post("/match/combination/create", am.ServeHTTP)
 		r.Post("/mom/position/add", apm.ServeHTTP)
+		r.Post("/award", aa.ServeHTTP)
 		r.Put("/team/change/{clubMatchId}", chgt.ServeHTTP)
 		r.Put("/clubmatchs/{clubMatchId}", ccm.ServeHTTP)
 		r.Put("/clubmatchs/isreleased/{clubMatchId}", scmr.ServeHTTP)
@@ -307,6 +333,7 @@ func Newmux(ctx context.Context) (http.Handler, func(), error) {
 		r.Put("/password/change", cup.ServeHTTP)
 		r.Delete("/clubmatchs/{clubMatchId}", dcm.ServeHTTP)
 		r.Delete("/pointgetter/{matchId}", dpg.ServeHTTP)
+		r.Delete("/award/{awardID}", da.ServeHTTP)
 	})
 
 	return mux, cleanup, nil

@@ -43,7 +43,7 @@ type DeleteTeamMemberService interface {
 }
 
 type ListTeamService interface {
-	ListTeam(ctx context.Context, cmid entity.ClubMatchID) (entity.EachTeams, error)
+	ListTeam(ctx context.Context, cmid entity.ClubMatchID) (entity.EachTeamsWithAward, error)
 }
 
 type AddTeamMemberService interface {

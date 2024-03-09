@@ -28,6 +28,18 @@ type Team struct {
 	Grade       GradeNum      `json:"grade" db:"grade"`
 }
 
+type TeamWithAward struct {
+	ID          TeamID        `json:"team_id" db:"team_id"`
+	ClubMatchID ClubMatchID   `json:"club_match_id" db:"club_match_id"`
+	UserID      UserId        `json:"user_id" db:"user_id"`
+	Name        string        `json:"name" db:"name"`
+	Furigana    string        `json:"furigana" db:"furigana"`
+	Position    PositionNum   `json:"position" db:"position"`
+	Experience  ExperienceNum `json:"experience" db:"experience"`
+	Grade       GradeNum      `json:"grade" db:"grade"`
+	AwardNum    int           `json:"award_num" db:"award_num"`
+}
+
 type ChangeTeamMember struct {
 	ChangeTeamID TeamID      `json:"change_team_id"`
 	UserID       UserId      `json:"user_id"`
@@ -36,9 +48,13 @@ type ChangeTeamMember struct {
 
 type Teams []*Team
 
+type TeamsWithAward []*TeamWithAward
+
 type PositionMember []*Team
 
 type EachTeams [][]*Team
+
+type EachTeamsWithAward [][]*TeamWithAward
 
 type SelectNum struct {
 	TeamID TeamID

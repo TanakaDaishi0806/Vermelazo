@@ -10,9 +10,9 @@ type ListTeam struct {
 	Repo TeamList
 }
 
-func (lt *ListTeam) ListTeam(ctx context.Context, cmid entity.ClubMatchID) (entity.EachTeams, error) {
+func (lt *ListTeam) ListTeam(ctx context.Context, cmid entity.ClubMatchID) (entity.EachTeamsWithAward, error) {
 
-	lists, err := lt.Repo.OrderTeams(ctx, cmid)
+	lists, err := lt.Repo.OrderTeamsWithAward(ctx, cmid)
 
 	if err != nil {
 		return nil, err
@@ -24,7 +24,7 @@ func (lt *ListTeam) ListTeam(ctx context.Context, cmid entity.ClubMatchID) (enti
 		return nil, err
 	}
 
-	rsp := make(entity.EachTeams, tnum)
+	rsp := make(entity.EachTeamsWithAward, tnum)
 
 	var tid int = int(lists[0].ID)
 	var k int = 0

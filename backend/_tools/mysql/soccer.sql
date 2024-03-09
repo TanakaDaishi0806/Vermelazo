@@ -427,6 +427,33 @@ LOCK TABLES `password_reset` WRITE;
 /*!40000 ALTER TABLE `password_reset` ENABLE KEYS */;
 UNLOCK TABLES;
 
+--
+-- Table structure for table `award`
+--
+
+DROP TABLE IF EXISTS `award`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `award` (
+  `award_id` int(5) NOT NULL AUTO_INCREMENT,
+  `award_name` varchar(50) NOT NULL,
+  `user_id` int(5) NOT NULL,
+  `datetime` datetime NOT NULL,
+  PRIMARY KEY (`award_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `award_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `matchs`
+--
+
+LOCK TABLES `matchs` WRITE;
+/*!40000 ALTER TABLE `matchs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `matchs` ENABLE KEYS */;
+UNLOCK TABLES;
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

@@ -6,14 +6,14 @@ import (
 	"github.com/TanakaDaishi0806/Vermelazo.git/backend/entity"
 )
 
-type ListParticipantName struct {
-	Repo ParticipantNameList
+type DeleteAward struct {
+	Repo AwardDelete
 }
 
-func (lp *ListParticipantName) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (da *DeleteAward) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
-	cmid, err := entity.StrTOClubMatchID(r)
+	aid, err := entity.StrTOAwardID(r)
 	if err != nil {
 		RespondJSON(ctx, w, ErrResponse{
 			Message: err.Error(),
@@ -21,7 +21,8 @@ func (lp *ListParticipantName) ServeHTTP(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	lists, err := lp.Repo.ListParticipantName(ctx, cmid)
+	lists, err := da.Repo.DeleteAward(ctx, aid)
+
 	if err != nil {
 		RespondJSON(ctx, w, ErrResponse{
 			Message: err.Error(),
@@ -30,4 +31,5 @@ func (lp *ListParticipantName) ServeHTTP(w http.ResponseWriter, r *http.Request)
 	}
 
 	RespondJSON(ctx, w, lists, http.StatusOK)
+
 }

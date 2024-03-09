@@ -65,7 +65,7 @@ const HomeFooter: React.FC<Props> = ({ footerValue }) => {
   };
 
   return (
-    <Box sx={{ width: "100%", position: "fixed", bottom: 0 }}>
+    <Box sx={{ width: "100%", position: "fixed", bottom: 0, zIndex: "10" }}>
       {pageNum === "0" && (
         <BottomNavigation
           showLabels
