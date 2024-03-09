@@ -104,9 +104,44 @@ func (aa *AddAward) AddAward(ctx context.Context, an string, uid entity.UserID) 
 func (la *ListAward) ListAward(ctx context.Context) (entity.Awards, error) {
 	sql := `select a.award_id,a.award_name,a.user_id,a.datetime,u.name from award a left join users u on a.user_id=u.user_id`
 
+	type a struct {
+		AwardID   entity.AwardID `json:"award_id" db:"award_id"`
+		AwardName string         `json:"award_name" db:"award_name"`
+		UserID    entity.UserID  `json:"user_id" db:"user_id"`
+		DateTime  string         `json:"datetime" db:"datetime"`
+		UserName  string         `json:"user_name" db:"name"`
+	}
+
+	var as []*a
+
 	var award_list entity.Awards
 
 	if err := la.DB.SelectContext(ctx, &award_list, sql); err != nil {
+
+		errMsg := err.Error()
+		if errMsg == "sql: Scan error on column index 3, name \"token_expiration\": unsupported Scan, storing driver.Value type []uint8 into type *time.Time" {
+			if err := la.DB.SelectContext(ctx, &as, sql); err != nil {
+				return nil, err
+			}
+			layout := "2006-01-02 15:04:05"
+			for i := 0; i < len(as); i++ {
+				d, err := time.Parse(layout, as[i].DateTime)
+				if err != nil {
+					return nil, err
+				}
+				award_list = append(award_list, &entity.Award{
+					AwardID:   as[i].AwardID,
+					AwardName: as[i].AwardName,
+					UserID:    as[i].UserID,
+					DateTime:  d,
+					UserName:  as[i].UserName,
+				})
+
+			}
+
+			return award_list, nil
+		}
+
 		return nil, err
 	}
 
