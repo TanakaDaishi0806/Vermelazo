@@ -58,6 +58,8 @@ type User struct {
 	Position    PositionNum   `json:"position" db:"position"`
 	Experience  ExperienceNum `json:"experience" db:"experience"`
 	GoalNum     int           `json:"goal_num" db:"goal_num"`
+	AccuGoalNum int           `json:"accu_goal_num" db:"accu_goal_num"`
+	PrePoint    int           `json:"pre_point" db:"pre_point"`
 }
 
 type Users []*User
