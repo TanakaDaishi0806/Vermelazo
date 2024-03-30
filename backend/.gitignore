@@ -21,3 +21,4 @@ auth/cert/public.pem
 config/config.go
 docker-compose.yml
 .air.toml
+_tools/mysql/soccer.sql
