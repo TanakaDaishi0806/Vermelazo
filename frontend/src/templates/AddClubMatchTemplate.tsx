@@ -6,6 +6,7 @@ import AdminFooter from "../components/AdminFooter";
 import Calendar from "../components/Calendar";
 import BaseButton from "../parts/BaseButton";
 import { AddClubMatchInfo } from "../type/velmelazo";
+import Maintenance from "../parts/Maintenance";
 
 type Props = {
   addClubMatchInfo: AddClubMatchInfo;
@@ -14,6 +15,8 @@ type Props = {
 const AddClubMatchTemplate: React.FC<Props> = ({ addClubMatchInfo }) => {
   return (
     <div>
+      <Maintenance />
+
       <Grid
         container
         alignItems="center"

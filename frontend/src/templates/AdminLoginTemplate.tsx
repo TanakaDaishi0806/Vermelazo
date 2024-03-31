@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 import { LoginInfo } from "../type/velmelazo";
 import BaseButton from "../parts/BaseButton";
+import Maintenance from "../parts/Maintenance";
 
 type Props = {
   loginInfo: LoginInfo;
@@ -18,6 +19,7 @@ const AdminLoginTemplate: React.FC<Props> = ({ loginInfo }) => {
         //backgroundImage: "linear-gradient(30deg, #eeeeff, #9999aa, #eeeeff)",
       }}
     >
+      <Maintenance />
       <Grid
         container
         alignItems="center"

@@ -5,6 +5,7 @@ import { AddScoreMatchListInfo } from "../type/velmelazo";
 import AddScoreMatchList from "../components/AddScoreMatchList";
 import AdminHeader from "../components/AdminHeader";
 import AdminFooter from "../components/AdminFooter";
+import Maintenance from "../parts/Maintenance";
 
 type Props = {
   MatchListInfo: AddScoreMatchListInfo;
@@ -18,6 +19,7 @@ const ListAddScoreMatchTemplate: React.FC<Props> = ({ MatchListInfo }) => {
       justifyContent="center"
       direction="column"
     >
+      <Maintenance />
       <AdminHeader />
       <Grid
         sx={{

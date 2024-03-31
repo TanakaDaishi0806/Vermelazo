@@ -5,6 +5,7 @@ import { AddScoreMatchListInfo } from "../type/velmelazo";
 import VoteMatchList from "../components/VoteMatchList";
 import Header from "../components/Header";
 import HomeFooter from "../components/HomeFooter";
+import Maintenance from "../parts/Maintenance";
 
 type Props = {
   MatchListInfo: AddScoreMatchListInfo;
@@ -18,6 +19,7 @@ const ListVoteMatchTemplate: React.FC<Props> = ({ MatchListInfo }) => {
       justifyContent="center"
       direction="column"
     >
+      <Maintenance />
       <Header headertext={{ text: "Home Page" }} />
       <Grid
         sx={{

@@ -8,6 +8,7 @@ import { TeamMember } from "../type/velmelazo";
 import ChangeTeamMemberCard from "../components/ChangeTeamMemberCard";
 import BaseButton from "../parts/BaseButton";
 import AdminFooter from "../components/AdminFooter";
+import Maintenance from "../parts/Maintenance";
 
 type Props = {
   teamMemberListInfo: TeamMemberListInfo;
@@ -21,6 +22,7 @@ const ChangeTeamMemberTemplate: React.FC<Props> = ({ teamMemberListInfo }) => {
       justifyContent="center"
       direction="column"
     >
+      <Maintenance />
       <AdminHeader />
       <HomeTeamMemberList teamMemberListInfo={teamMemberListInfo} />
       <BaseButton

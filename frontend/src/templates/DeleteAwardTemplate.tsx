@@ -16,6 +16,8 @@ import { DeleteAwardInfo } from "../type/velmelazo";
 import TextItem from "../parts/TextItem";
 import BaseButton from "../parts/BaseButton";
 import { AwardInfo } from "../type/velmelazo";
+import Maintenance from "../parts/Maintenance";
+import { Maximize } from "@mui/icons-material";
 
 type Props = {
   deleteAwardInfo: DeleteAwardInfo;
@@ -80,6 +82,7 @@ const DeleteAwardTemplate: React.FC<Props> = ({ deleteAwardInfo }) => {
 
   return (
     <div>
+      <Maintenance />
       <AdminHeader />
       <Grid container justifyContent="center" alignItems="center">
         <Grid item xs={6}>

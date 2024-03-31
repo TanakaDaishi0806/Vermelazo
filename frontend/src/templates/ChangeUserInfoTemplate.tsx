@@ -17,6 +17,7 @@ import {
 import { ChangeUserInfo } from "../type/velmelazo";
 import Header from "../components/Header";
 import HomeFooter from "../components/HomeFooter";
+import Maintenance from "../parts/Maintenance";
 
 type Props = {
   changeUserInfo: ChangeUserInfo;
@@ -47,6 +48,7 @@ const experiences = [
 const ChangeUserInfoTemplate: React.FC<Props> = ({ changeUserInfo }) => {
   return (
     <div>
+      <Maintenance />
       <Header headertext={{ text: "My Page" }} />
       <Grid
         container

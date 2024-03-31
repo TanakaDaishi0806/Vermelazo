@@ -18,6 +18,7 @@ import AdminHeader from "../components/AdminHeader";
 import AdminFooter from "../components/AdminFooter";
 import { ResisterAwardInfo } from "../type/velmelazo";
 import SelectInAllUsers from "../components/SelectInAllUsers";
+import Maintenance from "../parts/Maintenance";
 
 type Props = {
   resisterAwardInfo: ResisterAwardInfo;
@@ -26,6 +27,7 @@ type Props = {
 const ResisterAwardTemplate: React.FC<Props> = ({ resisterAwardInfo }) => {
   return (
     <div>
+      <Maintenance />
       <AdminHeader />
       <Grid
         container

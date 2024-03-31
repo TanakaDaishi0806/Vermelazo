@@ -3,6 +3,7 @@ import { Grid } from "@mui/material";
 import AdminHeader from "../components/AdminHeader";
 import ResisterPositionMom from "../components/ResisterPositionMom";
 import AdminFooter from "../components/AdminFooter";
+import Maintenance from "../parts/Maintenance";
 
 type Props = {
   clubMatchID: number;
@@ -18,6 +19,7 @@ const ResisterGKMomTemplate: React.FC<Props> = ({ clubMatchID }) => {
       direction="column"
       sx={{ mb: "100px" }}
     >
+      <Maintenance />
       <AdminHeader />
       <ResisterPositionMom
         eachPositionMom={{
