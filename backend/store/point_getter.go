@@ -12,19 +12,20 @@ type PointGetterRepository struct {
 }
 
 func (pgr *PointGetterRepository) AddPointGetter(ctx context.Context, pg *entity.PointGetter) error {
-	sql := `insert into point_getter (match_id,team_id,user_id,club_match_id) values (?,?,?,?)`
-	// sql1 := `select user_id from team_member where club_match_id=?`
-	// sql2 := `select count(*) from point_getter where user_id=? group by user_id`
-	// sql3 := `update users set goal_num=? where user_id=?`
+	sql := `insert into point_getter (match_id,team_id,user_id,club_match_id) values ($1,$2,$3,$4)`
+	// sql1 := `select user_id from team_member where club_match_id=$`
+	// sql2 := `select count(*) from point_getter where user_id=$ group by user_id`
+	// sql3 := `update users set goal_num=$ where user_id=$`
 
-	result, err := pgr.DBExc.ExecContext(ctx, sql, pg.MatchID, pg.TeamID, pg.UserID, pg.ClubMatchID)
+	_, err := pgr.DBExc.ExecContext(ctx, sql, pg.MatchID, pg.TeamID, pg.UserID, pg.ClubMatchID)
 
 	if err != nil {
 		return err
 	}
 
-	pid, err := result.LastInsertId()
-	if err != nil {
+	sql2 := `select point_id from point_getter ORDER BY point_id DESC LIMIT 1`
+	var pid int64
+	if err := pgr.DBQry.GetContext(ctx, &pid, sql2); err != nil {
 		return err
 	}
 	pg.PointID = entity.PointID(pid)
@@ -58,7 +59,7 @@ func (pgr *PointGetterRepository) AddPointGetter(ctx context.Context, pg *entity
 }
 
 func (pgr *PointGetterRepository) ListPointGetter(ctx context.Context, mid entity.MatchID, tid entity.TeamID) (entity.Teams, error) {
-	sql := `select pg.team_id,pg.user_id,pg.club_match_id,u.name,u.furigana,u.position,u.experience from point_getter pg left join users u on  pg.user_id=u.user_id where pg.match_id=? and pg.team_id=?`
+	sql := `select pg.team_id,pg.user_id,pg.club_match_id,u.name,u.furigana,u.position,u.experience from point_getter pg left join users u on  pg.user_id=u.user_id where pg.match_id=$1 and pg.team_id=$2`
 
 	l := entity.Teams{}
 
@@ -70,7 +71,7 @@ func (pgr *PointGetterRepository) ListPointGetter(ctx context.Context, mid entit
 }
 
 func (pgr *PointGetterRepository) DeletePointGetter(ctx context.Context, mid entity.MatchID) error {
-	sql := `delete from point_getter where match_id=?`
+	sql := `delete from point_getter where match_id=$1`
 
 	_, err := pgr.DBExc.ExecContext(ctx, sql, mid)
 

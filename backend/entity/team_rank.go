@@ -9,7 +9,7 @@ type TeamRank struct {
 	DrawNum     int         `json:"draw_num" db:"draw_num"`
 	LoseNum     int         `json:"lose_num" db:"lose_num"`
 	GoalNum     int         `json:"goal_num" db:"goal_num"`
-	IsLastRank  int         `json:"is_last_rank" db:"is_last_rank"`
+	IsLastRank  bool        `json:"is_last_rank" db:"is_last_rank"`
 }
 
 type TeamRanks []*TeamRank

@@ -12,17 +12,17 @@ type MyRankRepository struct {
 }
 
 func (mrr *MyRankRepository) ListMyRank(ctx context.Context, uid entity.UserId) (*entity.MyRank, error) {
-	sql := `select count(*) from participant p left join club_match cm on p.club_match_id=cm.club_match_id where p.user_id=? and cm.is_finish=true`
-	sql1 := `select count(*)+1 as rank_all from users where point>(select point from users where user_id=?)`
+	sql := `select count(*) from participant p left join club_match cm on p.club_match_id=cm.club_match_id where p.user_id=$1 and cm.is_finish=true`
+	sql1 := `select count(*)+1 as rank_all from users where point>(select point from users where user_id=$1)`
 	sql2 := `select count(*) as total_all from users`
-	sql3 := `select count(*)+1 as rank_position from users where position=(select position from users where user_id=?) and point>(select point from users where user_id=?)`
-	sql4 := `select count(*) as total_position from users where position=(select position from users where user_id=?)`
-	sql5 := `select count(*)+1 as rank_experience from users where experience=(select experience from users where user_id=?) and point>(select point from users where user_id=?)`
-	sql6 := `select count(*) as total_experience from users where experience=(select experience from users where user_id=?)`
-	sql7 := `select goal_num from users where user_id=?`
-	sql8 := `select count(*)+1 as rank_goal from users where goal_num>(select goal_num from users where user_id=?)`
+	sql3 := `select count(*)+1 as rank_position from users where position=(select position from users where user_id=$1) and point>(select point from users where user_id=$2)`
+	sql4 := `select count(*) as total_position from users where position=(select position from users where user_id=$1)`
+	sql5 := `select count(*)+1 as rank_experience from users where experience=(select experience from users where user_id=$1) and point>(select point from users where user_id=$2)`
+	sql6 := `select count(*) as total_experience from users where experience=(select experience from users where user_id=$1)`
+	sql7 := `select goal_num from users where user_id=$1`
+	sql8 := `select count(*)+1 as rank_goal from users where goal_num>(select goal_num from users where user_id=$1)`
 	sql9 := `select is_finish from club_match limit 1`
-	sql10 := `select point from users where user_id=?`
+	sql10 := `select point from users where user_id=$1`
 
 	var p []int
 	var pn []int

@@ -10,6 +10,7 @@ require (
 	github.com/google/uuid v1.4.0
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/lestrrat-go/jwx/v2 v2.0.9
+	github.com/lib/pq v1.10.9
 	golang.org/x/crypto v0.15.0
 	golang.org/x/oauth2 v0.14.0
 	golang.org/x/sync v0.5.0

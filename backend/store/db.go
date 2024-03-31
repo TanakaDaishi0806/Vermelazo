@@ -4,12 +4,11 @@ import (
 	"context"
 	"database/sql"
 	"errors"
-	"fmt"
-	"log"
 	"os"
 	"time"
 
 	"github.com/jmoiron/sqlx"
+	_ "github.com/lib/pq"
 )
 
 const (
@@ -25,26 +24,53 @@ var (
 
 func New(ctx context.Context) (*sqlx.DB, func(), error) {
 
-	user := os.Getenv("DB_USER")
-	password := os.Getenv("DB_PASSWORD")
-	host := os.Getenv("HOST_PRODUCT")
-	dbName := os.Getenv("DB_NAME")
-	option := os.Getenv("OPTION")
-	db, err := sql.Open("mysql",
-		fmt.Sprintf("%s:%s@tcp(%s)/%s?%s", user, password, host, dbName, option),
-	)
-	log.Printf("%s:%s@tcp(%s)/%s?%s", user, password, host, dbName, option)
+	// user := os.Getenv("DB_USER")
+	// password := os.Getenv("DB_PASSWORD")
+	// host := os.Getenv("HOST_PRODUCT")
+	// dbName := os.Getenv("DB_NAME")
+	// port := os.Getenv("DB_PORT")     // PostgreSQLのポートを指定します。デフォルトは5432です。
+	// sslMode := os.Getenv("SSL_MODE") // SSLモードを設定します。例: "disable" or "require"
+	// connectionString := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s", host, port, user, password, dbName, sslMode)
+
+	// PostgreSQLに接続するための接続文字列を作成します。
+	connectionString := os.Getenv("DB")
+
+	db, err := sqlx.Open("postgres", connectionString)
 	if err != nil {
 		return nil, func() {}, err
 	}
+
+	// コンテキストを使用して接続をテストします。
 	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
 	defer cancel()
 
 	if err := db.PingContext(ctx); err != nil {
 		return nil, func() { _ = db.Close() }, err
 	}
-	xdb := sqlx.NewDb(db, "mysql")
-	return xdb, func() { _ = db.Close() }, err
+
+	// 接続が成功した場合、sqlx.DBインスタンスとクローザー関数を返します。
+	return db, func() { _ = db.Close() }, nil
+
+	// user := os.Getenv("DB_USER")
+	// password := os.Getenv("DB_PASSWORD")
+	// host := os.Getenv("HOST_PRODUCT")
+	// dbName := os.Getenv("DB_NAME")
+	// option := os.Getenv("OPTION")
+	// db, err := sql.Open("mysql",
+	// 	fmt.Sprintf("%s:%s@tcp(%s)/%s?%s", user, password, host, dbName, option),
+	// )
+	// log.Printf("%s:%s@tcp(%s)/%s?%s", user, password, host, dbName, option)
+	// if err != nil {
+	// 	return nil, func() {}, err
+	// }
+	// ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	// defer cancel()
+
+	// if err := db.PingContext(ctx); err != nil {
+	// 	return nil, func() { _ = db.Close() }, err
+	// }
+	// xdb := sqlx.NewDb(db, "mysql")
+	// return xdb, func() { _ = db.Close() }, err
 }
 
 type Beginner interface {
