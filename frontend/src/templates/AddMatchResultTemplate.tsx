@@ -7,6 +7,7 @@ import AddScore from "../components/AddScore";
 import SelectPointGetter from "../components/SelectPointGetter";
 import BaseButton from "../parts/BaseButton";
 import AdminFooter from "../components/AdminFooter";
+import Maintenance from "../parts/Maintenance";
 
 type Props = {
   addMatchResultInfo: AddMatchResultInfo;
@@ -20,6 +21,7 @@ const AddMatchResultTemplate: React.FC<Props> = ({ addMatchResultInfo }) => {
       justifyContent="center"
       direction="column"
     >
+      <Maintenance />
       <AdminHeader />
       <AddScore
         addScoreInfo={{

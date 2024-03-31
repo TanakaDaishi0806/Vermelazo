@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 
 import { NewAccountInfo } from "../type/velmelazo";
+import Maintenance from "../parts/Maintenance";
 
 type Props = {
   newAccountInfo: NewAccountInfo;
@@ -51,6 +52,7 @@ const NewAccountCreateTemplate: React.FC<Props> = ({ newAccountInfo }) => {
         justifyContent="center"
         direction="column"
       >
+        <Maintenance />
         <Grid item xs={12}>
           <Typography
             variant="h3"

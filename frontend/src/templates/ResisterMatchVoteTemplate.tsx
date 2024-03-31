@@ -3,6 +3,7 @@ import { Grid } from "@mui/material";
 import Header from "../components/Header";
 import MatchVote from "../components/MatchVote";
 import { ResisterMatchVoteInfo } from "../type/velmelazo";
+import Maintenance from "../parts/Maintenance";
 
 type Props = {
   resisterMatchVoteInfo: ResisterMatchVoteInfo;
@@ -18,6 +19,7 @@ const ResisterMyTeamVoteTemplate: React.FC<Props> = ({
       alignItems="center"
       direction="column"
     >
+      <Maintenance />
       <Header headertext={{ text: "Home Page" }} />
       <MatchVote
         matchVoteInfo={{

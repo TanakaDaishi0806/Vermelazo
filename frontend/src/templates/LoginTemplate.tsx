@@ -3,6 +3,7 @@ import { Box, Grid, Button, TextField, Typography } from "@mui/material";
 import React from "react";
 
 import { LoginInfo } from "../type/velmelazo";
+import Maintenance from "../parts/Maintenance";
 
 type Props = {
   loginInfo: LoginInfo;
@@ -17,6 +18,7 @@ const LoginTemplate: React.FC<Props> = ({ loginInfo }) => {
         //backgroundImage: "linear-gradient(30deg, #eeeeff, #9999aa, #eeeeff)",
       }}
     >
+      <Maintenance />
       <Grid
         container
         alignItems="center"

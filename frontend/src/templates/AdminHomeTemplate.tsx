@@ -1,10 +1,12 @@
 import ClubMatchList from "../components/ClubMatchList";
 import AdminHeader from "../components/AdminHeader";
 import AdminFooter from "../components/AdminFooter";
+import Maintenance from "../parts/Maintenance";
 
 const AdminHomeTemplate = () => {
   return (
     <div>
+      <Maintenance />
       <AdminHeader />
       <ClubMatchList
         getUrl={{

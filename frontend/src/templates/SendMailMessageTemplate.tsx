@@ -2,11 +2,13 @@ import { Typography, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 import BaseButton from "../parts/BaseButton";
+import Maintenance from "../parts/Maintenance";
 
 const SendMailMessageTemplate = () => {
   const navigate = useNavigate();
   return (
     <div>
+      <Maintenance />
       <Grid
         container
         alignItems="center"

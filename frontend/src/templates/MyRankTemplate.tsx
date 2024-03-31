@@ -11,6 +11,7 @@ import Header from "../components/Header";
 import YourRankList from "../components/YourRankList";
 import HomeFooter from "../components/HomeFooter";
 import AwardList from "../components/AwardList";
+import Maintenance from "../parts/Maintenance";
 
 type Props = {
   rankInfo: RankInfo;
@@ -63,6 +64,7 @@ const MyRankTemplate: React.FC<Props> = ({ rankInfo }) => {
 
   return (
     <Grid container>
+      <Maintenance />
       <Header headertext={{ text: "My Page" }} />
       <AppBar position="static">
         <Tabs

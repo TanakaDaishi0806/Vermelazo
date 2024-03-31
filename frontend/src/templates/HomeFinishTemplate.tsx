@@ -1,10 +1,12 @@
 import Header from "../components/Header";
 import FinishClubMatchList from "../components/FinishClubMatchList";
 import HomeFooter from "../components/HomeFooter";
+import Maintenance from "../parts/Maintenance";
 
 const HomeFinishTemplate = () => {
   return (
     <div>
+      <Maintenance />
       <Header headertext={{ text: "My Page" }} />
       <FinishClubMatchList
         getUrl={{

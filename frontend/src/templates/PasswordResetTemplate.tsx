@@ -2,6 +2,7 @@ import React from "react";
 import { Button, TextField, Typography, Grid } from "@mui/material";
 
 import { ChangeAdminPassword } from "../type/velmelazo";
+import Maintenance from "../parts/Maintenance";
 
 type Props = {
   changeAdminPassword: ChangeAdminPassword;
@@ -10,6 +11,7 @@ type Props = {
 const PasswordResetTemplate: React.FC<Props> = ({ changeAdminPassword }) => {
   return (
     <div>
+      <Maintenance />
       <Grid
         container
         alignItems="center"

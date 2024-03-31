@@ -2,6 +2,7 @@ import { Typography, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 import BaseButton from "../parts/BaseButton";
+import Maintenance from "../parts/Maintenance";
 
 const NotPasswordResetMessageTemplate = () => {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ const NotPasswordResetMessageTemplate = () => {
         justifyContent="center"
         direction="column"
       >
+        <Maintenance />
         <Grid item xs={12}>
           <Typography
             sx={{

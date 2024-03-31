@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import HomeFooter from "../components/HomeFooter";
 import { UserInfoChange } from "../type/velmelazo";
 import BaseButton from "../parts/BaseButton";
+import Maintenance from "../parts/Maintenance";
 
 type Props = {
   userInfoChange: UserInfoChange;
@@ -13,6 +14,7 @@ type Props = {
 const ListUserInfoTemplate: React.FC<Props> = (userInfoChange) => {
   return (
     <div>
+      <Maintenance />
       <Header headertext={{ text: "My Page" }} />
       <Grid
         container

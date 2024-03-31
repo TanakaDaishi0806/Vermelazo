@@ -2,6 +2,7 @@ import React from "react";
 import { Button, TextField, Typography, Grid } from "@mui/material";
 
 import { SendMailInfo } from "../type/velmelazo";
+import Maintenance from "../parts/Maintenance";
 
 type Props = {
   sendMailInfo: SendMailInfo;
@@ -10,6 +11,7 @@ type Props = {
 const SendMailForgetPasswordTemplate: React.FC<Props> = ({ sendMailInfo }) => {
   return (
     <div>
+      <Maintenance />
       <Grid
         container
         alignItems="center"

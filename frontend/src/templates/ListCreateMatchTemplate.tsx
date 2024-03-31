@@ -6,6 +6,7 @@ import MatchList from "../components/MatchList";
 import AdminHeader from "../components/AdminHeader";
 import BaseButton from "../parts/BaseButton";
 import AdminFooter from "../components/AdminFooter";
+import Maintenance from "../parts/Maintenance";
 
 type Props = {
   changeMatchListInfo: ChangeMatchListInfo;
@@ -19,6 +20,7 @@ const ListCreateMatchTemplate: React.FC<Props> = ({ changeMatchListInfo }) => {
       justifyContent="center"
       direction="column"
     >
+      <Maintenance />
       <AdminHeader />
       <Grid
         sx={{

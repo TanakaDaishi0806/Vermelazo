@@ -5,6 +5,7 @@ import { CreateTeamInfo } from "../type/velmelazo";
 import AdminHeader from "../components/AdminHeader";
 import BaseButton from "../parts/BaseButton";
 import AdminFooter from "../components/AdminFooter";
+import Maintenance from "../parts/Maintenance";
 
 type Props = {
   createTeamInfo: CreateTeamInfo;
@@ -18,6 +19,7 @@ const CreateTeamTemplate: React.FC<Props> = ({ createTeamInfo }) => {
       justifyContent="center"
       direction="column"
     >
+      <Maintenance />
       <AdminHeader />
       <Grid item xs={12} sx={{ mt: "30px" }}>
         <TextField

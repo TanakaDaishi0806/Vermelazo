@@ -1,10 +1,12 @@
 import FinishClubMatchList from "../components/FinishClubMatchList";
 import AdminHeader from "../components/AdminHeader";
 import AdminFooter from "../components/AdminFooter";
+import Maintenance from "../parts/Maintenance";
 
 const AdminHomeFinishTemplate = () => {
   return (
     <div>
+      <Maintenance />
       <AdminHeader />
       <FinishClubMatchList
         getUrl={{

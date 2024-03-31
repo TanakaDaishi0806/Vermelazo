@@ -3,6 +3,7 @@ import { Grid } from "@mui/material";
 import Header from "../components/Header";
 import MyTeamVote from "../components/MyTeamVote";
 import { MyVoteInfo } from "../type/velmelazo";
+import Maintenance from "../parts/Maintenance";
 
 type Props = {
   myVoteInfo: MyVoteInfo;
@@ -16,6 +17,7 @@ const ResisterMyTeamVoteTemplate: React.FC<Props> = ({ myVoteInfo }) => {
       alignItems="center"
       direction="column"
     >
+      <Maintenance />
       <Header headertext={{ text: "Home Page" }} />
       <MyTeamVote
         myTeamVoteInfo={{

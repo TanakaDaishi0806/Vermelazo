@@ -4,6 +4,7 @@ import { Button, TextField, Typography, Grid } from "@mui/material";
 import { ChangeAdminPassword } from "../type/velmelazo";
 import AdminHeader from "../components/AdminHeader";
 import AdminFooter from "../components/AdminFooter";
+import Maintenance from "../parts/Maintenance";
 
 type Props = {
   changeAdminPassword: ChangeAdminPassword;
@@ -14,6 +15,7 @@ const ChangeAdminPasswordTemplate: React.FC<Props> = ({
 }) => {
   return (
     <div>
+      <Maintenance />
       <AdminHeader />
       <Grid
         container

@@ -6,6 +6,7 @@ import Calendar from "../components/Calendar";
 import BaseButton from "../parts/BaseButton";
 import { ChangeClubMatchInfo } from "../type/velmelazo";
 import AdminFooter from "../components/AdminFooter";
+import Maintenance from "../parts/Maintenance";
 
 type Props = {
   changeClubMatchInfo: ChangeClubMatchInfo;
@@ -20,6 +21,7 @@ const ChangeClubMatchTemplate: React.FC<Props> = ({ changeClubMatchInfo }) => {
         justifyContent="center"
         direction="column"
       >
+        <Maintenance />
         <AdminHeader />
         {changeClubMatchInfo.inputError && (
           <Grid item xs={12} sx={{ pl: "15px", pb: "5px", pt: "30px" }}>
