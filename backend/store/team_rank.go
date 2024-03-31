@@ -12,7 +12,7 @@ type TeamRankRepository struct {
 }
 
 func (trr *TeamRankRepository) ListTeamRank(ctx context.Context, cmid entity.ClubMatchID) (entity.TeamRanks, error) {
-	sql := `select * from team_rank where club_match_id=? order by point desc,win_num desc,goal_num desc`
+	sql := `select * from team_rank where club_match_id=$1 order by point desc,win_num desc,goal_num desc`
 
 	l := entity.TeamRanks{}
 	if err := trr.DBQry.SelectContext(ctx, &l, sql, cmid); err != nil {

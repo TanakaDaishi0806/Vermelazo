@@ -25,7 +25,7 @@ func Newmux(ctx context.Context) (http.Handler, func(), error) {
 		return nil, cleanup, err
 	}
 	ru := &handler.RegisterUser{
-		Service:   &service.RegisterUser{Repo: &store.RegisterUser{DB: db}},
+		Service:   &service.RegisterUser{Repo: &store.RegisterUser{DBExc: db, DBQry: db}},
 		Validator: v,
 	}
 
@@ -71,7 +71,7 @@ func Newmux(ctx context.Context) (http.Handler, func(), error) {
 	})
 
 	acm := &handler.AddClubMatch{
-		Repo:      &store.AddClubMatch{DB: db},
+		Repo:      &store.AddClubMatch{DBExc: db, DBQry: db},
 		Validator: v,
 	}
 
@@ -269,7 +269,7 @@ func Newmux(ctx context.Context) (http.Handler, func(), error) {
 	}
 
 	aa := &handler.AddAward{
-		Repo:      &store.AddAward{DB: db},
+		Repo:      &store.AddAward{DBExc: db, DBQry: db},
 		Validator: v,
 	}
 

@@ -13,7 +13,8 @@ import (
 )
 
 type RegisterUser struct {
-	DB Execer
+	DBQry Queryer
+	DBExc Execer
 }
 
 type GetUser struct {
@@ -52,9 +53,9 @@ type EveryYearUpdateData struct {
 
 func (ru *RegisterUser) RegisterUser(ctx context.Context, requ *entity.User) error {
 	sql := `INSERT INTO users (name,furigana,student_id,password,grade,role,mailaddress,
-		position,experience) VALUES (?,?,?,?,?,?,?,?,?)`
+		position,experience) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`
 
-	result, err := ru.DB.ExecContext(ctx, sql, requ.Name, requ.Furigana, requ.StudentID, requ.Password,
+	_, err := ru.DBExc.ExecContext(ctx, sql, requ.Name, requ.Furigana, requ.StudentID, requ.Password,
 		requ.Grade, requ.Role, requ.MailAddress, requ.Position, requ.Experience)
 	if err != nil {
 		var mysqlErr *mysql.MySQLError
@@ -64,8 +65,9 @@ func (ru *RegisterUser) RegisterUser(ctx context.Context, requ *entity.User) err
 		return err
 	}
 
-	id, err := result.LastInsertId()
-	if err != nil {
+	sql2 := `select user_id from users ORDER BY user_id DESC LIMIT 1`
+	var id int64
+	if err := ru.DBQry.GetContext(ctx, &id, sql2); err != nil {
 		return err
 	}
 	requ.ID = entity.UserId(id)
@@ -74,7 +76,7 @@ func (ru *RegisterUser) RegisterUser(ctx context.Context, requ *entity.User) err
 }
 
 func (gu *GetUser) GetUser(ctx context.Context, studentID string) (*entity.User, error) {
-	sql := `select * from users where student_id=?`
+	sql := `select * from users where student_id=$1`
 
 	u := &entity.User{}
 
@@ -85,8 +87,8 @@ func (gu *GetUser) GetUser(ctx context.Context, studentID string) (*entity.User,
 }
 
 func (cui *ChangeUserInfo) ChangeUserInfo(ctx context.Context, ui *entity.User) error {
-	sql := `update users set name=?,furigana=?,student_id=?,grade=?,mailaddress=?,
-	position=?,experience=? where user_id=?`
+	sql := `update users set name=$1,furigana=$2,student_id=$3,grade=$4,mailaddress=$5,
+	position=$6,experience=$7 where user_id=$8`
 
 	_, err := cui.DB.ExecContext(ctx, sql, ui.Name, ui.Furigana, ui.StudentID, ui.Grade,
 		ui.MailAddress, ui.Position, ui.Experience, ui.ID)
@@ -99,8 +101,7 @@ func (cui *ChangeUserInfo) ChangeUserInfo(ctx context.Context, ui *entity.User) 
 }
 
 func (lui *ListUserInfo) ListUserInfo(ctx context.Context, uid entity.UserId) (*entity.User, error) {
-	sql := `select name,furigana,student_id,grade,mailaddress,position,experience 
-	from users where user_id=?`
+	sql := `select name,furigana,student_id,grade,mailaddress,position,experience from users where user_id=$1`
 
 	u := &entity.User{}
 
@@ -112,7 +113,7 @@ func (lui *ListUserInfo) ListUserInfo(ctx context.Context, uid entity.UserId) (*
 }
 
 func (cup *ChangeUserPassword) ChangeUserPassword(ctx context.Context, uid entity.UserId, p string) error {
-	sql := `update users set password=? where user_id=?`
+	sql := `update users set password=$1 where user_id=$2`
 
 	_, err := cup.DB.ExecContext(ctx, sql, p, uid)
 
@@ -124,7 +125,7 @@ func (cup *ChangeUserPassword) ChangeUserPassword(ctx context.Context, uid entit
 }
 
 func (smpr *SendMailPasswordReset) GetMailAddress(ctx context.Context, sid string) (string, error) {
-	sql1 := `select mailaddress from users where student_id=?`
+	sql1 := `select mailaddress from users where student_id=$1`
 
 	var ma string
 
@@ -140,7 +141,7 @@ func (smpr *SendMailPasswordReset) GetMailAddress(ctx context.Context, sid strin
 }
 
 func (smpr *SendMailPasswordReset) AddPasswordResetData(ctx context.Context, pr *entity.PasswordReset) error {
-	sql := `insert into password_reset (student_id,reset_token,token_expiration) values (?,?,?)`
+	sql := `insert into password_reset (student_id,reset_token,token_expiration) values ($1,$2,$3)`
 
 	_, err := smpr.DBExc.ExecContext(ctx, sql, pr.StudentID, pr.ResetToken, pr.TokenExpiration)
 
@@ -152,7 +153,7 @@ func (smpr *SendMailPasswordReset) AddPasswordResetData(ctx context.Context, pr 
 }
 
 func (smpr *SendMailPasswordReset) ExistToken(ctx context.Context, token string) (bool, error) {
-	sql := `select count(*) from password_reset where reset_token=?`
+	sql := `select count(*) from password_reset where reset_token=$1`
 
 	var c int
 
@@ -168,7 +169,7 @@ func (smpr *SendMailPasswordReset) ExistToken(ctx context.Context, token string)
 }
 
 func (rp *ResetPassword) ResetPassword(ctx context.Context, sid string, p string) error {
-	sql := `update users set password=? where student_id=?`
+	sql := `update users set password=$1 where student_id=$2`
 
 	_, err := rp.DBExc.ExecContext(ctx, sql, p, sid)
 
@@ -180,7 +181,7 @@ func (rp *ResetPassword) ResetPassword(ctx context.Context, sid string, p string
 }
 
 func (rp *ResetPassword) GetTokenData(ctx context.Context, token string) (*entity.PasswordReset, error) {
-	sql1 := `select * from password_reset where reset_token=?`
+	sql1 := `select * from password_reset where reset_token=$1`
 
 	var r struct {
 		ID              entity.ResetID `json:"reset_id" db:"reset_id"`

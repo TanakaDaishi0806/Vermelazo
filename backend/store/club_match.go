@@ -7,7 +7,8 @@ import (
 )
 
 type AddClubMatch struct {
-	DB Execer
+	DBExc Execer
+	DBQry Queryer
 }
 
 type ListClubMatch struct {
@@ -34,13 +35,15 @@ type SwitchClubMatchFinish struct {
 }
 
 func (acm *AddClubMatch) AddClubMatch(ctx context.Context, reqcm *entity.ClubMatch) error {
-	sql := `INSERT INTO club_match (year,month,day,vote_year,vote_month,vote_day,title,point_times) VALUES (?,?,?,?,?,?,?,?)`
-	result, err := acm.DB.ExecContext(ctx, sql, reqcm.Year, reqcm.Month, reqcm.Day, reqcm.VoteYear, reqcm.VoteMonth, reqcm.VoteDay, reqcm.Title, reqcm.PointTimes)
+	sql := `INSERT INTO club_match (year,month,day,vote_year,vote_month,vote_day,title,point_times) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)`
+
+	_, err := acm.DBExc.ExecContext(ctx, sql, reqcm.Year, reqcm.Month, reqcm.Day, reqcm.VoteYear, reqcm.VoteMonth, reqcm.VoteDay, reqcm.Title, reqcm.PointTimes)
 	if err != nil {
 		return err
 	}
-	id, err := result.LastInsertId()
-	if err != nil {
+	sql2 := `select club_match_id from club_match ORDER BY club_match_id DESC LIMIT 1`
+	var id int64
+	if err := acm.DBQry.GetContext(ctx, &id, sql2); err != nil {
 		return err
 	}
 	reqcm.ID = entity.ClubMatchID(id)
@@ -61,7 +64,7 @@ func (lcm *ListClubMatch) ListClubMatch(ctx context.Context) (entity.ClubMatchs,
 }
 
 func (ccm *ChangeClubMatch) ChangeClubMatch(ctx context.Context, reqcm *entity.ClubMatch) error {
-	sql := `update club_match set year=?,month=?,day=?,vote_year=?,vote_month=?,vote_day=?,title=?,point_times=? where club_match_id=?`
+	sql := `update club_match set year=$1,month=$2,day=$3,vote_year=$4,vote_month=$5,vote_day=$6,title=$7,point_times=$8 where club_match_id=$9`
 	_, err := ccm.DB.ExecContext(ctx, sql, reqcm.Year, reqcm.Month, reqcm.Day, reqcm.VoteYear, reqcm.VoteMonth, reqcm.VoteDay, reqcm.Title, reqcm.PointTimes, reqcm.ID)
 	if err != nil {
 		return err
@@ -71,11 +74,13 @@ func (ccm *ChangeClubMatch) ChangeClubMatch(ctx context.Context, reqcm *entity.C
 }
 
 func (dcm *DeleteClubMatch) DeleteClubMatch(ctx context.Context, id entity.ClubMatchID) (entity.ClubMatchs, error) {
-	sql1 := `delete from participant where club_match_id=?`
-	sql2 := `delete from team_member where team_id in (select team_id from team where club_match_id=?)`
-	sql4 := `delete from team_rank where club_match_id=?`
-	sql3 := `delete from team where club_match_id=?`
-	sql := `delete from club_match where club_match_id=?`
+	sql1 := `delete from participant where club_match_id=$1`
+	sql2 := `delete from team_member where team_id in (select team_id from team where club_match_id=$1)`
+	sql3 := `delete from team_rank where club_match_id=$1`
+	sql4 := `delete from match_vote where club_match_id=$1`
+	sql5 := `delete from matchs where club_match_id=$1`
+	sql6 := `delete from team where club_match_id=$1`
+	sql7 := `delete from club_match where club_match_id=$1`
 
 	_, err := dcm.DBExc.ExecContext(ctx, sql1, id)
 	if err != nil {
@@ -85,15 +90,24 @@ func (dcm *DeleteClubMatch) DeleteClubMatch(ctx context.Context, id entity.ClubM
 	if err != nil {
 		return nil, err
 	}
-	_, err = dcm.DBExc.ExecContext(ctx, sql4, id)
-	if err != nil {
-		return nil, err
-	}
 	_, err = dcm.DBExc.ExecContext(ctx, sql3, id)
 	if err != nil {
 		return nil, err
 	}
-	_, err = dcm.DBExc.ExecContext(ctx, sql, id)
+	_, err = dcm.DBExc.ExecContext(ctx, sql4, id)
+	if err != nil {
+		return nil, err
+	}
+	_, err = dcm.DBExc.ExecContext(ctx, sql5, id)
+	if err != nil {
+		return nil, err
+	}
+
+	_, err = dcm.DBExc.ExecContext(ctx, sql6, id)
+	if err != nil {
+		return nil, err
+	}
+	_, err = dcm.DBExc.ExecContext(ctx, sql7, id)
 	if err != nil {
 		return nil, err
 	}
@@ -111,7 +125,7 @@ func (dcm *DeleteClubMatch) DeleteClubMatch(ctx context.Context, id entity.ClubM
 }
 
 func (scmr *SwitchClubMatchReleased) SwitchClubMatchReleased(ctx context.Context, id entity.ClubMatchID, b bool) (entity.ClubMatchs, error) {
-	sql := `update club_match set is_released=? where club_match_id=?`
+	sql := `update club_match set is_released=$1 where club_match_id=$2`
 
 	_, err := scmr.DBExc.ExecContext(ctx, sql, b, id)
 	if err != nil {
@@ -131,18 +145,18 @@ func (scmr *SwitchClubMatchReleased) SwitchClubMatchReleased(ctx context.Context
 }
 
 func (scmr *SwitchClubMatchFinish) SwitchClubMatchFinish(ctx context.Context, cmid entity.ClubMatchID) (entity.ClubMatchs, error) {
-	sql := `update club_match set is_finish= not is_finish where club_match_id=?`
-	sql1 := `update team_rank set is_last_rank= not is_last_rank where club_match_id=?`
-	sql2 := `select user_id from team_member where club_match_id=? && is_exist=true`
-	sql3 := `select coalesce(count(*),0) as count from point_getter where user_id=? and club_match_id=? group by user_id`
+	sql := `update club_match set is_finish= not is_finish where club_match_id=$1`
+	sql1 := `update team_rank set is_last_rank= not is_last_rank where club_match_id=$1`
+	sql2 := `select user_id from team_member where club_match_id=$1 and is_exist=true`
+	sql3 := `select coalesce(count(*),0) as count from point_getter where user_id=$1 and club_match_id=$2 group by user_id`
 	sql5 := `select tr.point from team_rank tr 
-	where tr.team_id=(select team_id from team_member where user_id=? and club_match_id=?)`
-	sql6 := `select coalesce(count(*),0) as count from (select * from my_team_mom where user_id=? and club_match_id=? 
-		union all select * from match_mom where user_id=? and club_match_id=?) sub group by sub.user_id`
-	sql7 := `select coalesce(count(*)*10,0) as count from position_mom where user_id=? and club_match_id=?`
-	sql8 := `update users set goal_num=goal_num+?,point=point+? where user_id=?`
-	sql9 := `select is_finish from club_match where club_match_id=?`
-	sql10 := `select point_times from club_match where club_match_id=?`
+	where tr.team_id=(select team_id from team_member where user_id=$1 and club_match_id=$2)`
+	sql6 := `select coalesce(count(*),0) as count from (select * from my_team_mom where user_id=$1 and club_match_id=$2 
+		union all select * from match_mom where user_id=$3 and club_match_id=$4) sub group by sub.user_id`
+	sql7 := `select coalesce(count(*)*10,0) as count from position_mom where user_id=$1 and club_match_id=$2`
+	sql8 := `update users set goal_num=goal_num+$1,point=point+$2 where user_id=$3`
+	sql9 := `select is_finish from club_match where club_match_id=$1`
+	sql10 := `select point_times from club_match where club_match_id=$1`
 
 	_, err := scmr.DBExc.ExecContext(ctx, sql, cmid)
 	if err != nil {

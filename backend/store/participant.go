@@ -26,14 +26,16 @@ type ListParticipantName struct {
 }
 
 func (ap *AddParticipant) AddParticipant(ctx context.Context, p *entity.Paticipant) (entity.ClubMatchs, error) {
-	sql1 := `INSERT INTO participant (club_match_id,user_id) VALUES (?,?)`
-	sql2 := `UPDATE club_match SET participant_num = participant_num + 1 WHERE club_match_id = ?`
-	sql3 := `select m.match_id,m.club_match_id,tm.user_id from team_member tm left join matchs m on tm.club_match_id=m.club_match_id where tm.club_match_id=? and tm.user_id=?`
-	sql4 := `insert into match_vote (club_match_id,match_id,user_id) values (?,?,?)`
-	sql5 := `select count(*) from matchs where club_match_id=?`
-	sql6 := `select count(*) from match_vote where club_match_id=? and user_id=?`
+	sql1 := `INSERT INTO participant (club_match_id,user_id) VALUES ($1,$2)`
+	sql2 := `UPDATE club_match SET participant_num = participant_num + 1 WHERE club_match_id = $1`
+	sql3 := `select m.match_id,m.club_match_id,tm.user_id from team_member tm left join matchs m on tm.club_match_id=m.club_match_id where tm.club_match_id=$1 and tm.user_id=$2`
+	sql4 := `insert into match_vote (club_match_id,match_id,user_id) values ($1,$2,$3)`
+	sql5 := `select count(*) from matchs where club_match_id=$1`
+	sql6 := `select count(*) from match_vote where club_match_id=$1 and user_id=$2`
 
-	result, err := ap.DBExc.ExecContext(ctx, sql1, p.ClubMatchID, p.UserID)
+	log.Printf("unkounkounko")
+	log.Println(p.UserID)
+	_, err := ap.DBExc.ExecContext(ctx, sql1, p.ClubMatchID, p.UserID)
 
 	if err != nil {
 		return nil, err
@@ -45,9 +47,9 @@ func (ap *AddParticipant) AddParticipant(ctx context.Context, p *entity.Paticipa
 		return nil, err
 	}
 
-	id, err := result.LastInsertId()
-
-	if err != nil {
+	sql7 := `select participant_id from participant ORDER BY participant_id DESC LIMIT 1`
+	var id int64
+	if err := ap.DBQry.GetContext(ctx, &id, sql7); err != nil {
 		return nil, err
 	}
 
@@ -91,11 +93,11 @@ func (ap *AddParticipant) AddParticipant(ctx context.Context, p *entity.Paticipa
 }
 
 func (dp *DeleteParticipant) DeleteParticipant(ctx context.Context, p *entity.Paticipant) (entity.ClubMatchs, error) {
-	sql := `delete from participant where club_match_id=? AND user_id=?`
-	sql1 := `select count(*) from participant where club_match_id=?`
-	sql2 := `UPDATE club_match SET participant_num = ? WHERE club_match_id = ?`
+	sql := `delete from participant where club_match_id=$1 AND user_id=$2`
+	sql1 := `select count(*) from participant where club_match_id=$1`
+	sql2 := `UPDATE club_match SET participant_num = $1 WHERE club_match_id = $2`
 
-	result, err := dp.DBExc.ExecContext(ctx, sql, p.ClubMatchID, p.UserID)
+	_, err := dp.DBExc.ExecContext(ctx, sql, p.ClubMatchID, p.UserID)
 
 	if err != nil {
 		return nil, err
@@ -113,9 +115,9 @@ func (dp *DeleteParticipant) DeleteParticipant(ctx context.Context, p *entity.Pa
 		return nil, err
 	}
 
-	id, err := result.LastInsertId()
-
-	if err != nil {
+	sql3 := `select participant_id from participant ORDER BY participant_id DESC LIMIT 1`
+	var id int64
+	if err := dp.DBQry.GetContext(ctx, &id, sql3); err != nil {
 		return nil, err
 	}
 
@@ -155,7 +157,7 @@ func (lp *ListParticipant) ListParticipant(ctx context.Context, uid entity.UserI
 FROM
     club_match cm
 LEFT JOIN
-    participant p ON cm.club_match_id = p.club_match_id AND p.user_id = ?`
+    participant p ON cm.club_match_id = p.club_match_id AND p.user_id = $1`
 
 	l := entity.ClubMatchs{}
 
@@ -168,7 +170,7 @@ LEFT JOIN
 }
 
 func (lpn *ListParticipantName) ListParticipantName(ctx context.Context, cmid entity.ClubMatchID) (entity.ParticipantInfos, error) {
-	sql := `select u.name,u.furigana from participant p left join users u on p.user_id=u.user_id where p.club_match_id=?`
+	sql := `select u.name,u.furigana from participant p left join users u on p.user_id=u.user_id where p.club_match_id=$1`
 
 	l := entity.ParticipantInfos{}
 

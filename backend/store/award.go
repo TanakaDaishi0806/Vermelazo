@@ -12,7 +12,8 @@ type ListCategoryTop struct {
 }
 
 type AddAward struct {
-	DB Execer
+	DBExc Execer
+	DBQry Queryer
 }
 
 type ListAward struct {
@@ -79,22 +80,23 @@ func (lct *ListCategoryTop) ListCategoryTop(ctx context.Context) (*entity.Catego
 }
 
 func (aa *AddAward) AddAward(ctx context.Context, an string, uid entity.UserID) (entity.AwardID, error) {
-	sql := `insert into award (award_name,user_id,datetime) values (?,?,?)`
+	sql := `insert into award (award_name,user_id,datetime) values ($1,$2,$3)`
 
 	// 現在の時刻を取得
 	now := time.Now()
 
-	result, err := aa.DB.ExecContext(ctx, sql, an, uid, now)
+	_, err := aa.DBExc.ExecContext(ctx, sql, an, uid, now)
 
 	if err != nil {
 		return 0, nil
 	}
 
-	id, err := result.LastInsertId()
-
-	if err != nil {
-		return 0, nil
+	sql2 := `select award_id from award ORDER BY award_id DESC LIMIT 1`
+	var id int64
+	if err := aa.DBQry.GetContext(ctx, &id, sql2); err != nil {
+		return 0, err
 	}
+
 	aid := entity.AwardID(id)
 
 	return aid, nil
@@ -149,7 +151,7 @@ func (la *ListAward) ListAward(ctx context.Context) (entity.Awards, error) {
 }
 
 func (da *DeleteAward) DeleteAward(ctx context.Context, aid entity.AwardID) (entity.Awards, error) {
-	sql_del := `delete from award where award_id=?`
+	sql_del := `delete from award where award_id=$1`
 
 	_, err := da.DBExc.ExecContext(ctx, sql_del, aid)
 
