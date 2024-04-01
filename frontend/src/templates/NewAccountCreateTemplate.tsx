@@ -32,15 +32,15 @@ const grades = [
 
 const positions = [
   { value: 1, label: "ゴールキーパー" },
-  { value: 2, label: "ディフェンダー" },
-  { value: 3, label: "オフェンス" },
+  { value: 2, label: "ディフェンダー（守備）" },
+  { value: 3, label: "オフェンス（攻撃）" },
 ];
 
 const experiences = [
   { value: 0, label: "一度もサッカー部に入ったことがない" },
   { value: 1, label: "小学校または中学校までやっていた" },
   { value: 2, label: "高校までやっていた" },
-  { value: 3, label: "現在サッカー部やフットサル部でやっている" },
+  { value: 3, label: "大学でサッカー・フットサル部でやっている" },
 ];
 
 const NewAccountCreateTemplate: React.FC<Props> = ({ newAccountInfo }) => {
@@ -94,7 +94,7 @@ const NewAccountCreateTemplate: React.FC<Props> = ({ newAccountInfo }) => {
         )}
         <Grid item xs={12} sx={{ pl: "15px" }}>
           <TextField
-            label="＊名前"
+            label="＊名前（記入例：佐藤太郎）"
             value={newAccountInfo.name}
             onChange={newAccountInfo.handleNameChange}
             error={newAccountInfo.nameEmpty}
@@ -106,7 +106,7 @@ const NewAccountCreateTemplate: React.FC<Props> = ({ newAccountInfo }) => {
         <br />
         <Grid item xs={12} sx={{ pl: "15px" }}>
           <TextField
-            label="＊ふりがな（ひらがな）"
+            label="＊ふりがな（記入例：さとうたろう）"
             value={newAccountInfo.furigana}
             onChange={newAccountInfo.handleFuriganaChange}
             error={newAccountInfo.furiganaEmpty}
