@@ -17,9 +17,15 @@ func main() {
 		for {
 			// 現在の日付を取得
 			now := time.Now()
+			nextUpdateYear := now.Year()
+
+			if now.Month() >= time.April && now.Month() <= time.December {
+				nextUpdateYear++
+			}
+			log.Println(nextUpdateYear)
 
 			// 次に更新を行う日付（毎年4月1日）を指定
-			nextUpdateDate := time.Date(now.Year(), time.April, 1, 0, 0, 0, 0, now.Location())
+			nextUpdateDate := time.Date(nextUpdateYear, time.April, 1, 0, 0, 0, 0, now.Location())
 
 			// 現在の日付が次の更新日を過ぎているかを確認
 			if now.After(nextUpdateDate) {
