@@ -71,7 +71,7 @@ const Header: React.FC<Props> = ({ headertext }) => {
             clubMatch.year,
             clubMatch.month - 1,
             clubMatch.day,
-            12,
+            6,
             0,
             0
           );
