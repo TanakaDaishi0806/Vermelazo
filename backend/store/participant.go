@@ -157,7 +157,7 @@ func (lp *ListParticipant) ListParticipant(ctx context.Context, uid entity.UserI
 FROM
     club_match cm
 LEFT JOIN
-    participant p ON cm.club_match_id = p.club_match_id AND p.user_id = $1 ORDER BY cm.club_match_id DESC;`
+    participant p ON cm.club_match_id = p.club_match_id AND p.user_id = $1 ORDER BY cm.club_match_id;`
 
 	l := entity.ClubMatchs{}
 
