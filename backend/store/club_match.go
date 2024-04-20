@@ -51,7 +51,7 @@ func (acm *AddClubMatch) AddClubMatch(ctx context.Context, reqcm *entity.ClubMat
 }
 
 func (lcm *ListClubMatch) ListClubMatch(ctx context.Context) (entity.ClubMatchs, error) {
-	sql := `select * from club_match`
+	sql := `select * from club_match ORDER BY club_match_id DESC`
 
 	lists := entity.ClubMatchs{}
 
