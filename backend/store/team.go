@@ -2,6 +2,7 @@ package store
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log"
 
@@ -234,7 +235,7 @@ func (tr *TeamRepository) AddTeamMember(ctx context.Context, p *entity.Paticipan
 	ap := &AddParticipant{DBExc: tr.DBExc, DBQry: tr.DBQry}
 
 	sql1 := `select count(*) from team_member where user_id=$1 and club_match_id=$2`
-	sql2 := `update team_member set is_exist=true where user_id=$1 and club_match_id=$1`
+	sql2 := `update team_member set is_exist=true where user_id=$1 and club_match_id=$2`
 	sql3 := `select team_id 
 	from team_member 
 	where club_match_id=$1 and is_exist=true 
@@ -255,29 +256,29 @@ func (tr *TeamRepository) AddTeamMember(ctx context.Context, p *entity.Paticipan
 	var existNum []int
 
 	if err := tr.DBQry.SelectContext(ctx, &existNum, sql1, p.UserID, p.ClubMatchID); err != nil {
-		return nil, err
+		return nil, errors.New("aaa")
 	}
 
 	if existNum[0] == 1 {
 		_, err := tr.DBExc.ExecContext(ctx, sql2, p.UserID, p.ClubMatchID)
 		if err != nil {
-			return nil, err
+			return nil, errors.New("bbb")
 		}
 	}
 
 	if existNum[0] == 0 {
 		var tid []int
 		if err := tr.DBQry.SelectContext(ctx, &tid, sql3, p.ClubMatchID, p.ClubMatchID); err != nil {
-			return nil, err
+			return nil, errors.New("ccc")
 		}
 		_, err := tr.DBExc.ExecContext(ctx, sql4, tid[0], p.UserID, p.ClubMatchID)
 		if err != nil {
-			return nil, err
+			return nil, errors.New("ddd")
 		}
 	}
 	l, err := ap.AddParticipant(ctx, p)
 	if err != nil {
-		return nil, err
+		return nil, errors.New("eee")
 	}
 
 	return l, nil

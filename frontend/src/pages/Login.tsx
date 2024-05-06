@@ -7,6 +7,7 @@ import { ClubMatchGetData } from "../type/velmelazo";
 
 const Login = () => {
   const accessToken = localStorage.getItem("accessToken");
+  const processOrder_ls = localStorage.getItem("processOrder");
   const [student_id, setStudent_id] = useState("");
   const [student_idEmpty, setStudent_idEmpty] = useState(false);
   const [password, setPassword] = useState("");
@@ -17,32 +18,38 @@ const Login = () => {
     []
   );
   const [clubMatchSetLength, setClubMatchSetLength] = useState(-1);
-  const [processOrder, setProcessOrder] = useState(0);
+  const [processOrder, setProcessOrder] = useState("0");
   const navigate = useNavigate();
   const [progressCLubMatchID, setProgressClubMatchID] =
     React.useState<number>(0);
 
   React.useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/home`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .then((response) => {
-        console.log(response.data);
-        setClubMatchList(response.data);
-        setClubMatchSetLength(response.data.length);
-      })
-      .catch((error) => {
-        console.log(error);
-        if (error.response.status === 401) {
-          navigate("/");
-        }
-      });
-  }, [accessToken, navigate]);
+    if (processOrder_ls !== null) {
+      setProcessOrder(processOrder_ls);
+    }
+    if (processOrder === "1") {
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/home`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          setClubMatchList(response.data);
+          setClubMatchSetLength(response.data.length);
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 401) {
+            navigate("/");
+          }
+        });
+    }
+  }, [processOrder]);
 
   React.useEffect(() => {
+    console.log("b");
     if (clubMatchList.length === clubMatchSetLength) {
       const currentTime = new Date();
       {
@@ -51,7 +58,7 @@ const Login = () => {
             clubMatch.year,
             clubMatch.month - 1,
             clubMatch.day,
-            12,
+            8,
             0,
             0
           );
@@ -68,16 +75,18 @@ const Login = () => {
             currentTime <= clubMacthEndTime &&
             !clubMatch.is_finish
           ) {
+            console.log(clubMatch.club_match_id);
             setProgressClubMatchID(clubMatch.club_match_id);
           }
         });
       }
-      setProcessOrder(1);
+      setProcessOrder("2");
     }
   }, [clubMatchList]);
 
   React.useEffect(() => {
-    if (processOrder === 1) {
+    console.log("c");
+    if (processOrder === "2") {
       axios
         .get(`${process.env.REACT_APP_API_URL}/home`, {
           headers: {
@@ -98,7 +107,7 @@ const Login = () => {
               navigate("/admin");
             })
             .catch((error) => {
-              console.log(error);
+              console.log(progressCLubMatchID);
               if (progressCLubMatchID !== 0) {
                 localStorage.setItem("pageNum", "1");
                 navigate("/home/match/vote/progress", {
@@ -157,6 +166,7 @@ const Login = () => {
   };
 
   const handleLogin = () => {
+    console.log("d");
     axios
       .post(`${process.env.REACT_APP_API_URL}/login`, {
         student_id,
@@ -174,23 +184,8 @@ const Login = () => {
           })
           .then((response) => {
             console.log(response.data);
-            if (progressCLubMatchID !== 0) {
-              localStorage.setItem("pageNum", "1");
-              localStorage.setItem(
-                "progressClubMatchID",
-                progressCLubMatchID.toString()
-              );
-              navigate("/home/match/vote/progress", {
-                state: {
-                  club_match_id: progressCLubMatchID,
-                },
-              });
-            }
-            if (progressCLubMatchID === 0) {
-              localStorage.setItem("pageNum", "0");
-              console.log(localStorage.getItem("pageNum"));
-              navigate("/home");
-            }
+            localStorage.setItem("processOrder", "1");
+            setProcessOrder("1");
           })
           .catch((error) => {
             console.log(error);
