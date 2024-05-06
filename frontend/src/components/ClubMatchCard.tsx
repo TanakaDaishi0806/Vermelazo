@@ -23,7 +23,7 @@ const ClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
     clubMatchGetData.year,
     clubMatchGetData.month - 1,
     clubMatchGetData.day,
-    12,
+    8,
     0,
     0
   );
