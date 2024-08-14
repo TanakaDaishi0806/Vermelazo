@@ -5,6 +5,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import PermIdentity from "@mui/icons-material/PermIdentity";
 import { MilitaryTech } from "@mui/icons-material";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFutbol } from "@fortawesome/free-solid-svg-icons";
 
 import { RankInfo } from "../type/velmelazo";
 import Header from "../components/Header";
@@ -12,6 +14,7 @@ import YourRankList from "../components/YourRankList";
 import HomeFooter from "../components/HomeFooter";
 import AwardList from "../components/AwardList";
 import Maintenance from "../parts/Maintenance";
+import GoalRankers from "../components/GoalRankers";
 
 type Props = {
   rankInfo: RankInfo;
@@ -77,7 +80,8 @@ const MyRankTemplate: React.FC<Props> = ({ rankInfo }) => {
           sx={{ bgcolor: "white" }}
         >
           <Tab icon={<PermIdentity />} {...a11yProps(0)} />
-          <Tab icon={<MilitaryTech />} {...a11yProps(1)} />
+          <Tab icon={<FontAwesomeIcon icon={faFutbol} />} {...a11yProps(1)} />
+          <Tab icon={<MilitaryTech />} {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <Grid container>
@@ -93,6 +97,11 @@ const MyRankTemplate: React.FC<Props> = ({ rankInfo }) => {
           </SwiperSlide>
           <SwiperSlide>
             <TabPanel key={1} value={value} index={1}>
+              <GoalRankers />
+            </TabPanel>
+          </SwiperSlide>
+          <SwiperSlide>
+            <TabPanel key={2} value={value} index={2}>
               <AwardList />
             </TabPanel>
           </SwiperSlide>
