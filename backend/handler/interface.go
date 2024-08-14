@@ -112,3 +112,7 @@ type AwardList interface {
 type AwardDelete interface {
 	DeleteAward(ctx context.Context, aid entity.AwardID) (entity.Awards, error)
 }
+
+type GoalNumRankersList interface {
+	ListGoalNumRankers(ctx context.Context) (entity.GoalNumRankers, error)
+}

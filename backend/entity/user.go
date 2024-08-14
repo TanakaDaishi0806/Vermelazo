@@ -85,6 +85,14 @@ type PasswordReset struct {
 	TokenExpiration time.Time `json:"token_expiration" db:"token_expiration"`
 }
 
+type GoalNumUser struct {
+	Name     string `json:"name" db:"name"`
+	Furigana string `json:"furigana" db:"furigana"`
+	GoalNum  int    `json:"goal_num" db:"goal_num"`
+}
+
+type GoalNumRankers []*GoalNumUser
+
 func (u *User) ComparePassword(pw string) error {
 	return bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(pw))
 }
