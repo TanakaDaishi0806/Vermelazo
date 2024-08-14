@@ -194,7 +194,7 @@ const GoalRankers = () => {
                       alignItems="flex-end"
                       justifyContent="center"
                     >
-                      <Typography sx={{ fontSize: "26px" }}>
+                      <Typography sx={{ fontSize: "25px" }}>
                         {value.goal_num}{" "}
                       </Typography>
                       <Typography sx={{}}> 点</Typography>
