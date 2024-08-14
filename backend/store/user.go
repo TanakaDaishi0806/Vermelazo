@@ -51,6 +51,10 @@ type EveryYearUpdateData struct {
 	DBExc Execer
 }
 
+type ListGoalNumRankers struct {
+	DBQry Queryer
+}
+
 func (ru *RegisterUser) RegisterUser(ctx context.Context, requ *entity.User) error {
 	sql := `INSERT INTO users (name,furigana,student_id,password,grade,role,mailaddress,
 		position,experience) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`
@@ -299,4 +303,15 @@ func (eyud *EveryYearUpdateData) EveryYearUpdateData(ctx context.Context) error 
 	// 成功した場合、nilを返して正常終了。
 	return nil
 
+}
+
+func (lgnr *ListGoalNumRankers) ListGoalNumRankers(ctx context.Context) (entity.GoalNumRankers, error) {
+	sql := `select name,furigana,goal_num from users where goal_num>0 order by goal_num desc`
+
+	var lists entity.GoalNumRankers
+	if err := lgnr.DBQry.SelectContext(ctx, &lists, sql); err != nil {
+		return nil, err
+	}
+
+	return lists, nil
 }

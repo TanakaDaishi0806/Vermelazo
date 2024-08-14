@@ -24,7 +24,8 @@ const Login = () => {
     React.useState<number>(0);
 
   React.useEffect(() => {
-    if (processOrder_ls !== null) {
+    console.log("h");
+    if (processOrder_ls !== null && accessToken !== null) {
       setProcessOrder(processOrder_ls);
     }
     if (processOrder === "1") {
@@ -186,6 +187,7 @@ const Login = () => {
             console.log(response.data);
             localStorage.setItem("processOrder", "1");
             setProcessOrder("1");
+            console.log("e");
           })
           .catch((error) => {
             console.log(error);

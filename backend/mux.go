@@ -281,6 +281,10 @@ func Newmux(ctx context.Context) (http.Handler, func(), error) {
 		Repo: &store.DeleteAward{DBExc: db, DBQry: db},
 	}
 
+	lgr := &handler.ListGoalNumRankers{
+		Repo: &store.ListGoalNumRankers{DBQry: db},
+	}
+
 	mux.Route("/home", func(r chi.Router) {
 		r.Use(handler.CROS, handler.AuthMiddleware(jwter))
 		r.Get("/", lcmu.ServeHTTP)
@@ -298,6 +302,7 @@ func Newmux(ctx context.Context) (http.Handler, func(), error) {
 		r.Get("/userinfo/list", lui.ServeHTTP)
 		r.Get("/participantname/list/{clubMatchId}", lpn.ServeHTTP)
 		r.Get("/award", la.ServeHTTP)
+		r.Get("/rankers/goalnum", lgr.ServeHTTP)
 		r.Post("/", ap.ServeHTTP)
 		r.Post("/teammember/add", atm.ServeHTTP)
 		r.Post("/vote/myteam/add", amtm.ServeHTTP)

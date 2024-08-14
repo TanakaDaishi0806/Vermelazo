@@ -560,3 +560,9 @@ export interface DeleteAwardInfo {
   handleDeleteAward: () => void;
   selectEmpty: boolean;
 }
+
+export interface GoalRankerInfo {
+  name: string;
+  furigana: string;
+  goal_num: number;
+}
