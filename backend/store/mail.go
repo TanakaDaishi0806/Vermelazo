@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"io"
 	"log"
-	"net/http"
 	"os"
 	"strings"
 
@@ -28,7 +27,14 @@ func SendMail(ctx context.Context, to string, subject string, content string) er
 		log.Fatalf("Unable to parse client secret file to config: %v", err)
 		return err
 	}
-	client := getClient(config)
+	tokenJSON := os.Getenv("TOKEN_JSON")
+
+	var tok *oauth2.Token
+	if err := json.Unmarshal([]byte(tokenJSON), &tok); err != nil {
+		log.Fatalf("cannot unmarshal json: %v", err)
+		return err
+	}
+	client := config.Client(context.Background(), tok)
 
 	srv, err := gmail.NewService(ctx, option.WithHTTPClient(client))
 	if err != nil {
@@ -59,22 +65,5 @@ func SendMail(ctx context.Context, to string, subject string, content string) er
 	}
 
 	return nil
-}
 
-func getClient(config *oauth2.Config) *http.Client {
-
-	// tokFile := "token.json"
-	// tok, err := tokenFromFile(tokFile)
-	// if err != nil {
-	// 	tok = getTokenFromWeb(config)
-	// 	saveToken(tokFile, tok)
-	// }
-	tokenJSON := os.Getenv("TOKEN_JSON")
-	var tok *oauth2.Token
-	if err := json.Unmarshal([]byte(tokenJSON), &tok); err != nil {
-		// エラーの処理
-		panic(err)
-	}
-
-	return config.Client(context.Background(), tok)
 }
