@@ -81,3 +81,15 @@ type SendMailPasswordResetService interface {
 type ResetPasswordService interface {
 	ResetPassword(ctx context.Context, token string, password string) error
 }
+
+type ListAuthUrlService interface {
+	ListAuthUrl() (string, error)
+}
+
+type ChangeSecretTokenJsonService interface {
+	ChangeSecretTokenJson(ctx context.Context, url string) (string, error)
+}
+
+type ListConfAuthTokenService interface {
+	ListConfAuthToken(ctx context.Context) error
+}
