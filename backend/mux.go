@@ -285,6 +285,19 @@ func Newmux(ctx context.Context) (http.Handler, func(), error) {
 		Repo: &store.ListGoalNumRankers{DBQry: db},
 	}
 
+	laurl := &handler.ListAuthUrl{
+		Service: &service.ListAuthUrl{},
+	}
+
+	cstj := &handler.ChangeSecretTokenJson{
+		Service:   &service.ChangeSecretTokenJson{},
+		Validator: v,
+	}
+
+	lcat := &handler.ListConfAuthToken{
+		Service: &service.ListConfAuthToken{},
+	}
+
 	mux.Route("/home", func(r chi.Router) {
 		r.Use(handler.CROS, handler.AuthMiddleware(jwter))
 		r.Get("/", lcmu.ServeHTTP)
@@ -323,12 +336,15 @@ func Newmux(ctx context.Context) (http.Handler, func(), error) {
 		r.Get("/award/categorytop", lct.ServeHTTP)
 		r.Get("/award/allusers", lau.ServeHTTP)
 		r.Get("/award", la.ServeHTTP)
+		r.Get("/authurl", laurl.ServeHTTP)
+		r.Get("/authtoken/conf", lcat.ServeHTTP)
 		r.Post("/", acm.ServeHTTP)
 		r.Post("/team/create", ct.ServeHTTP)
 		r.Post("/pointgetter/add", apg.ServeHTTP)
 		r.Post("/match/combination/create", am.ServeHTTP)
 		r.Post("/mom/position/add", apm.ServeHTTP)
 		r.Post("/award", aa.ServeHTTP)
+		r.Post("/secrettoken", cstj.ServeHTTP)
 		r.Put("/team/change/{clubMatchId}", chgt.ServeHTTP)
 		r.Put("/clubmatchs/{clubMatchId}", ccm.ServeHTTP)
 		r.Put("/clubmatchs/isreleased/{clubMatchId}", scmr.ServeHTTP)
