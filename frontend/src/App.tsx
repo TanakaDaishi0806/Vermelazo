@@ -41,6 +41,7 @@ import NotPasswordResetMessageTemplate from "./templates/NotPasswordResetMessage
 import AdminAward from "./pages/AdminAward";
 import ResisterAward from "./pages/ResisterAward";
 import DeleteAward from "./pages/DeleteAward";
+import AuthTokenReset1 from "./pages/AuthTokenReset1";
 
 function App() {
   return (
@@ -111,6 +112,7 @@ function App() {
         <Route path="/admin/award" element={<AdminAward />} />
         <Route path="/admin/award/resister" element={<ResisterAward />} />
         <Route path="/admin/award/delete" element={<DeleteAward />} />
+        <Route path="/admin/authtoken/reset1" element={<AuthTokenReset1 />} />
       </Routes>
     </BrowserRouter>
   );

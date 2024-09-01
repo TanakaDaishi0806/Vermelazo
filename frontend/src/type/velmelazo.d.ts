@@ -566,3 +566,19 @@ export interface GoalRankerInfo {
   furigana: string;
   goal_num: number;
 }
+
+export interface AuthTokenReset1Info {
+  auth_url: string;
+  code_url: string;
+  codeUrlEmpty: boolean;
+  inputError: boolean;
+  inputError2: boolean;
+  activeStep: number;
+  steps: string[];
+  setInputError: React.Dispatch<React.SetStateAction<boolean>>;
+  handleCodeUrlChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleCodeUrl: () => void;
+  handleNext: () => void;
+  handleBack: () => void;
+  handleReset: () => void;
+}

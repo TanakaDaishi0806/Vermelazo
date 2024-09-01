@@ -123,6 +123,7 @@ const Header: React.FC<Props> = ({ headertext }) => {
   };
 
   const handleLogout = () => {
+    localStorage.clear();
     navigate("/");
   };
   const handleParticipantOpen = () => {

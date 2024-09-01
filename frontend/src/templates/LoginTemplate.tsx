@@ -100,11 +100,11 @@ const LoginTemplate: React.FC<Props> = ({ loginInfo }) => {
               />
             </Grid>
             <br />
-            {/* <Grid item xs={12}>
+            <Grid item xs={12}>
               <Link to="/forgetpassword/sendmail">
                 パスワードを忘れた方はこちら
               </Link>
-            </Grid> */}
+            </Grid>
             <br />
             <Grid item xs={12}>
               <Button
