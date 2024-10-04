@@ -69,6 +69,7 @@ func (scmr *SwitchClubMatchReleased) ServeHTTP(w http.ResponseWriter, r *http.Re
 			IsAddMatch:     l.IsAddMatch,
 			IsFinish:       l.IsFinish,
 			PointTimes:     l.PointTimes,
+			ClubMatchType:  l.ClubMatchType,
 		})
 
 	}

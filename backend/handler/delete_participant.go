@@ -49,6 +49,7 @@ func (dp *DeleteParticipant) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			IsAddMatch:     l.IsAddMatch,
 			IsFinish:       l.IsFinish,
 			PointTimes:     l.PointTimes,
+			ClubMatchType:  l.ClubMatchType,
 		})
 
 	}

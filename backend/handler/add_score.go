@@ -35,6 +35,8 @@ func (as *AddScore) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		TeamIDB entity.TeamID `json:"team_id_b" validate:"required"`
 		ScoreA  int           `json:"score_a" validate:"omitempty"`
 		ScoreB  int           `json:"score_b" validate:"omitempty"`
+		PkA     int           `json:"pk_a" validate:"omitempty"`
+		PkB     int           `json:"pk_b" validate:"omitempty"`
 	}
 
 	if err := json.NewDecoder(r.Body).Decode(&s); err != nil {
@@ -58,6 +60,8 @@ func (as *AddScore) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		ScoreA:      s.ScoreA,
 		ScoreB:      s.ScoreB,
 		ClubMatchID: cmid,
+		PkA:         s.PkA,
+		PkB:         s.PkB,
 	}
 
 	if err := as.Repo.AddScore(ctx, m); err != nil {

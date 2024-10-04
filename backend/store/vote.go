@@ -57,7 +57,7 @@ func (vr *VoteRepository) ChangePositionMom(ctx context.Context, pm entity.Posit
 
 func (vr *VoteRepository) VoteKind(ctx context.Context, cmid entity.ClubMatchID, uid entity.UserId) (entity.VoteKindNums, error) {
 	sql1 := `select team_id from team_member where club_match_id=$1 and user_id=$2`
-	sql2 := `select case when m.team_id_a=$1 or m.team_id_b=$2 then false else true end as vote_kind_num from matchs m where club_match_id=$3`
+	sql2 := `select case when m.team_id_a=$1 or m.team_id_b=$2 then false else true end as vote_kind_num from matchs m where club_match_id=$3 order by match_id`
 
 	tid := []int{}
 	if err := vr.DBQry.SelectContext(ctx, &tid, sql1, cmid, uid); err != nil {

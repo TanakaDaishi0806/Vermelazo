@@ -20,6 +20,8 @@ type mlist struct {
 	TeamIDB     entity.TeamID      `json:"team_id_b"`
 	ScoreA      int                `json:"score_a"`
 	ScoreB      int                `json:"score_b"`
+	PkA         int                `json:"pk_a"`
+	PkB         int                `json:"pk_b"`
 }
 
 func (am *AddMatch) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -59,6 +61,8 @@ func (am *AddMatch) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			ClubMatchID: l.ClubMatchID,
 			ScoreA:      l.ScoreA,
 			ScoreB:      l.ScoreB,
+			PkA:         l.PkA,
+			PkB:         l.PkB,
 		})
 	}
 	RespondJSON(ctx, w, req, http.StatusOK)
