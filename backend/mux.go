@@ -298,6 +298,37 @@ func Newmux(ctx context.Context) (http.Handler, func(), error) {
 		Service: &service.ListConfAuthToken{},
 	}
 
+	ctm := &handler.CreateTournament{
+		Service: &service.Tournament{
+			Repo: &store.TournamentRepository{DBExc: db, DBQry: db},
+		},
+		Validator: v,
+	}
+
+	ltm := &handler.ListTournament{
+		Repo: &store.TournamentRepository{DBExc: db, DBQry: db},
+	}
+
+	ltmr := &handler.ListTournamentResult{
+		Repo: &store.TournamentRepository{DBExc: db, DBQry: db},
+	}
+
+	ltn := &handler.ListTeamNum{
+		Repo: &store.TeamRepository{DBExc: db, DBQry: db},
+	}
+
+	lpt := &handler.ListPreTournament{
+		Service: &service.Tournament{
+			Repo: &store.TournamentRepository{DBExc: db, DBQry: db},
+		},
+	}
+
+	ltar := &handler.ListTournamentTeamAndRank{
+		Service: &service.Tournament{
+			Repo: &store.TournamentRepository{DBExc: db, DBQry: db},
+		},
+	}
+
 	mux.Route("/home", func(r chi.Router) {
 		r.Use(handler.CROS, handler.AuthMiddleware(jwter))
 		r.Get("/", lcmu.ServeHTTP)
@@ -316,6 +347,11 @@ func Newmux(ctx context.Context) (http.Handler, func(), error) {
 		r.Get("/participantname/list/{clubMatchId}", lpn.ServeHTTP)
 		r.Get("/award", la.ServeHTTP)
 		r.Get("/rankers/goalnum", lgr.ServeHTTP)
+		r.Get("/tournament/list/{clubMatchId}", ltm.ServeHTTP)
+		r.Get("/tournament/result/list/{clubMatchId}", ltmr.ServeHTTP)
+		r.Get("/teamnum/{clubMatchId}", ltn.ServeHTTP)
+		r.Get("/pretournament/{clubMatchId}", lpt.ServeHTTP)
+		r.Get("/tournament/team/rank/{clubMatchId}", ltar.ServeHTTP)
 		r.Post("/", ap.ServeHTTP)
 		r.Post("/teammember/add", atm.ServeHTTP)
 		r.Post("/vote/myteam/add", amtm.ServeHTTP)
@@ -338,6 +374,9 @@ func Newmux(ctx context.Context) (http.Handler, func(), error) {
 		r.Get("/award", la.ServeHTTP)
 		r.Get("/authurl", laurl.ServeHTTP)
 		r.Get("/authtoken/conf", lcat.ServeHTTP)
+		r.Get("/tournament/list/{clubMatchId}", ltm.ServeHTTP)
+		r.Get("/tournament/result/list/{clubMatchId}", ltmr.ServeHTTP)
+		r.Get("/tournament/team/rank/{clubMatchId}", ltar.ServeHTTP)
 		r.Post("/", acm.ServeHTTP)
 		r.Post("/team/create", ct.ServeHTTP)
 		r.Post("/pointgetter/add", apg.ServeHTTP)
@@ -345,6 +384,7 @@ func Newmux(ctx context.Context) (http.Handler, func(), error) {
 		r.Post("/mom/position/add", apm.ServeHTTP)
 		r.Post("/award", aa.ServeHTTP)
 		r.Post("/secrettoken", cstj.ServeHTTP)
+		r.Post("/tournament/create", ctm.ServeHTTP)
 		r.Put("/team/change/{clubMatchId}", chgt.ServeHTTP)
 		r.Put("/clubmatchs/{clubMatchId}", ccm.ServeHTTP)
 		r.Put("/clubmatchs/isreleased/{clubMatchId}", scmr.ServeHTTP)
