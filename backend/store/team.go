@@ -15,6 +15,7 @@ type TeamRepository struct {
 }
 
 func (tr *TeamRepository) ResisterTeamName(ctx context.Context, cti *entity.CreateTeamInfo) (entity.TeamIDs, error) {
+	sql12 := `delete from tournament where club_match_id=$1`
 	sql1 := `delete from team_member where club_match_id=$1`
 	sql4 := `delete from matchs where club_match_id=$1`
 	sql3 := `delete from team_rank where club_match_id=$1`
@@ -27,7 +28,13 @@ func (tr *TeamRepository) ResisterTeamName(ctx context.Context, cti *entity.Crea
 	sql := `INSERT INTO team (club_match_id) VALUES ($1)`
 	sql6 := `insert into team_rank (team_id,club_match_id) values ($1,$2)`
 	sql11 := `update club_match set is_add_match=false where club_match_id=$1`
-	_, err := tr.DBExc.ExecContext(ctx, sql1, cti.ClubMatchID)
+
+	_, err := tr.DBExc.ExecContext(ctx, sql12, cti.ClubMatchID)
+	if err != nil {
+		return nil, err
+	}
+
+	_, err = tr.DBExc.ExecContext(ctx, sql1, cti.ClubMatchID)
 	if err != nil {
 		return nil, err
 	}
@@ -306,4 +313,17 @@ func (tr *TeamRepository) ListPositionMember(ctx context.Context, cmid entity.Cl
 
 	return lists, nil
 
+}
+
+func (tr *TeamRepository) ListTeamNum(ctx context.Context, cmid entity.ClubMatchID) (entity.TeamNums, error) {
+	sql := `select count(*) as team_num from team where club_match_id=$1`
+
+	var tnum entity.TeamNums
+
+	if err := tr.DBQry.SelectContext(ctx, &tnum, sql, cmid); err != nil {
+		log.Printf("getTeamnumerr")
+		return nil, err
+	}
+
+	return tnum, nil
 }
