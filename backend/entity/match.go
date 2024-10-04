@@ -18,7 +18,12 @@ type Match struct {
 	ScoreA      int         `json:"score_a" db:"score_a"`
 	ScoreB      int         `json:"score_b" db:"score_b"`
 	IsResister  bool        `json:"is_resister" db:"is_resister"`
+	PkA         int         `json:"pk_a" db:"pk_a"`
+	PkB         int         `json:"pk_b" db:"pk_b"`
+	MatchType   int         `json:"match_type" db:"match_type"`
 }
+
+//match_typeは,0が総当たり形式,1がトーナメント形式
 
 type Matchs []*Match
 
