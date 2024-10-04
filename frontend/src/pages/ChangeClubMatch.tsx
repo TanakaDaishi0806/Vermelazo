@@ -2,6 +2,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
+import { SelectChangeEvent } from "@mui/material/Select";
 
 import ChangeClubMatchTemplate from "../templates/ChangeClubMatchTemplate";
 
@@ -18,6 +19,7 @@ const ChangeClubMatch = () => {
     preVoteDay,
     preTitle,
     prePointTimes,
+    preType,
   } = state;
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("accessToken");
@@ -53,6 +55,11 @@ const ChangeClubMatch = () => {
   const [inputError, setInputError] = useState(false);
   const [pointTimes, setPointTimes] = useState<string>(prePointTimes || "");
   const [pointTimesEmpty, setPointTimesEmpty] = useState(false);
+  const [type, setType] = useState(preType);
+
+  const handleTypeChage = (event: SelectChangeEvent) => {
+    setType(Number(event.target.value));
+  };
 
   const handlePointTimesChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -125,6 +132,7 @@ const ChangeClubMatch = () => {
             vote_day,
             title,
             point_times: parseInt(pointTimes, 10),
+            club_match_type: type,
           },
           {
             headers: {
@@ -159,12 +167,14 @@ const ChangeClubMatch = () => {
         titleEmpty: titleEmpty,
         pointTimesEmpty: pointTimesEmpty,
         inputError: inputError,
+        type: type,
         setInputError: setInputError,
         handleDateChange: handleDateChange,
         handleVoteDateChange: handleVoteDateChange,
         handleTitleChange: handleTitleChange,
         handlePointTimesChange: handlePointTimesChange,
         handleChangeDateSubmit: handleChangeDateSubmit,
+        handleTypeChange: handleTypeChage,
       }}
     />
   );

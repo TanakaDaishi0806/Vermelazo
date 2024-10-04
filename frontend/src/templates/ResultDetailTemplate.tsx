@@ -124,6 +124,66 @@ const ResultDetailTemplate: React.FC<Props> = ({ resultDerailInfo }) => {
           )}
         </Grid>
       </Grid>
+      {resultDerailInfo.pk_a !== 0 && resultDerailInfo.pk_b !== 0 && (
+        <Grid container>
+          <Grid item xs={4.5}>
+            <Grid
+              container
+              alignItems="center"
+              justifyContent="right"
+              sx={{
+                borderBottom: "1px solid #888888",
+                borderRight: "1px solid #888888",
+                pr: "5px",
+                py: "10px",
+              }}
+            >
+              <Typography sx={{ fontSize: "20px" }}>
+                {resultDerailInfo.pk_a}
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid
+            item
+            xs={3}
+            sx={{
+              borderBottom: "1px solid #888888",
+              borderRight: "1px solid #888888",
+              bgcolor: "#eeeeee",
+              py: "10px",
+            }}
+          >
+            <Grid container alignItems="center" justifyContent="center">
+              <Typography
+                sx={{
+                  fontSize: "20px",
+
+                  pl: "8px",
+                }}
+              >
+                PK
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid item xs={4.5}>
+            <Grid
+              container
+              alignItems="center"
+              justifyContent="left"
+              sx={{
+                borderBottom: "1px solid #888888",
+                pl: "5px",
+                py: "10px",
+              }}
+            >
+              <Typography sx={{ fontSize: "20px" }}>
+                {resultDerailInfo.pk_b}
+              </Typography>
+            </Grid>
+          </Grid>
+        </Grid>
+      )}
+
       <Grid container sx={{ borderBottom: "1px solid #888888" }}>
         <Grid item xs={4.5}>
           <Grid

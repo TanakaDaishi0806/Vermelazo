@@ -48,6 +48,7 @@ func (dcm *DeleteClubMatch) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			IsCreateTeam:   l.IsCreateTeam,
 			IsAddMatch:     l.IsAddMatch,
 			IsFinish:       l.IsFinish,
+			ClubMatchType:  l.ClubMatchType,
 		})
 
 	}

@@ -93,3 +93,15 @@ type ChangeSecretTokenJsonService interface {
 type ListConfAuthTokenService interface {
 	ListConfAuthToken(ctx context.Context) error
 }
+
+type CreateTournamentService interface {
+	CreateTournament(ctx context.Context, cid entity.ClubMatchID) (entity.Tournaments, error)
+}
+
+type ListPreTournaentService interface {
+	ListPreTournament(ctx context.Context, cid entity.ClubMatchID) (entity.Tournaments, error)
+}
+
+type ListTournaentTeamAndRankService interface {
+	ListTournamentTeamAndRank(ctx context.Context, cid entity.ClubMatchID) (entity.TournamentTeamLists, error)
+}

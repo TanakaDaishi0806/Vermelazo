@@ -7,6 +7,10 @@ import Calendar from "../components/Calendar";
 import BaseButton from "../parts/BaseButton";
 import { AddClubMatchInfo } from "../type/velmelazo";
 import Maintenance from "../parts/Maintenance";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
 
 type Props = {
   addClubMatchInfo: AddClubMatchInfo;
@@ -59,6 +63,21 @@ const AddClubMatchTemplate: React.FC<Props> = ({ addClubMatchInfo }) => {
               addClubMatchInfo.titleEmpty ? "タイトルを入力してください" : ""
             }
           />
+        </Grid>
+        <Grid item xs={12} sx={{ mt: "25px", width: "225px" }}>
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">*部内戦の形式</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={addClubMatchInfo.type}
+              label="*type"
+              onChange={addClubMatchInfo.handleTypeChange}
+            >
+              <MenuItem value={1}>予選・決勝トーナメント</MenuItem>
+              <MenuItem value={0}>総当たり</MenuItem>
+            </Select>
+          </FormControl>
         </Grid>
         <Grid item xs={12} sx={{ mt: "25px" }}>
           <TextField

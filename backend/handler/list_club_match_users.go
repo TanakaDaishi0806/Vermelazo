@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/TanakaDaishi0806/Vermelazo.git/backend/entity"
@@ -23,6 +24,7 @@ func (lcmu *ListClubMatchUsers) ServeHTTP(w http.ResponseWriter, r *http.Request
 	rsq := entity.ClubMatchs{}
 
 	for _, l := range lists {
+		fmt.Printf("club_match_type:%d", l.ClubMatchType)
 		rsq = append(rsq, &entity.ClubMatch{
 			ID:             l.ID,
 			Year:           l.Year,
@@ -39,6 +41,7 @@ func (lcmu *ListClubMatchUsers) ServeHTTP(w http.ResponseWriter, r *http.Request
 			IsAddMatch:     l.IsAddMatch,
 			IsFinish:       l.IsFinish,
 			PointTimes:     l.PointTimes,
+			ClubMatchType:  l.ClubMatchType,
 		})
 
 	}

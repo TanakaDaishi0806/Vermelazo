@@ -46,6 +46,12 @@ type ChangeTeamMember struct {
 	ClubMatchID  ClubMatchID `json:"club_match_id"`
 }
 
+type TeamNum struct {
+	TeamNum int `json:"team_num" db:"team_num"`
+}
+
+type TeamNums []*TeamNum
+
 type Teams []*Team
 
 type TeamsWithAward []*TeamWithAward

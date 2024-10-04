@@ -16,14 +16,15 @@ type AddClubMatch struct {
 func (acm *AddClubMatch) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	var clubMatchInfo struct {
-		Year       int    `json:"year" validate:"required"`
-		Month      int    `json:"month" validate:"required"`
-		Day        int    `json:"day" validate:"required"`
-		VoteYear   int    `json:"vote_year" validate:"required"`
-		VoteMonth  int    `json:"vote_month" validate:"required"`
-		VoteDay    int    `json:"vote_day" validate:"required"`
-		Title      string `json:"title" validate:"required"`
-		PointTimes int    `json:"point_times" validate:"required"`
+		Year          int    `json:"year" validate:"required"`
+		Month         int    `json:"month" validate:"required"`
+		Day           int    `json:"day" validate:"required"`
+		VoteYear      int    `json:"vote_year" validate:"required"`
+		VoteMonth     int    `json:"vote_month" validate:"required"`
+		VoteDay       int    `json:"vote_day" validate:"required"`
+		Title         string `json:"title" validate:"required"`
+		PointTimes    int    `json:"point_times" validate:"required"`
+		ClubMatchType int    `json:"club_match_type"`
 	}
 
 	if err := json.NewDecoder(r.Body).Decode(&clubMatchInfo); err != nil {
@@ -41,14 +42,15 @@ func (acm *AddClubMatch) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	}
 	reqcm := &entity.ClubMatch{
-		Year:       clubMatchInfo.Year,
-		Month:      clubMatchInfo.Month,
-		Day:        clubMatchInfo.Day,
-		VoteYear:   clubMatchInfo.VoteYear,
-		VoteMonth:  clubMatchInfo.VoteMonth,
-		VoteDay:    clubMatchInfo.VoteDay,
-		Title:      clubMatchInfo.Title,
-		PointTimes: clubMatchInfo.PointTimes,
+		Year:          clubMatchInfo.Year,
+		Month:         clubMatchInfo.Month,
+		Day:           clubMatchInfo.Day,
+		VoteYear:      clubMatchInfo.VoteYear,
+		VoteMonth:     clubMatchInfo.VoteMonth,
+		VoteDay:       clubMatchInfo.VoteDay,
+		Title:         clubMatchInfo.Title,
+		PointTimes:    clubMatchInfo.PointTimes,
+		ClubMatchType: clubMatchInfo.ClubMatchType,
 	}
 
 	err := acm.Repo.AddClubMatch(ctx, reqcm)

@@ -61,7 +61,11 @@ const ResultList: React.FC<Props> = ({ resultPageInfo }) => {
       team_name_b: string,
       match_id: number,
       score_a: number,
-      score_b: number
+      score_b: number,
+      pk_a: number,
+      pk_b: number,
+      url: string,
+      value: number
     ) =>
     () => {
       navigate("/home/result/detail", {
@@ -76,6 +80,10 @@ const ResultList: React.FC<Props> = ({ resultPageInfo }) => {
           score_a: score_a,
           score_b: score_b,
           vnum: vnum,
+          pk_a: pk_a,
+          pk_b: pk_b,
+          url: url,
+          value: value,
         },
       });
     };
@@ -102,84 +110,91 @@ const ResultList: React.FC<Props> = ({ resultPageInfo }) => {
         </Grid>
       </Grid>
       {matchList &&
-        matchList.map((match, index) => (
-          <Grid
-            container
-            alignItems="center"
-            justifyContent="center"
-            sx={{ mb: "20px" }}
-            key={index}
-          >
-            <Grid item xs={6}>
-              <Typography
-                sx={{
-                  fontSize: "17px",
-                  borderLeft: "3px solid #888888",
-                  pl: "5px",
-                  ml: "30px",
-                  mb: "10px",
-                }}
+        matchList.map(
+          (match, index) =>
+            match.match_type === 0 && (
+              <Grid
+                container
+                alignItems="center"
+                justifyContent="center"
+                sx={{ mb: "20px" }}
+                key={index}
               >
-                {index + 1}試合目
-              </Typography>
-            </Grid>
-            <Grid item xs={6}></Grid>
-            <Grid item xs={1}></Grid>
-            <Grid item xs={2}>
-              <Grid container alignItems="center" justifyContent="center">
-                <Typography variant="h6" sx={{ fontSize: "25px" }}>
-                  {teamIdentifyData[match.team_id_a - minTeamID]}
-                </Typography>
-              </Grid>
-            </Grid>
+                <Grid item xs={6}>
+                  <Typography
+                    sx={{
+                      fontSize: "17px",
+                      borderLeft: "3px solid #888888",
+                      pl: "5px",
+                      ml: "30px",
+                      mb: "10px",
+                    }}
+                  >
+                    {index + 1}試合目
+                  </Typography>
+                </Grid>
+                <Grid item xs={6}></Grid>
+                <Grid item xs={1}></Grid>
+                <Grid item xs={2}>
+                  <Grid container alignItems="center" justifyContent="center">
+                    <Typography variant="h6" sx={{ fontSize: "25px" }}>
+                      {teamIdentifyData[match.team_id_a - minTeamID]}
+                    </Typography>
+                  </Grid>
+                </Grid>
 
-            <Grid item xs={6}>
-              <Grid container alignItems="center" justifyContent="center">
-                {match.score_a !== -1 && (
-                  <Typography variant="h6" sx={{ fontSize: "25px" }}>
-                    {match.score_a} ー {match.score_b}
-                  </Typography>
-                )}
-                {match.score_a === -1 && (
-                  <Typography variant="h6" sx={{ fontSize: "25px" }}>
-                    ー
-                  </Typography>
-                )}
+                <Grid item xs={6}>
+                  <Grid container alignItems="center" justifyContent="center">
+                    {match.score_a !== -1 && (
+                      <Typography variant="h6" sx={{ fontSize: "25px" }}>
+                        {match.score_a} ー {match.score_b}
+                      </Typography>
+                    )}
+                    {match.score_a === -1 && (
+                      <Typography variant="h6" sx={{ fontSize: "25px" }}>
+                        ー
+                      </Typography>
+                    )}
+                  </Grid>
+                </Grid>
+                <Grid item xs={2}>
+                  <Grid container alignItems="center" justifyContent="center">
+                    <Typography variant="h6" sx={{ fontSize: "25px" }}>
+                      {teamIdentifyData[match.team_id_b - minTeamID]}
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Grid item xs={1}></Grid>
+                <Grid item xs={1}></Grid>
+                <Grid item xs={10}>
+                  <Grid container alignItems="center" justifyContent="center">
+                    <ColorButton
+                      colorButton={{
+                        buttonText: "試合詳細",
+                        onClick: handleResultDetailNavigate(
+                          match.team_id_a,
+                          match.team_id_b,
+                          teamIdentifyData[match.team_id_a - minTeamID],
+                          teamIdentifyData[match.team_id_b - minTeamID],
+                          match.match_id,
+                          match.score_a,
+                          match.score_b,
+                          match.pk_a,
+                          match.pk_b,
+                          resultPageInfo.url,
+                          0
+                        ),
+                        buttonColor: "info",
+                        mb: "10px",
+                        mt: "",
+                      }}
+                    />
+                  </Grid>
+                </Grid>
+                <Grid item xs={1}></Grid>
               </Grid>
-            </Grid>
-            <Grid item xs={2}>
-              <Grid container alignItems="center" justifyContent="center">
-                <Typography variant="h6" sx={{ fontSize: "25px" }}>
-                  {teamIdentifyData[match.team_id_b - minTeamID]}
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid item xs={1}></Grid>
-            <Grid item xs={1}></Grid>
-            <Grid item xs={10}>
-              <Grid container alignItems="center" justifyContent="center">
-                <ColorButton
-                  colorButton={{
-                    buttonText: "試合詳細",
-                    onClick: handleResultDetailNavigate(
-                      match.team_id_a,
-                      match.team_id_b,
-                      teamIdentifyData[match.team_id_a - minTeamID],
-                      teamIdentifyData[match.team_id_b - minTeamID],
-                      match.match_id,
-                      match.score_a,
-                      match.score_b
-                    ),
-                    buttonColor: "info",
-                    mb: "10px",
-                    mt: "",
-                  }}
-                />
-              </Grid>
-            </Grid>
-            <Grid item xs={1}></Grid>
-          </Grid>
-        ))}
+            )
+        )}
     </Grid>
   );
 };

@@ -44,6 +44,7 @@ func (scmf *SwitchClubMatchFinish) ServeHTTP(w http.ResponseWriter, r *http.Requ
 			ParticipantNum: l.ParticipantNum,
 			IsCreateTeam:   l.IsCreateTeam,
 			IsFinish:       l.IsFinish,
+			ClubMatchType:  l.ClubMatchType,
 		})
 	}
 

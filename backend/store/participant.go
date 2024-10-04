@@ -149,6 +149,7 @@ func (lp *ListParticipant) ListParticipant(ctx context.Context, uid entity.UserI
 	cm.is_add_match,
 	cm.is_create_team,
 	cm.point_times,
+	cm.club_match_type,
     CASE
         WHEN p.club_match_id IS NOT NULL THEN true
         ELSE false

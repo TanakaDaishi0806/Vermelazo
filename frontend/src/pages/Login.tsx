@@ -67,7 +67,7 @@ const Login = () => {
             clubMatch.year,
             clubMatch.month - 1,
             clubMatch.day,
-            18,
+            22,
             0,
             0
           );
@@ -78,6 +78,14 @@ const Login = () => {
           ) {
             console.log(clubMatch.club_match_id);
             setProgressClubMatchID(clubMatch.club_match_id);
+            localStorage.setItem(
+              "progressClubMatchID",
+              clubMatch.club_match_id.toString()
+            );
+            localStorage.setItem(
+              "progressClubMatchType",
+              clubMatch.club_match_type.toString()
+            );
           }
         });
       }

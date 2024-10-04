@@ -35,9 +35,9 @@ type SwitchClubMatchFinish struct {
 }
 
 func (acm *AddClubMatch) AddClubMatch(ctx context.Context, reqcm *entity.ClubMatch) error {
-	sql := `INSERT INTO club_match (year,month,day,vote_year,vote_month,vote_day,title,point_times) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)`
+	sql := `INSERT INTO club_match (year,month,day,vote_year,vote_month,vote_day,title,point_times,club_match_type) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`
 
-	_, err := acm.DBExc.ExecContext(ctx, sql, reqcm.Year, reqcm.Month, reqcm.Day, reqcm.VoteYear, reqcm.VoteMonth, reqcm.VoteDay, reqcm.Title, reqcm.PointTimes)
+	_, err := acm.DBExc.ExecContext(ctx, sql, reqcm.Year, reqcm.Month, reqcm.Day, reqcm.VoteYear, reqcm.VoteMonth, reqcm.VoteDay, reqcm.Title, reqcm.PointTimes, reqcm.ClubMatchType)
 	if err != nil {
 		return err
 	}
@@ -64,8 +64,8 @@ func (lcm *ListClubMatch) ListClubMatch(ctx context.Context) (entity.ClubMatchs,
 }
 
 func (ccm *ChangeClubMatch) ChangeClubMatch(ctx context.Context, reqcm *entity.ClubMatch) error {
-	sql := `update club_match set year=$1,month=$2,day=$3,vote_year=$4,vote_month=$5,vote_day=$6,title=$7,point_times=$8 where club_match_id=$9`
-	_, err := ccm.DB.ExecContext(ctx, sql, reqcm.Year, reqcm.Month, reqcm.Day, reqcm.VoteYear, reqcm.VoteMonth, reqcm.VoteDay, reqcm.Title, reqcm.PointTimes, reqcm.ID)
+	sql := `update club_match set year=$1,month=$2,day=$3,vote_year=$4,vote_month=$5,vote_day=$6,title=$7,point_times=$8,club_match_type=$9 where club_match_id=$10`
+	_, err := ccm.DB.ExecContext(ctx, sql, reqcm.Year, reqcm.Month, reqcm.Day, reqcm.VoteYear, reqcm.VoteMonth, reqcm.VoteDay, reqcm.Title, reqcm.PointTimes, reqcm.ClubMatchType, reqcm.ID)
 	if err != nil {
 		return err
 	}
@@ -74,6 +74,7 @@ func (ccm *ChangeClubMatch) ChangeClubMatch(ctx context.Context, reqcm *entity.C
 }
 
 func (dcm *DeleteClubMatch) DeleteClubMatch(ctx context.Context, id entity.ClubMatchID) (entity.ClubMatchs, error) {
+	sql := `delete from tournament where club_match_id=$1`
 	sql1 := `delete from participant where club_match_id=$1`
 	sql2 := `delete from team_member where team_id in (select team_id from team where club_match_id=$1)`
 	sql3 := `delete from team_rank where club_match_id=$1`
@@ -82,7 +83,12 @@ func (dcm *DeleteClubMatch) DeleteClubMatch(ctx context.Context, id entity.ClubM
 	sql6 := `delete from team where club_match_id=$1`
 	sql7 := `delete from club_match where club_match_id=$1`
 
-	_, err := dcm.DBExc.ExecContext(ctx, sql1, id)
+	_, err := dcm.DBExc.ExecContext(ctx, sql, id)
+	if err != nil {
+		return nil, err
+	}
+
+	_, err = dcm.DBExc.ExecContext(ctx, sql1, id)
 	if err != nil {
 		return nil, err
 	}

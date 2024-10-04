@@ -17,7 +17,11 @@ const FinishResultTemplate: React.FC<Props> = ({ clubMatchID }) => {
       <Header headertext={{ text: "Home Page" }} />
       <Grid item xs={12}>
         <ResultList
-          resultPageInfo={{ club_match_id: clubMatchID, is_finish: true }}
+          resultPageInfo={{
+            club_match_id: clubMatchID,
+            is_finish: true,
+            url: "/home/result/finish",
+          }}
         />
       </Grid>
       <TeamRankList clubMatchID={clubMatchID} />

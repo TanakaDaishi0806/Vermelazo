@@ -93,3 +93,11 @@ type PasswordReset interface {
 	GetTokenData(ctx context.Context, token string) (*entity.PasswordReset, error)
 	ResetPassword(ctx context.Context, sid string, p string) error
 }
+
+type TournamentRepository interface {
+	GetTeamNum(ctx context.Context, cmid entity.ClubMatchID) (int, error)
+	AddMatch(ctx context.Context, m entity.Match) (entity.MatchID, error)
+	ListTeamRank(ctx context.Context, cmid entity.ClubMatchID) (entity.TeamRanks, error)
+	CreateTournament(ctx context.Context, tl entity.TournamentDBs) error
+	GetTournamenID(ctx context.Context) (entity.TournID, error)
+}

@@ -18,13 +18,35 @@ type Props = {
 
 const HomeFooter: React.FC<Props> = ({ footerValue }) => {
   const navigate = useNavigate();
-  const [value, setValue] = React.useState(0);
+  const [value1, setValue] = React.useState(0);
+  const [localStorageNull, setLocalStorageNull] = React.useState(0);
   const pageNum = localStorage.getItem("pageNum");
-  const progressCLubMatchID = localStorage.getItem("progressClubMatchID");
+  let progressCLubMatchID = localStorage.getItem("progressClubMatchID");
+  let progressClubMatchTypeString = localStorage.getItem(
+    "progressClubMatchType"
+  );
+  let progressCLubMatchType =
+    progressClubMatchTypeString !== null
+      ? parseInt(progressClubMatchTypeString, 10)
+      : 0; // 0 はデフォルト値
 
   React.useEffect(() => {
     setValue(footerValue.vnum);
-  }, []);
+    if (progressCLubMatchID === null || progressClubMatchTypeString === null) {
+      if (pageNum === "1") {
+        progressCLubMatchID = localStorage.getItem("progressClubMatchID");
+        progressClubMatchTypeString = localStorage.getItem(
+          "progressClubMatchType"
+        );
+        progressCLubMatchType =
+          progressClubMatchTypeString !== null
+            ? parseInt(progressClubMatchTypeString, 10)
+            : 0; // 0 はデフォルト値
+
+        setLocalStorageNull(localStorageNull + 1);
+      }
+    }
+  }, [localStorageNull]);
 
   const handleHomeNavigate = () => {
     navigate("/home");
@@ -45,8 +67,18 @@ const HomeFooter: React.FC<Props> = ({ footerValue }) => {
     });
   };
 
-  const handleResultNavigate = () => {
-    console.log("interimresult");
+  const handleInterimResultType1Page = () => {
+    navigate("/home/result/interim/all", {
+      state: {
+        club_match_id: progressCLubMatchID,
+        vnum: 1,
+        is_finish: false,
+        value: 0,
+      },
+    });
+  };
+
+  const handleInterimResultType0Page = () => {
     navigate("/home/result/interim", {
       state: {
         club_match_id: progressCLubMatchID,
@@ -69,7 +101,7 @@ const HomeFooter: React.FC<Props> = ({ footerValue }) => {
       {pageNum === "0" && (
         <BottomNavigation
           showLabels
-          value={value}
+          value={value1}
           onChange={(event, newValue) => {
             if (newValue === 0) {
               handleHomeNavigate();
@@ -99,7 +131,7 @@ const HomeFooter: React.FC<Props> = ({ footerValue }) => {
       {pageNum === "1" && (
         <BottomNavigation
           showLabels
-          value={value}
+          value={value1}
           onChange={(event, newValue) => {
             if (newValue === 0) {
               handleHomeNavigate();
@@ -114,11 +146,20 @@ const HomeFooter: React.FC<Props> = ({ footerValue }) => {
             icon={<HowToVoteIcon />}
             onClick={handleVoteNavigate}
           />
-          <BottomNavigationAction
-            label="途中結果"
-            icon={<ScoreboardIcon />}
-            onClick={handleResultNavigate}
-          />
+          {progressCLubMatchType === 0 ? (
+            <BottomNavigationAction
+              label="途中結果"
+              icon={<ScoreboardIcon />}
+              onClick={handleInterimResultType0Page}
+            />
+          ) : (
+            <BottomNavigationAction
+              label="途中結果"
+              icon={<ScoreboardIcon />}
+              onClick={handleInterimResultType1Page}
+            />
+          )}
+
           <BottomNavigationAction
             label="チーム"
             icon={<GroupsIcon />}

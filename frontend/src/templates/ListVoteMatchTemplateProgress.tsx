@@ -20,7 +20,7 @@ const ListVoteMatchProgressTemplate: React.FC<Props> = ({ MatchListInfo }) => {
       direction="column"
     >
       <Maintenance />
-      <Header headertext={{ text: "Home Page" }} />
+      <Header headertext={{ text: "My Page" }} />
       <Grid
         sx={{
           mt: "40px",

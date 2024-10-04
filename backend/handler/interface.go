@@ -116,3 +116,15 @@ type AwardDelete interface {
 type GoalNumRankersList interface {
 	ListGoalNumRankers(ctx context.Context) (entity.GoalNumRankers, error)
 }
+
+type TournamentList interface {
+	ListTournament(ctx context.Context, cmid entity.ClubMatchID) (entity.Tournaments, error)
+}
+
+type TournamentResultList interface {
+	ListTournamentResult(ctx context.Context, cmid entity.ClubMatchID) (entity.TournamentResults, error)
+}
+
+type TeamNumList interface {
+	ListTeamNum(ctx context.Context, cmid entity.ClubMatchID) (entity.TeamNums, error)
+}
