@@ -42,6 +42,10 @@ import AdminAward from "./pages/AdminAward";
 import ResisterAward from "./pages/ResisterAward";
 import DeleteAward from "./pages/DeleteAward";
 import AuthTokenReset1 from "./pages/AuthTokenReset1";
+import AdminTournamentView from "./pages/AdminTournamentView";
+import LoadingCreateTournament from "./pages/LoadingCreateTournament";
+import InterimResultAll from "./pages/InterimResultAll";
+import FinishResultAll from "./pages/FinishResultAll";
 
 function App() {
   return (
@@ -113,6 +117,16 @@ function App() {
         <Route path="/admin/award/resister" element={<ResisterAward />} />
         <Route path="/admin/award/delete" element={<DeleteAward />} />
         <Route path="/admin/authtoken/reset1" element={<AuthTokenReset1 />} />
+        <Route
+          path="/admin/tournament/view"
+          element={<AdminTournamentView />}
+        />
+        <Route
+          path="/admin/create/tournament/loading"
+          element={<LoadingCreateTournament />}
+        />
+        <Route path="/home/result/interim/all" element={<InterimResultAll />} />
+        <Route path="/home/result/finish/all" element={<FinishResultAll />} />
       </Routes>
     </BrowserRouter>
   );

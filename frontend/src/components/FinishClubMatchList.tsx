@@ -73,6 +73,7 @@ const FinishClubMatchList: React.FC<Props> = ({ getUrl }) => {
                   is_add_match: clubMatch.is_add_match,
                   is_finish: clubMatch.is_finish,
                   point_times: clubMatch.point_times,
+                  club_match_type: clubMatch.club_match_type,
                   set: setClubMatchList,
                 }}
               />

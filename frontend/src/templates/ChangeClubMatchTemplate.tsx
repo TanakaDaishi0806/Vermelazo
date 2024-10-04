@@ -7,6 +7,10 @@ import BaseButton from "../parts/BaseButton";
 import { ChangeClubMatchInfo } from "../type/velmelazo";
 import AdminFooter from "../components/AdminFooter";
 import Maintenance from "../parts/Maintenance";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
 
 type Props = {
   changeClubMatchInfo: ChangeClubMatchInfo;
@@ -58,6 +62,21 @@ const ChangeClubMatchTemplate: React.FC<Props> = ({ changeClubMatchInfo }) => {
               changeClubMatchInfo.titleEmpty ? "タイトルを入力してください" : ""
             }
           />
+        </Grid>
+        <Grid item xs={12} sx={{ mt: "25px", width: "225px" }}>
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">*部内戦の形式</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={changeClubMatchInfo.type}
+              label="*type"
+              onChange={changeClubMatchInfo.handleTypeChange}
+            >
+              <MenuItem value={1}>予選・決勝トーナメント</MenuItem>
+              <MenuItem value={0}>総当たり</MenuItem>
+            </Select>
+          </FormControl>
         </Grid>
         <Grid item xs={12} sx={{ mt: "25px" }}>
           <TextField

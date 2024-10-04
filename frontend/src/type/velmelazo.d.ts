@@ -67,6 +67,7 @@ export interface ClubMatchGetData {
   is_add_match: boolean;
   is_finish: boolean;
   point_times: number;
+  club_match_type: number;
   set: React.Dispatch<React.SetStateAction<ClubMatchGetData[]>>;
 }
 
@@ -113,12 +114,14 @@ export interface AddClubMatchInfo {
   pointTimesEmpty: boolean;
   inputError: boolean;
   allEmptyError: boolean;
+  type: number;
   setInputError: React.Dispatch<React.SetStateAction<boolean>>;
   handleDateChange: (dateValue: Date | null) => void;
   handleVoteDateChange: (dateValue: Date | null) => void;
   handleTitleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handlePointTimesChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleDateSubmit: () => void;
+  handleTypeChange: (event: SelectChangeEvent) => void;
 }
 
 export interface ChangeClubMatchInfo {
@@ -131,12 +134,14 @@ export interface ChangeClubMatchInfo {
   titleEmpty: boolean;
   pointTimesEmpty: boolean;
   inputError: boolean;
+  type: number;
   setInputError: React.Dispatch<React.SetStateAction<boolean>>;
   handleDateChange: (dateValue: Date | null) => void;
   handleVoteDateChange: (dateValue: Date | null) => void;
   handleTitleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handlePointTimesChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleChangeDateSubmit: () => void;
+  handleTypeChange: (event: SelectChangeEvent) => void;
 }
 
 export interface GetURL {
@@ -220,6 +225,9 @@ export interface MatchGetData {
   score_a: number;
   score_b: number;
   is_resister: boolean;
+  match_type: number;
+  pk_a: number;
+  pk_b: number;
 }
 
 export interface MatchListInfo {
@@ -250,6 +258,19 @@ export interface AddScoreInfo {
   handleScoreBChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
+export interface AddPKInfo {
+  club_match_id: number;
+  match_id: number;
+  team_id_a: number;
+  team_id_b: number;
+  team_name_a: number;
+  team_name_b: number;
+  pk_a: string;
+  pk_b: string;
+  handlePKAChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handlePKBChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
 export interface AddMatchResultInfo {
   club_match_id: number;
   match_id: number;
@@ -266,6 +287,12 @@ export interface AddMatchResultInfo {
   pointA: number[];
   pointB: number[];
   submitError: boolean;
+  pk_a: string;
+  pk_b: string;
+  match_type: number;
+  display_pk_b: boolean;
+  handlePKAChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handlePKBChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleScoreAChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleScoreBChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handlePlusPointGetterAChange: (value: TeamMember) => () => void;
@@ -371,6 +398,7 @@ export interface MatchVoteInfo {
 export interface ResultPageInfo {
   club_match_id: number;
   is_finish: boolean;
+  url;
 }
 
 export interface TeamRankListData {
@@ -401,6 +429,9 @@ export interface ResultDetailInfo {
   mom: EachMatchMomMember[];
   is_finish: boolean;
   vnum: number;
+  pk_a: number;
+  pk_b: number;
+  value: number;
   handleResultListNavigate: () => void;
 }
 
@@ -581,4 +612,83 @@ export interface AuthTokenReset1Info {
   handleNext: () => void;
   handleBack: () => void;
   handleReset: () => void;
+}
+
+export interface Tournament {
+  tour_id: number;
+  club_match_id: number;
+  match_id: number;
+  team_id_a: number;
+  team_id_b: number;
+  match_level: number;
+}
+
+export interface TournamentResult {
+  tour_id: number;
+  club_match_id: number;
+  match_id: number;
+  team_id_a: number;
+  team_id_b: number;
+  match_level: number;
+  score_a: number;
+  score_b: number;
+  pk_a: number;
+  pk_b: number;
+}
+
+export interface TournamentPartsInfo {
+  tr: TournamentResult[];
+  tb: bool[];
+  lastb: boolean;
+  ttar: TournamentTeamAndRank[];
+  tvi: TournamentViewInfo;
+}
+
+export interface PreTournamentPartsInfo {
+  tr: Tournament[];
+  tb: bool[];
+  lastb: boolean;
+  ttar: TournamentTeamAndRank[];
+  ptvi: PreTournamentViewInfo;
+}
+
+export interface TournamentTeamAndRank {
+  team_id: number;
+  rank: number;
+}
+
+export interface TournamentViewInfo {
+  club_match_id: number;
+  vnum: number;
+  is_finish: boolean;
+  url: string;
+}
+
+export interface PreTournamentViewInfo {
+  club_match_id: number;
+  vnum: number;
+  is_finish: boolean;
+}
+
+export interface AdminTournamentViewInfo {
+  tvi: TournamentViewInfo;
+  openTournament: boolean;
+  handleCloseTournament: () => void;
+  handleOpenTournament: () => void;
+  handleCreateTournament: () => void;
+}
+
+export interface InterimResultAllInfo {
+  club_match_id: number;
+  vnum: number;
+  is_finish: boolean;
+  tournamentCreated: boolean;
+  value: number;
+}
+
+export interface FinishResultAllInfo {
+  club_match_id: number;
+  vnum: number;
+  is_finish: boolean;
+  value: number;
 }

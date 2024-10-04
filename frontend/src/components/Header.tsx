@@ -51,6 +51,7 @@ const Header: React.FC<Props> = ({ headertext }) => {
         },
       })
       .then((response) => {
+        console.log("unko");
         console.log(response.data);
         setClubMatchList(response.data);
       })
@@ -63,6 +64,9 @@ const Header: React.FC<Props> = ({ headertext }) => {
   }, [accessToken, navigate]);
 
   React.useEffect(() => {
+    console.log("a");
+    console.log(clubMatchList);
+    console.log(clubMatchList.length);
     if (clubMatchList.length !== 0) {
       const currentTime = new Date();
       {
@@ -79,7 +83,7 @@ const Header: React.FC<Props> = ({ headertext }) => {
             clubMatch.year,
             clubMatch.month - 1,
             clubMatch.day,
-            18,
+            22,
             0,
             0
           );
@@ -88,10 +92,17 @@ const Header: React.FC<Props> = ({ headertext }) => {
             currentTime <= clubMacthEndTime &&
             !clubMatch.is_finish
           ) {
+            console.log("a");
+            console.log(clubMatchList);
+            console.log(clubMatchList.length);
             setProgressClubMatchID(clubMatch.club_match_id);
             localStorage.setItem(
               "progressClubMatchID",
               clubMatch.club_match_id.toString()
+            );
+            localStorage.setItem(
+              "progressClubMatchType",
+              clubMatch.club_match_type.toString()
             );
           }
         });

@@ -67,10 +67,21 @@ const FinishClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
       });
   };
 
-  const handleFinishResultPage = () => {
+  const handleFinishResultType0Page = () => {
     navigate("/home/result/finish", {
       state: {
         club_match_id: clubMatchGetData.club_match_id,
+      },
+    });
+  };
+
+  const handleFinishResultType1Page = () => {
+    navigate("/home/result/finish/all", {
+      state: {
+        club_match_id: clubMatchGetData.club_match_id,
+        vnum: 1,
+        is_finish: clubMatchGetData.is_finish,
+        value: 0,
       },
     });
   };
@@ -135,13 +146,18 @@ const FinishClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
               justifyContent="left"
               direction="column"
             >
-              <Grid item xs={12}>
+              <Grid
+                item
+                xs={12}
+                sx={{
+                  borderBottom: "2px solid #eeeeee",
+                }}
+              >
                 <Grid container>
                   <Grid item xs={10}>
                     <Typography
                       variant="h5"
                       sx={{
-                        borderBottom: "2px solid #eeeeee",
                         px: "20px",
                         fontWeight: "700",
                       }}
@@ -154,7 +170,6 @@ const FinishClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
                       item
                       xs={1}
                       sx={{
-                        borderBottom: "2px solid #eeeeee",
                         fontWeight: "700",
                         color: "#2196F3",
                       }}
@@ -165,7 +180,6 @@ const FinishClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
                       <Typography
                         variant="h6"
                         sx={{
-                          borderBottom: "2px solid #eeeeee",
                           fontWeight: "700",
                           color: "#2196F3",
                         }}
@@ -178,7 +192,6 @@ const FinishClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
                     item
                     xs={1}
                     sx={{
-                      borderBottom: "2px solid #eeeeee",
                       fontWeight: "700",
                       color: "#2196F3",
                     }}
@@ -381,19 +394,32 @@ const FinishClubMatchCard: React.FC<Props> = ({ clubMatchGetData }) => {
                       </Typography>
                     </Grid>
                   )}
-                  {!clubMatchGetData.isAdmin && (
-                    <Grid item xs={8}>
-                      <ColorButton
-                        colorButton={{
-                          buttonText: "閲覧",
-                          onClick: handleFinishResultPage,
-                          buttonColor: "info",
-                          mb: "",
-                          mt: "",
-                        }}
-                      />
-                    </Grid>
-                  )}
+                  {!clubMatchGetData.isAdmin &&
+                    (clubMatchGetData.club_match_type === 0 ? (
+                      <Grid item xs={8}>
+                        <ColorButton
+                          colorButton={{
+                            buttonText: "閲覧",
+                            onClick: handleFinishResultType0Page,
+                            buttonColor: "info",
+                            mb: "",
+                            mt: "",
+                          }}
+                        />
+                      </Grid>
+                    ) : (
+                      <Grid item xs={8}>
+                        <ColorButton
+                          colorButton={{
+                            buttonText: "閲覧",
+                            onClick: handleFinishResultType1Page,
+                            buttonColor: "info",
+                            mb: "",
+                            mt: "",
+                          }}
+                        />
+                      </Grid>
+                    ))}
                   {clubMatchGetData.isAdmin && (
                     <Grid item xs={8}>
                       {!clubMatchGetData.is_finish && (

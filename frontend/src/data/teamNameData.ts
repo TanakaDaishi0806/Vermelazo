@@ -10,3 +10,5 @@ export const teamNameData = [
 ];
 
 export const teamIdentifyData = ["A", "B", "C", "D", "E", "F", "G", "H"];
+
+export const tournamentNameData = ["決勝戦", "準決勝", "準々決勝"];

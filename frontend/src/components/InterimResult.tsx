@@ -4,30 +4,28 @@ import Header from "../components/Header";
 import ResultList from "../components/ResultList";
 import TeamRankList from "../components/TeamRankList";
 import HomeFooter from "../components/HomeFooter";
+import { InterimResultAllInfo } from "../type/velmelazo";
 import Maintenance from "../parts/Maintenance";
 
 type Props = {
-  clubMatchID: number;
+  interimResultInfo: InterimResultAllInfo;
 };
 
-const FinishResultTemplate: React.FC<Props> = ({ clubMatchID }) => {
+const InterimResult: React.FC<Props> = ({ interimResultInfo }) => {
   return (
     <Grid container alignItems="center" justifyContent="center">
-      <Maintenance />
-      <Header headertext={{ text: "Home Page" }} />
       <Grid item xs={12}>
         <ResultList
           resultPageInfo={{
-            club_match_id: clubMatchID,
-            is_finish: true,
-            url: "/home/result/finish",
+            club_match_id: interimResultInfo.club_match_id,
+            is_finish: interimResultInfo.is_finish,
+            url: "/home/result/interim/all",
           }}
         />
       </Grid>
-      <TeamRankList clubMatchID={clubMatchID} />
-      <HomeFooter footerValue={{ vnum: 1 }} />
+      <TeamRankList clubMatchID={interimResultInfo.club_match_id} />
     </Grid>
   );
 };
 
-export default FinishResultTemplate;
+export default InterimResult;

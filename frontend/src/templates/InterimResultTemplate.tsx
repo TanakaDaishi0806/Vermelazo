@@ -21,6 +21,7 @@ const InterimResultTemplate: React.FC<Props> = ({ interimResultInfo }) => {
           resultPageInfo={{
             club_match_id: interimResultInfo.club_match_id,
             is_finish: false,
+            url: "/home/result/interim",
           }}
         />
       </Grid>

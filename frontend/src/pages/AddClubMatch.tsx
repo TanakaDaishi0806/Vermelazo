@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { SelectChangeEvent } from "@mui/material/Select";
 
 import AddClubMatchTemplate from "../templates/AddClubMatchTemplate";
 
@@ -17,6 +18,11 @@ const AddClubMatch = () => {
   const [allEmptyError, setAllEmptyError] = useState(true);
   const [pointTimes, setPointTimes] = useState<string>("1");
   const [pointTimesEmpty, setPointTimesEmpty] = useState(false);
+  const [type, setType] = useState(1);
+
+  const handleTypeChage = (event: SelectChangeEvent) => {
+    setType(Number(event.target.value));
+  };
 
   const handlePointTimesChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -97,6 +103,7 @@ const AddClubMatch = () => {
             vote_day,
             title,
             point_times: parseInt(pointTimes, 10),
+            club_match_type: type,
           },
           {
             headers: {
@@ -132,12 +139,14 @@ const AddClubMatch = () => {
         pointTimesEmpty: pointTimesEmpty,
         inputError: inputError,
         allEmptyError: allEmptyError,
+        type: type,
         setInputError: setInputError,
         handleDateChange: handleDateChange,
         handleVoteDateChange: handleVoteDateChange,
         handleTitleChange: handleTitleChange,
         handlePointTimesChange: handlePointTimesChange,
         handleDateSubmit: handleDateSubmit,
+        handleTypeChange: handleTypeChage,
       }}
     />
   );

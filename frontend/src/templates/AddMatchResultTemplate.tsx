@@ -8,6 +8,7 @@ import SelectPointGetter from "../components/SelectPointGetter";
 import BaseButton from "../parts/BaseButton";
 import AdminFooter from "../components/AdminFooter";
 import Maintenance from "../parts/Maintenance";
+import AddPK from "../components/AddPK";
 
 type Props = {
   addMatchResultInfo: AddMatchResultInfo;
@@ -55,6 +56,24 @@ const AddMatchResultTemplate: React.FC<Props> = ({ addMatchResultInfo }) => {
             addMatchResultInfo.handleMinusPointGetterBChange,
         }}
       />
+      {addMatchResultInfo.match_type === 1 &&
+        addMatchResultInfo.display_pk_b && (
+          <AddPK
+            addPKInfo={{
+              club_match_id: addMatchResultInfo.club_match_id,
+              match_id: addMatchResultInfo.match_id,
+              team_id_a: addMatchResultInfo.team_id_a,
+              team_id_b: addMatchResultInfo.team_id_b,
+              team_name_a: addMatchResultInfo.team_name_a,
+              team_name_b: addMatchResultInfo.team_name_b,
+              pk_a: addMatchResultInfo.pk_a,
+              pk_b: addMatchResultInfo.pk_b,
+              handlePKAChange: addMatchResultInfo.handlePKAChange,
+              handlePKBChange: addMatchResultInfo.handlePKBChange,
+            }}
+          />
+        )}
+
       <Grid item xs={12}>
         {addMatchResultInfo.submitError && (
           <Typography variant="body1" style={{ color: "red" }}>
